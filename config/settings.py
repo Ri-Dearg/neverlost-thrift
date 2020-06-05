@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sys
+
 import dj_database_url  # noqa: F401
 # Uses env.py for environment variales when local
 try:
@@ -94,28 +95,29 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'TEST': {
-            'NAME': 'dbo0ns9bd9rrlc',
+            # Runs tests on a secondary database
+            'NAME': 'd626hh5s5ulfli',
         },
     }
 }
 
+# Database config
+env_db = dj_database_url.config(conn_max_age=500)
 
 # Declare variable  to check if django is in testing mode
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
-# Runs tests on a secondary database
 if TESTING:
-    DATABASES['default'] = dj_database_url.config(
-        default=os.environ.get('HEROKU_POSTGRESQL_CRIMSON_URL'))
+    env_db = dj_database_url.parse(os.environ.get(
+        'HEROKU_POSTGRESQL_CRIMSON_URL'))
 
-else:
-    # Production Database
-    DATABASES['default'] = dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'))
+# Production Database
+DATABASES['default'].update(env_db)
 
 
 # Password validation
