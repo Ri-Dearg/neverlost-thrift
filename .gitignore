@@ -3,5 +3,7 @@ env.py
 *.sqlite3
 .gitpod.yml
 htmlcov/
-*.css
 .coverage
+*.css
+main.css
+main.css.map
