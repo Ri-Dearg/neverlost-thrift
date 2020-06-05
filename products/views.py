@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Product
 
 
-def home_page(request):
-    """Renders the Homepage as a ist of products."""
-    return render(request, 'products/index.html')
+class ProductListView(ListView):
+    """Renders the home page with a Products List."""
+    model = Product
+    context_object_name = 'products'

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for product in products %}
+        {% include 'products/includes/product_box.html' %}
+    {% endfor %}
+{% endblock %}
