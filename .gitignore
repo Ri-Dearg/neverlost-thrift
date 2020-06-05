@@ -1,0 +1,7 @@
+env.py
+*.pyc
+*.sqlite3
+.gitpod.yml
+htmlcov/
+*.css
+.coverage
