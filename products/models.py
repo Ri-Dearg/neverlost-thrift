@@ -21,7 +21,7 @@ class Product(models.Model):
                                   default=list, blank=True)
 
     def save(self, *args, **kwargs):
-        """Image resizing, snippet taken from:
+        """Image resizing, snippet repurposed from:
         https://djangosnippets.org/snippets/10597/ """
         # Opening the image
         img = Image.open(self.image)
