@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'compressor',
     # My apps
-    'products'
+    'products',
 ]
 
 MIDDLEWARE = [
