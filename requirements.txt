@@ -8,6 +8,7 @@ django-crispy-forms==1.9.1
 django-sass-processor==0.8
 gunicorn==20.0.4
 libsass==0.20.0
+Pillow==7.1.2
 psycopg2==2.8.5
 pytz==2020.1
 rcssmin==1.0.6
