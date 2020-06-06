@@ -2,7 +2,7 @@
 <div class="col-md-4">
     <article class="card mx-2 my-3 shadow">
         <h5 class="card-header">{{ product.name }}</h5>
-        <a href="#">
+        <a href="{% url 'products:detail' product.id %}">
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
         </a>
         <div class="row card-body">
