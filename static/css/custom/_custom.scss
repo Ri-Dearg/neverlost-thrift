@@ -1,6 +1,35 @@
-.nav-pushdown {
-    margin-top: 58px;
+.body-mods {
+    margin-top: 105px;
     padding-top: 1px;
+    background-color: #fcfaf5
+}
+
+.heading-font {
+    font-family: 'Lexend Deca', sans-serif;
+}
+
+.nav-item {
+    height: 100%;
+    width: 100%;
+    transition: 0.5s;
+}
+
+.nav-item.active,
+.nav-item:hover {
+    background-color: #287537
+}
+
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #f8f8f8;
+}
+
+.brand-logo a {
+    font-family: 'Lexend Deca', sans-serif;
+    text-decoration: none;
+    color: #f8f8f8;
+    letter-spacing: 1rem;
+    font-weight: 800
 }
 
 .card-body-detail {
@@ -10,7 +39,6 @@
 .card-detail-buttons {
     position: absolute;
     bottom: 5px;
-    width: 100%
 }
 
 .card-img-top {

@@ -11,10 +11,12 @@
             <div class="col text-center"><img src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart"></div>
             <div class="col text-center"><img src="{% static 'icons/heart.svg' %}" alt="Like"></div>
         </div>
-        <div class="row card-footer">
+        <div class="card-footer">
+        <div class="row">
             <div class="col-12">{% for tag in product.admin_tags %}
                 <a href="#">{% if forloop.last %}{{tag}}{% else %}{{ tag }}, {% endif %}{% endfor %}</a>{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#">, {{tag}}</a>{% endfor %}{% endif %}
             </div>
+        </div>
         </div>
     </article>
 </div>
