@@ -1,10 +1,12 @@
-from django.db import models
-from PIL import Image
-from io import BytesIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
+
+from django.db import models
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils import timezone
 from django.contrib.postgres import fields
+
+from PIL import Image
+from io import BytesIO
 
 
 class Product(models.Model):
