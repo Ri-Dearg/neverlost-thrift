@@ -6,10 +6,12 @@
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
         </a>
         <div class="row card-body">
-            <p class="col-12 card-text">{{ product.description }}</p>
+            <p class="col-12 card-text">{{ product.blurb }}</p>
             <div class="col text-center">€{{ product.price }}</div>
             <div class="col text-center"><img src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart"></div>
             <div class="col text-center"><img src="{% static 'icons/heart.svg' %}" alt="Like"></div>
+        </div>
+        <div class="row card-footer">
             <div class="col-12">{% for tag in product.admin_tags %}
                 <a href="#">{% if forloop.last %}{{tag}}{% else %}{{ tag }}, {% endif %}{% endfor %}</a>{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#">, {{tag}}</a>{% endfor %}{% endif %}
             </div>
