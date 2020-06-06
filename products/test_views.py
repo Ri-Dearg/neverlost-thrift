@@ -7,6 +7,7 @@ valid_product = Product(name='A product',
                         admin_tags=['this', 'is', 'an', 'array'],
                         price=10.99)
 
+
 class TestViews(TestCase):
 
     def test_render_index(self):
