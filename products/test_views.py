@@ -14,6 +14,7 @@ class TestViews(TestCase):
         page = self.client.get('/')
         self.assertEqual(page.status_code, 200)
         self.assertTemplateUsed('product_list.html')
+        self.assertTrue(page.context['products_active'])
         self.assertQuerysetEqual(page.context['products'],
                                  Product.objects.all().order_by('-date_added'))
 
@@ -23,6 +24,7 @@ class TestViews(TestCase):
         self.assertEqual(page.status_code, 200)
         self.assertTemplateUsed('product_detail.html')
         self.assertTrue(page.context['product'])
+        self.assertTrue(page.context['categories_active'])
 
     def test_render_404_not_found(self):
         valid_product.save()

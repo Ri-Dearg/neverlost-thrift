@@ -9,8 +9,8 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        product_active = True
-        context['product_active'] = product_active
+        products_active = True
+        context['products_active'] = products_active
         return context
 
 
