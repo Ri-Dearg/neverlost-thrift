@@ -1,1 +1,18 @@
-<p>Hello</p>
+{% load static %}
+<div class="col-md-4">
+    <article class="card mx-2 my-3">
+        <h5 class="card-header">{{ product.name }}</h5>
+        <a href="#">
+            <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+        </a>
+        <div class="row card-body">
+            <p class="col-12 card-text">{{ product.description }}</p>
+            <div class="col text-center">€{{ product.price }}</div>
+            <div class="col text-center"><img src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart"></div>
+            <div class="col text-center"><img src="{% static 'icons/heart.svg' %}" alt="Like"></div>
+            <div class="col-12">{% for tag in product.admin_tags %}
+                <a href="#">{% if forloop.last %}{{tag}}{% else %}{{ tag }}, {% endif %}{% endfor %}</a>{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#">, {{tag}}</a>{% endfor %}{% endif %}
+            </div>
+        </div>
+    </article>
+</div>

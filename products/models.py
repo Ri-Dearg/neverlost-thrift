@@ -25,25 +25,24 @@ class Product(models.Model):
         https://djangosnippets.org/snippets/10597/ """
         # Opening the image
         img = Image.open(self.image)
+        img_format = img.format.lower()
 
-        # If the image is tto big, it is resized
-        if img.height > 500 or img.width > 500:
+        # Image is resized
+        output_size = (500, 500)
+        img = img.resize(size=(output_size))
 
-            output_size = (500, 500)
-            img.thumbnail(output_size)
+        # Converts format while in memory
+        output = BytesIO()
+        img.save(output, format=img_format)
+        output.seek(0)
 
-            # Converts format while in memory
-            output = BytesIO()
-            img.save(output)
-            output.seek(0)
-
-            # Replaces the Imagefield value with the newly converted image
-            self.image = InMemoryUploadedFile(
-                output,
-                'ImageField',
-                f'{self.image.name}.{img.format}',
-                'image/jpeg', sys.getsizeof(output),
-                None)
+        # Replaces the Imagefield value with the newly converted image
+        self.image = InMemoryUploadedFile(
+            output,
+            'ImageField',
+            f'{self.image.name.split(".")[0]}.{img_format}',
+            'image/jpeg', sys.getsizeof(output),
+            None)
 
         super().save(*args, **kwargs)
 

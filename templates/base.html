@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load static %}
 {% load sass_tags %}
 <html lang="en">
 
@@ -13,7 +12,7 @@
 	<title>Neverlost | Found</title>
 </head>
 
-<body class="base-color">
+<body class="nav-pushdown">
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
 		<a class="navbar-brand" href="#">Neverlost</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +33,7 @@
 			</ul>
 		</div>
 	</nav>
-    <section class="container content-area">
+    <section class="container-fluid">
         {% block content %} {% endblock %}
     </section>
 
