@@ -5,6 +5,9 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+$enable-rounded: false;
+$enable-shadows: true;
+$enable-responsive-font-sizes: true;
 $primary: #12391a;
 
 
@@ -17,7 +20,7 @@ $primary: #12391a;
 @import "bootstrap/images";
 // @import "bootstrap/code";
 @import "bootstrap/grid";
-@import "bootstrap/tables";
+// @import "bootstrap/tables";
 @import "bootstrap/forms";
 @import "bootstrap/buttons";
 @import "bootstrap/transitions";
