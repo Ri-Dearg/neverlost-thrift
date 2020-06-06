@@ -1,7 +1,17 @@
 .nav-pushdown {
     margin-top: 58px;
+    padding-top: 1px;
 }
 
+.card-body-detail {
+    height: 100%
+}
+
+.card-detail-buttons {
+    position: absolute;
+    bottom: 5px;
+    width: 100%
+}
 
 .card-img-top {
     object-fit: cover;
