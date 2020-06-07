@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% include 'products/includes/stock_drop.html' %}
-	<div class="row mx-0">
+	<div class="row no-x-margin">
 		{% for product in products %}
 		{% include 'products/includes/product_box.html' %}
 		{% endfor %}

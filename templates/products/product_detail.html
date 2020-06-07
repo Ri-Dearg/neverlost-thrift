@@ -16,24 +16,24 @@
                 </div>
                 <div class="row">
                     <p class="col-12">{{ product.description }}</p>
+                    <h4 class="col-12 mb-3">&nbsp;€{{ product.price }}</h4>
                 </div>
-                <div class="row w-100 card-detail-buttons">
-                    <div class="col-4 text-center">€{{ product.price }}</div>
-                    <div class="col-4 text-center">
-                        <img src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart">
+                <div class="row w-100 card-detail-buttons ml-1">
+                    <button class="btn-lg btn-dark col-9 col-sm-8 col-md-9 col-lg-7"><object type="image/svg+xml" data="{% static 'icons/cart-plus-white.svg' %}">
+                        <img src="{% static 'icons/cart-plus-white.svg' %}" alt="Add to Cart">
+                    </object>
+                    &nbsp;&nbsp;Add to Cart
+                    </button>
+                    <div class="col-2 text-center align-self-center pt-2">
+                    <object type="image/svg+xml" data="{% static 'icons/heart-checkout.svg' %}">
+                        <img src="{% static 'icons/heart-checkout.svg' %}" alt="Like">
+                    </object>
                     </div>
-                    <div class="col-4 text-center">
-                        <img src="{% static 'icons/heart.svg' %}" alt="Like">
-                    </div>
+                    <p class="col-12 text-white mt-3 p-0">{% for tag in product.admin_tags %}
+                        <a href="#" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% endif %}
+                    </p>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="card-footer">
-        <div>{% for tag in product.admin_tags %}
-            <a href="#">{% if forloop.last %}{{tag}}{% else %}{{ tag }},
-                {% endif %}{% endfor %}</a>{% if product.user_tags %}{% for tag in product.user_tags %}<a
-                href="#">, {{tag}}</a>{% endfor %}{% endif %}
         </div>
     </div>
 </article>
