@@ -12,15 +12,14 @@ from io import BytesIO
 class Product(models.Model):
     """Defines the Product Class."""
     name = models.CharField(max_length=254, default='')
-    blurb = models.CharField(max_length=50, default='')
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(default='default.png',
                               upload_to='product_images')
     date_added = models.DateTimeField(default=timezone.now)
-    admin_tags = fields.ArrayField(models.CharField(max_length=40), size=7)
+    admin_tags = fields.ArrayField(models.CharField(max_length=40), size=4)
     user_tags = fields.ArrayField(models.CharField(max_length=40),
-                                  size=7,
+                                  size=4,
                                   default=list, blank=True)
 
     def save(self, *args, **kwargs):

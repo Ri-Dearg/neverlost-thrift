@@ -2,7 +2,6 @@ from django.test import TestCase
 from .models import Product
 
 valid_product = Product(name='A product',
-                        blurb='string',
                         description='second string',
                         admin_tags=['this', 'is', 'an', 'array'],
                         price=10.99)
