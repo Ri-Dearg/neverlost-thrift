@@ -1,15 +1,23 @@
 {% load static %}
 <div class="col-md-4">
-    <article class="card mx-2 my-3 shadow">
-        <h5 class="card-header heading-font text-info">{{ product.name }}</h5>
+    <article class="card mx-2 my-3 border-0">
+        <h5 class="card-header heading-font text-info border-0">{{ product.name }}</h5>
         <a href="{% url 'products:detail' product.id %}">
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
         </a>
         <div class="row card-body">
             <p class="col-12 card-text text-dark">{{ product.blurb }}</p>
             <div class="col-8 text-center text-dark">€{{ product.price }}</div>
-            <div class="col-2 text-center text-dark"><img src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart"></div>
-            <div class="col-2 text-center text-dark"><img src="{% static 'icons/heart.svg' %}" alt="Like"></div>
+            <div class="col-2 text-center">
+                <object type="image/svg+xml" data="{% static 'icons/cart-plus.svg' %}">
+                    <img src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart">
+                </object>
+            </div>
+            <div class="col-2 text-center">
+                <object type="image/svg+xml" data="{% static 'icons/heart.svg' %}">
+                    <img src="{% static 'icons/heart.svg' %}" alt="Like">
+                </object>
+            </div>
         </div>
         <div class="card-footer bg-info">
         <div class="row">
