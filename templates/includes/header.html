@@ -1,30 +1,30 @@
-	<header class="fixed-top bg-info shadow-sm">
-		<div class="row bg-dark">
-			<div class="col">
-				<h1 class="text-center my-2 px-2 brand-logo"><a href="{% url 'products:list' %}">NEVERLOST</a></h1>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<nav class="navbar navbar-expand-lg navbar-dark p-0">
-					<button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+<header class="fixed-top bg-info shadow-sm">
+    <div class="row bg-dark">
+        <div class="col">
+            <h1 class="text-center my-2 px-2 brand-logo"><a href="{% url 'products:list' %}">NEVERLOST</a></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <nav class="navbar navbar-expand-lg navbar-dark p-0">
+                <button class="navbar-toggler ml-auto my-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav nav nav-justified w-100">
-							<li class="nav-item {% if products_active %}active{% endif %}">
-								<a href="{% url 'products:list' %}" class="nav-link">Products<span class="sr-only"></span></a>
-							</li>
-							<li class="nav-item {% if categories_active %}active{% endif %}">
-								<a class="nav-link" href="#">Categories<span class="sr-only">(current)</span></a>
-							</li>
-							<li class="nav-item {% if contact_active %}active{% endif %}">
-								<a class="nav-link" href="#">Contact</a>
-							</li>
-						</ul>
-					</div>
-				</nav>
-			</div>
-		</div>
-	</header>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav nav nav-justified w-100">
+                        <li class="nav-item {% if products_active %}active{% endif %}">
+                            <a href="{% url 'products:list' %}" class="nav-link text-right text-md-center pr-2 pr-md-0">Products<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item {% if categories_active %}active{% endif %}">
+                            <a class="nav-link nav-link text-right text-md-center pr-2 pr-md-0" href="#">Categories<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item {% if contact_active %}active{% endif %}">
+                            <a class="nav-link nav-link text-right text-md-center pr-2 pr-md-0" href="#">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>

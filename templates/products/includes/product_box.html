@@ -1,21 +1,22 @@
 {% load static %}
 <div class="col-md-4">
     <article class="card mx-2 my-3 shadow">
-        <h5 class="card-header">{{ product.name }}</h5>
+        <h5 class="card-header heading-font text-info">{{ product.name }}</h5>
         <a href="{% url 'products:detail' product.id %}">
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
         </a>
         <div class="row card-body">
-            <p class="col-12 card-text">{{ product.blurb }}</p>
-            <div class="col text-center">€{{ product.price }}</div>
-            <div class="col text-center"><img src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart"></div>
-            <div class="col text-center"><img src="{% static 'icons/heart.svg' %}" alt="Like"></div>
+            <p class="col-12 card-text text-dark">{{ product.blurb }}</p>
+            <div class="col-8 text-center text-dark">€{{ product.price }}</div>
+            <div class="col-2 text-center text-dark"><img src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart"></div>
+            <div class="col-2 text-center text-dark"><img src="{% static 'icons/heart.svg' %}" alt="Like"></div>
         </div>
-        <div class="card-footer">
+        <div class="card-footer bg-info">
         <div class="row">
-            <div class="col-12">{% for tag in product.admin_tags %}
-                <a href="#">{% if forloop.last %}{{tag}}{% else %}{{ tag }}, {% endif %}{% endfor %}</a>{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#">, {{tag}}</a>{% endfor %}{% endif %}
-            </div>
+            <p class="col-12 text-white mb-0">{% for tag in product.admin_tags %}
+                {% if forloop.last %}
+                    <a href="#" class="text-white tags">{{tag}}</a>{% else %}<a href="#" class="text-white tags">{{tag}}</a>, {% endif %}{% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}, <a href="#" class="text-white tags">{{tag}}</a>{% endfor %}{% endif %}
+            </p>
         </div>
         </div>
     </article>
