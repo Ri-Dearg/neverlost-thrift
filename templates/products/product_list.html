@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="row">
-    {% for product in products %}
-        {% include 'products/includes/product_box.html' %}
-    {% endfor %}
-    </div>
+{% include 'products/includes/stock_drop.html' %}
+	<div class="row">
+		{% for product in products %}
+		{% include 'products/includes/product_box.html' %}
+		{% endfor %}
+	</div>
 {% endblock %}

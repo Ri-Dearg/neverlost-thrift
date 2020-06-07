@@ -34,6 +34,18 @@
     font-weight: 800
 }
 
+.carousel-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.dark-overlay {
+    background-color: rgba(38, 30, 46, 0.7);
+}
+
 .card-header {
     background-color: #fff
 }
