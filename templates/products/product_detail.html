@@ -2,14 +2,18 @@
 {% load static %}
 {% block content %}
 <div class="p-md-5">
-<article class="card shadow">
-	<h1 class="card-header text-center">{{ product.name }}</h1>
-    <div class="row">
-        <div class="col-md">
+<article class="card border-0">
+    <div class="row mx-0">
+        <div class="col-md-5 p-0">
             <img src="{{ product.image.url }} " alt="{{ product.name }}" class="card-img-top img-fluid">
         </div>
-        <div class="col-md">
-            <div class="card-body card-body-detail">
+        <div class="col-md-7">
+            <div class="card-body card-body-detail pl-0 pt-0">
+                <div class="row">
+                <div class="col-12">
+                <h1 class="text-info">{{ product.name }}</h1>
+                </div>
+                </div>
                 <div class="row">
                     <p class="col-12">{{ product.description }}</p>
                 </div>
