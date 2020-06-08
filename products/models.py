@@ -9,8 +9,24 @@ from PIL import Image
 from io import BytesIO
 
 
+class Category(models.Model):
+    """Defines categories to be used with products."""
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    name = models.CharField(max_length=254)
+    friendly_name = models.CharField(max_length=254, default='')
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     """Defines the Product Class."""
+    category = models.ForeignKey('Category',
+                                 null=True,
+                                 blank=True,
+                                 on_delete=models.SET_NULL)
     name = models.CharField(max_length=254, default='')
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
@@ -26,27 +42,33 @@ class Product(models.Model):
         """Image resizing, snippet repurposed from:
         https://djangosnippets.org/snippets/10597/ """
         # Opening the image
+        this_object = Product.objects.get(pk=self.id)
         img = Image.open(self.image)
         img_format = img.format.lower()
 
-        # Image is resized
-        output_size = (500, 500)
-        img = img.resize(size=(output_size))
+        # Prevents images from being copied on every save
+        # will save a new copy on an upload
+        if self.image.name != this_object.image.name:
+            # Image is resized
+            output_size = (500, 500)
+            img = img.resize(size=(output_size))
 
-        # Converts format while in memory
-        output = BytesIO()
-        img.save(output, format=img_format)
-        output.seek(0)
+            # Converts format while in memory
+            output = BytesIO()
+            img.save(output, format=img_format)
+            output.seek(0)
 
-        # Replaces the Imagefield value with the newly converted image
-        self.image = InMemoryUploadedFile(
-            output,
-            'ImageField',
-            f'{self.image.name.split(".")[0]}.{img_format}',
-            'image/jpeg', sys.getsizeof(output),
-            None)
+            # Replaces the Imagefield value with the newly converted image
+            self.image = InMemoryUploadedFile(
+                output,
+                'ImageField',
+                f'{self.image.name.split(".")[0]}.{img_format}',
+                'image/jpeg', sys.getsizeof(output),
+                None)
 
-        super().save(*args, **kwargs)
+            super().save(*args, **kwargs)
+        else:
+            pass
 
     class Meta:
         ordering = ['-date_added']
