@@ -3,9 +3,12 @@ import re
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from .models import Product
+from .models import Product, Category
 
+category = Category(name='clothing', friendly_name='Clothing')
+category.save()
 valid_product = Product(name='A product',
+                        category=category,
                         description='a string',
                         admin_tags=['this', 'is', 'an', 'array'],
                         price=10.99)
@@ -15,6 +18,7 @@ class ProductTests(TestCase):
     """
     Tests for Product models
     """
+    valid_product.save()
 
     def test_str(self):
         test_name = Product(name='A product', price=10.99)
@@ -25,7 +29,6 @@ class ProductTests(TestCase):
             name='default.png',
             content=open('media/default.png', 'rb').read(),
             content_type='image/jpeg')
-        valid_product.save()
         new_product = Product.objects.latest('date_added')
         self.assertEqual(new_product.image.height, 500)
         self.assertEqual(new_product.image.width, 500)
