@@ -74,7 +74,7 @@ class Product(models.Model):
 
                 super().save(*args, **kwargs)
             else:
-                pass
+                super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-date_added']
