@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'compressor',
     # My apps
     'products',
+    'users',
 ]
 
 
@@ -97,6 +98,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'users.context_processors.login_form'
             ],
         },
     },
@@ -119,7 +121,6 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/success/'
 
 
 WSGI_APPLICATION = 'config.wsgi.application'
