@@ -3,7 +3,7 @@ from django.test import TestCase
 from .apps import ProductsConfig
 
 
-class TestTodoConfig(TestCase):
+class TestProductsConfig(TestCase):
 
     def test_app(self):
         self.assertEqual('products', ProductsConfig.name)

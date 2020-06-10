@@ -41,4 +41,5 @@ class ProductTests(TestCase):
     def test_does_not_save_duplicate_image(self):
         old_product = Product.objects.get(pk=1)
         old_product.save()
-        self.assertEqual(old_product.image.name, 'product_images/default_yR7lhBQ.png')
+        self.assertEqual(old_product.image.name,
+                         'product_images/default_yR7lhBQ.png')
