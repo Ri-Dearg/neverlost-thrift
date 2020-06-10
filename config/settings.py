@@ -98,7 +98,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'users.context_processors.login_form'
+                # Custom context Processors for allauth forms
+                'users.context_processors.login_form',
+                'users.context_processors.signup_form',
             ],
         },
     },
