@@ -20,7 +20,10 @@ class ProductTests(TestCase):
     """
     valid_product.save()
 
-    def test_str(self):
+    def test_categories_str(self):
+        self.assertEqual(str(category), ('clothing'))
+
+    def test_products_str(self):
         test_name = Product(name='A product', price=10.99)
         self.assertEqual(str(test_name), ('A product: €10.99'))
 
@@ -34,3 +37,8 @@ class ProductTests(TestCase):
         self.assertEqual(new_product.image.width, 500)
         self.assertTrue(re.search('^product_images/default.*.png$',
                                   new_product.image.name))
+
+    def test_does_not_save_duplicate_image(self):
+        old_product = Product.objects.get(pk=1)
+        old_product.save()
+        self.assertEqual(old_product.image.name, 'product_images/default_yR7lhBQ.png')
