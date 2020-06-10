@@ -11,7 +11,7 @@
             <div class="card-body card-body-detail pl-0 pt-0">
                 <div class="row">
                 <div class="col-12">
-                <h1 class="text-info">{{ product.name }}</h1>
+                <h1 class="text-primary">{{ product.name }}</h1>
                 </div>
                 </div>
                 <div class="row">
@@ -30,7 +30,7 @@
                     </object>
                     </div>
                     <p class="col-12 text-white mt-3 p-0">{% for tag in product.admin_tags %}
-                        <a href="#" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% endif %}
+                        <a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% endif %}
                     </p>
                 </div>
             </div>

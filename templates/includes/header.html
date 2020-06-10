@@ -1,11 +1,25 @@
-
-<header class="fixed-top container-fluid bg-info shadow p-0">
+{% load static %}
+<header class="fixed-top container-fluid shadow p-0">
     <div class="row bg-dark">
-        <div class="col">
+        <div class="col-12">
             <h1 class="text-center my-2 brand-logo"><a href="{% url 'products:list' %}">NEVERLOST</a></h1>
         </div>
     </div>
-    <div class="row">
+    <div class="row mx-0 pr-2 bg-dark">
+    <div class="col-1 offset-8 offset-md-10">
+        <a href="#" class="d-inline-block" data-toggle="modal" data-target="#loginModal">
+            <object type="image/svg+xml" data="{% static 'icons/user.svg' %}">
+                <img src="{% static 'icons/user.svg' %}" alt="Account">
+            </object>
+        </a>
+    </div>
+    <div class="col-1 offset-1 offset-md-0">
+        <object type="image/svg+xml" data="{% static 'icons/cart.svg' %}">        
+            <img src="{% static 'icons/cart.svg' %}" alt="Account">
+        </object>
+    </div>
+    </div>
+    <div class="row bg-primary">
         <div class="col">
             <nav class="navbar navbar-expand-lg navbar-dark p-0">
                 <button class="navbar-toggler ml-auto my-2 mr-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

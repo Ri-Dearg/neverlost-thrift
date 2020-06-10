@@ -5,7 +5,7 @@
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
         </a>
         <div class="row card-body mx-0 pt-1 pb-0">
-            <p class="col-12 card-text text-info mb-1 pl-1">{{ product.name }}</p>
+            <p class="col-12 card-text text-primary mb-1 pl-1">{{ product.name }}</p>
             <div class="col-8 text-dark pl-1">€{{ product.price }}</div>
             <div class="col-2 text-center">
                 <object type="image/svg+xml" data="{% static 'icons/cart-plus.svg' %}">
@@ -18,7 +18,7 @@
                 </object>
             </div>
             <p class="col-12 text-white mb-0 p-0">{% for tag in product.admin_tags %}
-                <a href="#" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% endif %}
+                <a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% endif %}
             </p>
         </div>
     </article>
