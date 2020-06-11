@@ -102,6 +102,8 @@ TEMPLATES = [
                 # Custom context Processors for allauth forms
                 'users.context_processors.login_form',
                 'users.context_processors.signup_form',
+                # Processor for the cart
+                'cart.context_processors.get_cart',
             ],
         },
     },
