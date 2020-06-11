@@ -8,7 +8,7 @@
     <div class="row mx-0 pr-2 bg-dark">
     <div class="col-1 offset-8 offset-md-10">
         {% if user.is_authenticated %}
-        <a href="#" class="d-inline-block" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="&lt;a href=&quot;{% url 'account_login' %}&quot;&gt;Logout&lt;/a&gt;" data-content="And here's some amazing content. It's very engaging. Right?" tabindex="0">
+        <a href="#" class="d-inline-block" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="&lt;a href=&quot;{% url 'account_logout' %}&quot;&gt;Logout&lt;/a&gt;" data-content="And here's some amazing content. It's very engaging. Right?" tabindex="0">
             <object type="image/svg+xml" data="{% static 'icons/user.svg' %}">
                 <img src="{% static 'icons/user.svg' %}" alt="Account">
             </object>

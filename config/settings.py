@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'compressor',
     # My apps
+    'cart',
     'products',
     'users',
 ]
