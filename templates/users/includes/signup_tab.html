@@ -1,12 +1,15 @@
-{% extends 'base.html' %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% url 'account_signup' as account_signup_url %}
 
 <form class="login" method="POST" action="{% url 'account_signup' %}?next={{ request.path }}">
 <!-- https://stackoverflow.com/questions/53320056/django-allauth-display-all-error-messages -->
+
+{% if request.path == account_signup_url %}
 {% for key, value in form.errors.items %}
-    {% if key != '__all__' %}{{ key }} {% endif %}{{ value }}
+    {{ value }}
 {% endfor %}
+{% endif %}
 
   {% csrf_token %}
   {% crispy allauth_signup_form %}
