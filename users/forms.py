@@ -34,5 +34,5 @@ class StyledSignupForm(SignupForm):
                 Column('password1', css_class='col-md-6'),
                 Column('password2', css_class='col-md-6')
             ),
-            Submit('save', 'Sign Up')
+            Submit('save', 'Join')
         )
