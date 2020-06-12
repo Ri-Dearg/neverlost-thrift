@@ -9,7 +9,7 @@
     <div class="col-1 offset-8 offset-md-10">
         {% if user.is_authenticated %}
         {% csrf_token as csrf_token %}
-        <a href="#" class="d-inline-block" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="{% include 'users/includes/logout_popover.html' %}" data-content="Hello" tabindex="0">
+        <a href="#" class="d-inline-block" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="{% include 'users/includes/authenticated_popover_title.html' %}" data-content="{% include 'users/includes/authenticated_popover_content.html' %}" tabindex="0">
             <object type="image/svg+xml" data="{% static 'icons/user.svg' %}">
                 <img src="{% static 'icons/user.svg' %}" alt="Account">
             </object>
