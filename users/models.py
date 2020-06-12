@@ -14,7 +14,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     default_name = models.CharField(max_length=50,
                                     default='', blank=True)
-    default_phone_number = PhoneNumberField()
+    default_phone_number = PhoneNumberField(default='', blank=True)
     default_street_address1 = models.CharField(max_length=80,
                                                default='', blank=True)
     default_street_address2 = models.CharField(max_length=80,
@@ -27,7 +27,8 @@ class UserProfile(models.Model):
                                         default='', blank=True)
     default_country = CountryField(blank_label='Country',
                                    default='', blank=True)
-    liked_products = models.ManyToManyField(Product, related_name='users')
+    liked_products = models.ManyToManyField(Product, blank=True,
+                                            related_name='users')
 
     def __str__(self):
         return self.user.username
