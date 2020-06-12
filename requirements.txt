@@ -1,4 +1,5 @@
 asgiref==3.2.7
+Babel==2.8.0
 boto3==1.13.16
 botocore==1.16.16
 coverage==5.1
@@ -7,7 +8,9 @@ Django==3.0.7
 django-allauth==0.42.0
 django-appconf==1.0.4
 django-compressor==2.4
+django-countries==6.1.2
 django-crispy-forms==1.9.1
+django-phonenumber-field==4.0.0
 django-sass-processor==0.8
 django-storages==1.9.1
 docutils==0.15.2
@@ -15,6 +18,7 @@ gunicorn==20.0.4
 jmespath==0.10.0
 libsass==0.20.0
 oauthlib==3.1.0
+phonenumberslite==8.12.5
 Pillow==7.1.2
 psycopg2==2.8.5
 python3-openid==3.1.0
