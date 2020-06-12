@@ -1,9 +1,11 @@
-{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Hello from {{ site_name }}!
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}
 
-You're receiving this e-mail because user {{ user_display }} has given yours as an e-mail address to connect their account.
+Hello {{ user_display }},
+Thank you for signing up for an account at {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}{{ site_name }}!
 
-To confirm this is correct, go to {{ activate_url }}
+To confirm your email address, please click here: {{ activate_url }}
+If the link doesn't work, please copy and paste it into you browser's address bar.
 {% endblocktrans %}
-{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Thank you from {{ site_name }}!
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %} Get browsing at {{ site_name }}!
 {{ site_domain }}{% endblocktrans %}
 {% endautoescape %}
