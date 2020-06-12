@@ -86,7 +86,7 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_ADAPTER = 'users.adapter.CustomAdapter'
 LOGIN_URL = '/accounts/login/'
 
-COUNTRIES_FIRST = ['IE', 'UK']
+COUNTRIES_FIRST = ['IE', 'GB']
 PHONENUMBER_DB_FORMAT = 'E164'
 
 # Crispy forms CSS template selection
