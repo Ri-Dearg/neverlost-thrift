@@ -1,18 +1,18 @@
 from django.test import TestCase
 from .models import Product, Category
 
-category = Category(name='clothing')
-category.save()
-valid_product = Product(name='A product',
-                        category=category,
-                        description='second string',
-                        admin_tags=['this', 'is', 'an', 'array'],
-                        price=10.99)
 
+class TestProductViews(TestCase):
 
-class TestViews(TestCase):
-
-    valid_product.save()
+    def setUp(self):
+        category = Category(name='clothing')
+        category.save()
+        valid_product = Product(name='A product',
+                                category=category,
+                                description='second string',
+                                admin_tags=['this', 'is', 'an', 'array'],
+                                price=10.99)
+        valid_product.save()
 
     def test_render_index(self):
         response = self.client.get('/')
@@ -24,6 +24,7 @@ class TestViews(TestCase):
                                  transform=lambda x: x)
 
     def test_render_product_detail(self):
+        valid_product = Product.objects.latest('date_added')
         response = self.client.get(f'/product/{valid_product.id}/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed('product_detail.html')
