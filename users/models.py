@@ -12,23 +12,56 @@ class UserProfile(models.Model):
     """User Profile used to store default delivery information and
     liked/bookmarked items"""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    default_name = models.CharField(max_length=50,
-                                    default='', blank=True)
-    default_phone_number = PhoneNumberField(default='', blank=True)
-    default_street_address1 = models.CharField(max_length=80,
+    default_shipping_name = models.CharField(max_length=50,
+                                             default='', blank=True)
+    default_shipping_phone_number = PhoneNumberField(default='', blank=True)
+    default_shipping_street_address_1 = models.CharField(max_length=80,
+                                                         default='',
+                                                         blank=True)
+    default_shipping_street_address_2 = models.CharField(max_length=80,
+                                                         default='',
+                                                         blank=True)
+    default_shipping_city = models.CharField(max_length=40,
+                                             default='', blank=True)
+    default_shipping_county = models.CharField(max_length=80,
                                                default='', blank=True)
-    default_street_address2 = models.CharField(max_length=80,
-                                               default='', blank=True)
-    default_city = models.CharField(max_length=40,
-                                    default='', blank=True)
-    default_county = models.CharField(max_length=80,
-                                      default='', blank=True)
-    default_postcode = models.CharField(max_length=20,
-                                        default='', blank=True)
-    default_country = CountryField(blank_label='Country',
-                                   default='', blank=True)
+    default_shipping_postcode = models.CharField(max_length=20,
+                                                 default='', blank=True)
+    default_shipping_country = CountryField(blank_label='Country',
+                                            default='', blank=True)
+    default_billing_name = models.CharField(max_length=50,
+                                            default='', blank=True)
+    default_billing_phone_number = PhoneNumberField(default='', blank=True)
+    default_billing_street_address_1 = models.CharField(max_length=80,
+                                                        default='', blank=True)
+    default_billing_street_address_2 = models.CharField(max_length=80,
+                                                        default='', blank=True)
+    default_billing_city = models.CharField(max_length=40,
+                                            default='', blank=True)
+    default_billing_county = models.CharField(max_length=80,
+                                              default='', blank=True)
+    default_billing_postcode = models.CharField(max_length=20,
+                                                default='', blank=True)
+    default_billing_country = CountryField(blank_label='Country',
+                                           default='', blank=True)
+
     liked_products = models.ManyToManyField(Product, blank=True,
                                             related_name='users')
+
+    def readable_field(self, *args, **kwargs):
+        fields = self._meta.fields
+        readable_names = []
+        values = []
+
+        for field in range(2, 18):
+            field_object = fields[field]
+            name = field_object.name.replace('_', ' ')
+            readable_names.append(name)
+
+            value = field_object.value_from_object(self)
+            values.append(value)
+
+        return readable_names, values
 
     def __str__(self):
         return self.user.username

@@ -1,5 +1,58 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
-<h1>{{ user.username }}</h1>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="row mx-0 pt-3">
+	<div class="col">
+		<h1 class="heading-font text-primary text-center">{{ user.username }}</h1>
+	</div>
+</div>
+<hr>
+<div class="row mx-0">
+    <div class="col-12 col-md-6">
+        <p>Email: <strong>{{ user.email }}</strong></p>
+    </div>
+        <div class="cl-12 col-md-6">
+        <button class="btn btn-danger">Change Password</button>
+    </div>
+</div>
+<hr>
+<div class="row mx-0">
+	<div class="col-12 col-md-6 mt-3">
+		<h5 class="text-center">Shipping Address</h5>
+		<div class="row mx-0">
+			<div class="col-6 px-0 px-md-auto">
+				<div class="row px-0 px-md-auto">
+					{% for field in field_names|slice:":8" %}
+					<div class="col-12">{{ field|slice:"17:"|title }}:</div>
+					{% endfor %}
+				</div>
+			</div>
+            <div class="col-6 px-0 px-md-auto">
+                <div class="row px-0 px-md-auto">
+                    {% for value in values|slice:":8" %}
+                    <div class="col-12"><strong>{{ value }}</strong></div>
+                    {% endfor %}
+                </div>
+            </div>
+	    </div>
+	</div>
+<div class="col-12 col-md-6 mt-3">
+	<h5 class="text-center">Billing Address</h5>
+		<div class="row mx-0">
+			<div class="col-6 px-0 px-md-auto">
+				<div class="row px-0 px-md-auto">
+			{% for field in field_names|slice:"8:" %}
+			<div class="col-12">{{ field|slice:"16:"|title }}:</div>
+			{% endfor %}
+				</div>
+			</div>
+            <div class="col-6 px-0 px-md-auto">
+                <div class="row px-0 px-md-auto">
+			{% for value in values|slice:"8:" %}
+			<div class="col-12"><strong>{{ value }}</strong></div>
+			{% endfor %}
+                </div>
+            </div>
+	    </div>
+	</div>
+</div>
+<hr>
 {% endblock %}
