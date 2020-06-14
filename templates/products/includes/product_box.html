@@ -7,26 +7,10 @@
         <div class="row card-body mx-0 pt-1 pb-0">
             <p class="col-12 card-text text-primary mb-1 pl-1">{{ product.name|truncatechars:30 }}</p>
             <div class="col-8 text-dark pl-1">€{{ product.price }}</div>
-				{% if cart %}
-				{% for key in cart.items %}
-				{% if key.0|stringformat:"s" == product.id|stringformat:"s" %}
-                <form class="col-2 text-center" action="#?next={{ request.path }}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="quantity" value="1" min="1" max="1">
-                    <button type="submit" class="btn btn-link p-0"><object type="image/svg+xml" data="{% static 'icons/cart-check.svg' %}">
-                        <img src="{% static 'icons/cart-check.svg' %}" alt="Add to Cart">
-                    </object></button>
-                </form>
-				{% endif %}
-				{% endfor %}
-				{% else %}
-                <form class="col-2 text-center" action="{% url 'cart:add_to_cart' product.id %}?next={{ request.path }}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="quantity" value="1" min="1" max="1">
-                    <button type="submit" class="btn btn-link p-0"><object type="image/svg+xml" data="{% static 'icons/cart-plus.svg' %}">
-                        <img src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart">
-                    </object></button>
-                </form>
+                    {% if product.id|stringformat:"s" in cart %}
+                        {% include 'cart/includes/box_remove_from_cart.html' %}
+                    {% else %}
+                    {% include 'cart/includes/box_add_to_cart.html' %}
                 {% endif %}   
             <div class="col-2 text-center">
                 <object type="image/svg+xml" data="{% static 'icons/heart.svg' %}">

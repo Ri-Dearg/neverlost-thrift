@@ -19,31 +19,11 @@
                     <h4 class="col-12 mb-3">&nbsp;€{{ product.price }}</h4>
                 </div>
                 <div class="row w-100 card-detail-buttons ml-1">
-                {% if cart %}
-				{% for key in cart.items %}
-				{% if key.0|stringformat:"s" == product.id|stringformat:"s" %}
-                <form class="col-9 col-sm-8 col-md-9 col-lg-7 pl-0" action="#?next={{ request.path }}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="quantity" value="1" min="1" max="1">
-                    <button type="submit" class="btn-lg btn-dark w-100"><object type="image/svg+xml" data="{% static 'icons/cart-check-white.svg' %}">
-                        <img src="{% static 'icons/cart-check-white.svg' %}" alt="Add to Cart">
-                    </object>
-                    &nbsp;&nbsp;Add to Cart
-                    </button>
-                </form>
-                {% endif %}
-				{% endfor %}
-				{% else %}
-                <form class="col-9 col-sm-8 col-md-9 col-lg-7 pl-0" action="{% url 'cart:add_to_cart' product.id %}?next={{ request.path }}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="quantity" value="1" min="1" max="1">
-                    <button type="submit" class="btn-lg btn-dark w-100"><object type="image/svg+xml" data="{% static 'icons/cart-plus-white.svg' %}">
-                        <img src="{% static 'icons/cart-plus-white.svg' %}" alt="Add to Cart">
-                    </object>
-                    &nbsp;&nbsp;Add to Cart
-                    </button>
-                </form>        
-                {% endif %}                                   
+                    {% if product.id|stringformat:"s" in cart %}
+                        {% include 'cart/includes/detail_remove_from_cart.html' %}
+                    {% else %}
+                    {% include 'cart/includes/detail_add_to_cart.html' %}
+                {% endif %}                                  
                     <div class="col-2 text-center align-self-center pt-2">
                     <object type="image/svg+xml" data="{% static 'icons/heart-checkout.svg' %}">
                         <img src="{% static 'icons/heart-checkout.svg' %}" alt="Like">
