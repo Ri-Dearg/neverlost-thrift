@@ -22,19 +22,19 @@
         </a>
         {% endif %}
     </div>
-    {% if cart|length > 0 %}
-    <div class="col-1 offset-1 offset-md-0">
+    {% if cart_quantity %}
+    <a class="col-1 offset-1 offset-md-0" href="{% url 'cart:list' %}">
         <object type="image/svg+xml" data="{% static 'icons/cart-fill.svg' %}">        
             <img src="{% static 'icons/cart-fill.svg' %}" alt="Account">
         </object>
-        <span class="badge badge-danger rounded-circle mb-1">{{ cart|length }}</span>
-    </div>
+        <span class="badge badge-danger rounded-circle mb-1">{{ cart_quantity }}</span>
+    </a>
     {% else %}
-    <div class="col-1 offset-1 offset-md-0">
+    <a class="col-1 offset-1 offset-md-0" href="{% url 'cart:list' %}">
         <object type="image/svg+xml" data="{% static 'icons/cart.svg' %}">        
             <img src="{% static 'icons/cart.svg' %}" alt="Account">
         </object>
-    </div>
+    </a>
     {% endif %}
     </div>
     <div class="row bg-primary">

@@ -7,9 +7,9 @@
         <div class="row card-body mx-0 pt-1 pb-0">
             <p class="col-12 card-text text-primary mb-1 pl-1">{{ product.name|truncatechars:30 }}</p>
             <div class="col-8 text-dark pl-1">€{{ product.price }}</div>
-                    {% if product.id|stringformat:"s" in cart %}
-                        {% include 'cart/includes/box_remove_from_cart.html' %}
-                    {% else %}
+                {% if product.id|stringformat:"s" in cart %}
+                    {% include 'cart/includes/box_remove_from_cart.html' %}
+                {% else %}
                     {% include 'cart/includes/box_add_to_cart.html' %}
                 {% endif %}   
             <div class="col-2 text-center">

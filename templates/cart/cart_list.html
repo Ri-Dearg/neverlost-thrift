@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="pt-3"></div>
+<div class="row mx-0 pt-3">
+	<div class="col">
+		<h1 class="heading-font text-primary text-center">Cart</h1>
+	</div>
+</div>
+<hr>
+{% if cart %}
     {% for item_id in cart %}
         {% for product in products %}
             {% if item_id == product.id|stringformat:"s" %}
@@ -8,4 +14,21 @@
             {% endif %}
         {% endfor %}
     {% endfor %}
+    <div class="row mx-0">
+        <div class="col text-right">
+            <p class="col">Total: </p>
+        </div>
+        <div class="col-3 col-md-2 pl-0 text-right">
+            <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ cart_total }}</strong></p>
+        </div>
+    </div>
+{% else %}
+    <div class="row mx-0">
+    <div class="col text-center">
+    <h4 class="text-dark">Your cart is empty...</h4>
+        <h2 class="text-primary">Let's do some shopping</h2>
+        <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:list' %}">Shop</a>
+    </div>
+    </div>
+{% endif %}
 {% endblock %}
