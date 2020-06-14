@@ -1,7 +1,14 @@
 from django.shortcuts import get_object_or_404, HttpResponseRedirect
 from django.contrib import messages
+from django.views.generic import ListView
 
 from products.models import Product
+
+
+class LikesListView(ListView):
+    model = Product
+    context_object_name = 'products'
+    template_name = 'likes/likes_list.html'
 
 
 def add_to_likes(request, item_id):
@@ -16,10 +23,10 @@ def add_to_likes(request, item_id):
             user.userprofile.liked_products.add(product)
             messages.success(request, f'{product.name} liked!')
         else:
-            liked = request.session.get('liked', [])
-            liked.append(item_id)
+            likes = request.session.get('likes', [])
+            likes.append(item_id)
 
-            request.session['liked'] = liked
+            request.session['likes'] = likes
             messages.success(request, f'{product.name} liked!')
         return HttpResponseRedirect(next)
 

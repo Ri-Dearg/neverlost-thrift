@@ -134,6 +134,7 @@ TEMPLATES = [
                 'users.context_processors.signup_form',
                 # Processor for the cart
                 'cart.context_processors.get_cart',
+                'likes.context_processors.get_likes',
             ],
         },
     },
