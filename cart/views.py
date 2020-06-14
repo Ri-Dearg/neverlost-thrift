@@ -1,6 +1,14 @@
 from django.shortcuts import get_object_or_404, HttpResponseRedirect
 from django.contrib import messages
+from django.views.generic import ListView
+
 from products.models import Product
+
+
+class CartListView(ListView):
+    model = Product
+    context_object_name = 'products'
+    template_name = 'cart/cart_list.html'
 
 
 def add_to_cart(request, item_id):

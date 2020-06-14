@@ -62,6 +62,11 @@
     object-fit: cover;
 }
 
+.cart-thumb {
+    max-width: 80px;
+    height: auto;
+}
+
 object {
     pointer-events: none;
 }
