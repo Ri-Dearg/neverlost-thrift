@@ -12,13 +12,11 @@
                 {% else %}
                     {% include 'cart/includes/box_add_to_cart.html' %}
                 {% endif %}   
-            <div class="col-2 text-center px-0">
-                <a class="btn btn-like w-100 h-100" href="{% url 'likes:add_to_likes' product.id %}?next={{ request.path }}">
-                    <object type="image/svg+xml" data="{% static 'icons/heart.svg' %}">
-                        <img src="{% static 'icons/heart.svg' %}" alt="Like">
-                    </object>
-                </a>
-            </div>
+                {% if product.id in likes %}
+                    {% include 'likes/includes/box_remove_from_likes.html' %}
+                {% else %}
+                    {% include 'likes/includes/box_add_to_likes.html' %}
+                {% endif %}  
             <p class="col-12 text-white mb-0 p-0">{% for tag in product.admin_tags %}
                 <a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% endif %}
             </p>

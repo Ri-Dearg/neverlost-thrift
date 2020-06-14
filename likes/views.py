@@ -33,3 +33,26 @@ def add_to_likes(request, item_id):
     except Exception as e:
         messages.error(request, f'Error liking item: {e}')
         return HttpResponseRedirect(next)
+
+
+def remove_from_likes(request, item_id):
+    """Remove the item from the shopping cart"""
+
+    next = request.GET.get('next', '')
+
+    try:
+        product = get_object_or_404(Product, pk=item_id)
+
+        if request.user.is_authenticated:
+            user = request.user
+            user.userprofile.liked_products.remove(product)
+        else:
+            likes = request.session.get('likes', [])
+            likes.remove(item_id)
+
+            request.session['likes'] = likes
+        return HttpResponseRedirect(next)
+
+    except Exception as e:
+        messages.error(request, f'Error unliking item: {e}')
+        return HttpResponseRedirect(next)
