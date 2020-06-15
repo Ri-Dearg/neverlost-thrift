@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mx-0 pt-3">
+	<div class="col">
+		<h1 class="heading-font text-primary text-center">{{ stockdrop.name }}</h1>
+	</div>
+</div>
+<hr>
+<div class="row mx-0">
+    {% for product in stockdrop.products.all %}
+        {% include 'products/includes/product_box.html' %}
+    {% endfor %}
+	</div>
+{% endblock %}

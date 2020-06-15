@@ -12,7 +12,7 @@ class ProductListView(ListView):
         stock_drops = StockDrop.objects.filter(display=True)
         products_active = True
 
-        context['stock_drops'] = stock_drops
+        context['stockdrops'] = stock_drops
         context['products_active'] = products_active
         return context
 
@@ -27,3 +27,9 @@ class ProductDetailView(DetailView):
         categories_active = True
         context['categories_active'] = categories_active
         return context
+
+
+class StockDropDetailView(DetailView):
+    """Renders the home page with a Products List."""
+    model = StockDrop
+    context_object_name = 'stockdrop'

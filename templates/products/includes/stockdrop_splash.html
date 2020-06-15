@@ -2,19 +2,19 @@
 {% get_media_prefix as MEDIA_URL %}
 <div id="carouselStockDrop" class="carousel slide" data-ride="carousel">
 	<ol class="carousel-indicators">
-    {% for number in stock_drops %}
+    {% for number in stockdrops %}
 		<li data-target="#carouselStockDrop" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
     {% endfor %}
 	</ol>
 	<div class="carousel-inner">
-        {% for collection in stock_drops %}
-		<div class="carousel-item {% if forloop.first %}active{% endif %}">
-			<img src="{{ collection.image.url }}" class="d-block w-100" alt="{{ collection|date:'M' }} Stock Drop">
+        {% for collection in stockdrops %}
+		<a class="carousel-item {% if forloop.first %}active{% endif %}" href="{% url 'products:stockdrop_detail' collection.id %}">
+			<img src="{{ collection.image.url }}" class="d-block w-100" alt="{{ collection.date_added|date:'M' }} StockDrop">
 			<div class="dark-overlay carousel-caption w-100">
-				<h5 class="heading-font">{{ collection|date:'M' }} Stock Drop</h5>
+				<h5 class="heading-font">{{ collection.date_added|date:'F' }} StockDrop</h5>
 				<p>{{collection.description}}</p>
 			</div>
-		</div>
+		</a>
         {% endfor %}
 	</div>
 	<a class="carousel-control-prev" href="#carouselStockDrop" role="button" data-slide="prev">
