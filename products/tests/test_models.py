@@ -3,7 +3,7 @@ import re
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from .models import Product, Category
+from products.models import Product, Category
 
 category = Category(name='clothing', friendly_name='Clothing')
 category.save()

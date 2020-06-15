@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.test import TestCase
-from .apps import ProductsConfig
+from products.apps import ProductsConfig
 
 
 class TestProductsConfig(TestCase):

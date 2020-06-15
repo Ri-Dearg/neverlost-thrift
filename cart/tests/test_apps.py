@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.test import TestCase
-from .apps import CartConfig
+from cart.apps import CartConfig
 
 
 class TestCartConfig(TestCase):

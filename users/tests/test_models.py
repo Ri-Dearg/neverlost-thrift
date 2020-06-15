@@ -2,8 +2,7 @@ import random
 import string
 
 from django.test import TestCase
-
-from .models import UserProfile, User
+from django.contrib.auth.models import User
 
 
 class TestUserProfile(TestCase):
