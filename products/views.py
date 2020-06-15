@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from .models import Product
+from .models import Product, StockDrop
 
 
 class ProductListView(ListView):
@@ -9,7 +9,10 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        stock_drops = StockDrop.objects.filter(display=True)
         products_active = True
+
+        context['stock_drops'] = stock_drops
         context['products_active'] = products_active
         return context
 

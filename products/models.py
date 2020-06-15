@@ -95,6 +95,7 @@ class StockDrop(models.Model):
     description = models.CharField(max_length=200, null=False)
     image = models.ImageField(upload_to='stock_drop')
     date_added = models.DateTimeField(default=timezone.now)
+    display = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         """Image resizing, snippet repurposed from:
@@ -138,4 +139,4 @@ class StockDrop(models.Model):
         ordering = ['-date_added']
 
     def __str__(self):
-        return f'{self.name}: {self.date_added}'
+        return f'{self.date_added.strftime("%B")}: {self.name}'
