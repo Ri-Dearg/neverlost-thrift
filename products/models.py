@@ -26,7 +26,14 @@ class Product(models.Model):
     category = models.ForeignKey('Category',
                                  null=True,
                                  blank=True,
-                                 on_delete=models.SET_NULL)
+                                 on_delete=models.SET_NULL,
+                                 related_name='products')
+    stock_drop = models.ForeignKey('StockDrop',
+                                   null=True,
+                                   blank=True,
+                                   on_delete=models.SET_NULL,
+                                   related_name='products')
+
     name = models.CharField(max_length=254, default='')
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
@@ -81,3 +88,54 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.name}: €{self.price}'
+
+
+class StockDrop(models.Model):
+    name = models.CharField(max_length=30, null=False)
+    description = models.CharField(max_length=200, null=False)
+    image = models.ImageField(upload_to='stock_drop')
+    date_added = models.DateTimeField(default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        """Image resizing, snippet repurposed from:
+        https://djangosnippets.org/snippets/10597/ """
+        # Opening the image
+        this_object = None
+        try:
+            this_object = StockDrop.objects.get(pk=self.id)
+        except StockDrop.DoesNotExist:
+            pass
+        finally:
+            img = Image.open(self.image)
+            img_format = img.format.lower()
+
+            # Prevents images from being copied on every save
+            # will save a new copy on an upload
+            if (this_object and self.image.name != this_object.image.name) \
+                    or (not this_object):
+                # Image is resized
+                output_size = (1280, 480)
+                img = img.resize(size=(output_size))
+
+                # Converts format while in memory
+                output = BytesIO()
+                img.save(output, format=img_format)
+                output.seek(0)
+
+                # Replaces the Imagefield value with the newly converted image
+                self.image = InMemoryUploadedFile(
+                    output,
+                    'ImageField',
+                    f'{self.image.name.split(".")[0]}.{img_format}',
+                    'image/jpeg', sys.getsizeof(output),
+                    None)
+
+                super().save(*args, **kwargs)
+            else:
+                super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['-date_added']
+
+    def __str__(self):
+        return f'{self.name}: {self.date_added}'
