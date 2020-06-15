@@ -24,11 +24,11 @@
                     {% else %}
                     {% include 'cart/includes/detail_add_to_cart.html' %}
                 {% endif %}                                  
-                    <div class="col-2 text-center align-self-center pt-2">
-                    <object type="image/svg+xml" data="{% static 'icons/heart-checkout.svg' %}">
-                        <img src="{% static 'icons/heart-checkout.svg' %}" alt="Like">
-                    </object>
-                    </div>
+{% if product.id in likes %}
+                    {% include 'likes/includes/detail_remove_from_likes.html' %}
+                {% else %}
+                    {% include 'likes/includes/detail_add_to_likes.html' %}
+                {% endif %}  
                     <p class="col-12 text-white mt-3 p-0">{% for tag in product.admin_tags %}
                         <a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% endif %}
                     </p>
