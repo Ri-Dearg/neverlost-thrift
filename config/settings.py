@@ -229,6 +229,7 @@ USE_TZ = True
 
 # Static files are maintained in a base directory
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_URL = '/media/'
@@ -237,7 +238,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 if not DEVELOPMENT:
     # Settings for AWS bucket
     AWS_S3_OBJECT_PARAMETERS = {
-        'Expires': 'Thu, 31, Dec 2099 20:00:00 GMT',
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
         'CacheControl': 'max-age=94608000',
     }
 
