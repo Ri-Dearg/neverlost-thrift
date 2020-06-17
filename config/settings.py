@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'compressor',
     # My apps
     'cart',
+    'checkout',
     'likes',
     'products',
     'users',
