@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&family=Montserrat:wght@500&display=swap');
+
+.body-mods {
+    margin-top: 143px;
+    padding-top: 1px;
+    background-color: #fcfaf5;
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+.heading-font {
+    font-family: 'Lexend Deca', sans-serif;
+}
+
+.nav-item {
+    height: 100%;
+    width: 100%;
+    transition: 0.5s;
+}
+
+.nav-item.active,
+.nav-item:hover {
+    background-color: #287537
+}
+
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #f8f8f8;
+}
+
+.brand-logo a {
+    font-family: 'Lexend Deca', sans-serif;
+    text-decoration: none;
+    color: #f8f8f8;
+    letter-spacing: 1rem;
+    font-weight: 800
+}
+
+.carousel-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.dark-overlay {
+    background-color: rgba(38, 30, 46, 0.7);
+}
+
+.card-header {
+    background-color: #fff
+}
+
+.card-body-detail {
+    height: 100%
+}
+
+.card-img-top {
+    object-fit: cover;
+}
+
+.cart-thumb {
+    max-width: 80px;
+    height: auto;
+}
+
+object {
+    pointer-events: none;
+}
