@@ -48,7 +48,7 @@ class UserProfile(models.Model):
     liked_products = models.ManyToManyField(Product, blank=True,
                                             related_name='users')
 
-    def readable_field(self, *args, **kwargs):
+    def _readable_field(self, *args, **kwargs):
         fields = self._meta.fields
         readable_names = []
         values = []
