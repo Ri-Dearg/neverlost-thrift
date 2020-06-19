@@ -29,6 +29,7 @@ class OrderCreateView(CreateView):
         products = Product.objects.filter(id__in=cart_list)
 
         order_form = context['form']
+
         context['products'] = products
         context['order_form'] = order_form
         return context
