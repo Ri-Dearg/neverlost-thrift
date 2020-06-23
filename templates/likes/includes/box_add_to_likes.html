@@ -2,7 +2,7 @@
 <form class="col-2 text-center px-0" action="{% url 'likes:add_to_likes' product.id %}?next={{ request.path }}" method="POST">
 	{% csrf_token %}
 	<button type="submit" class="btn btn-link p-0 h-100 w-100">
-        <object type="image/svg+xml" data="{% static 'icons/heart.svg' %}">
+        <object class="box-object" type="image/svg+xml" data="{% static 'icons/heart.svg' %}">
             <img src="{% static 'icons/heart.svg' %}" alt="Like">
         </object>
     </button>
