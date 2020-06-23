@@ -33,9 +33,15 @@
 		{% block content %} {% endblock %}
 	</section>
 
+{% if messages %}
+<div class="toast-position" aria-live="polite" aria-atomic="true">
+  <div class="toast-wrapper">
 	{% for message in messages %}
 	{% include 'includes/messages.html' %}
 	{% endfor %}
+  </div>
+</div>
+{% endif %}
 
     {% block postloadjs %}
     <script>

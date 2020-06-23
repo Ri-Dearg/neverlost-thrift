@@ -22,7 +22,7 @@
 
 .nav-item.active,
 .nav-item:hover {
-    background-color: #287537
+    background-color: #075a20
 }
 
 .navbar-dark .navbar-nav .nav-link,
@@ -43,7 +43,6 @@
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 10;
 }
 
 .dark-overlay {
@@ -69,4 +68,20 @@
 
 object {
     pointer-events: none;
+}
+
+
+.toast-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.toast-position {
+position: fixed;
+top: 160px;
+right: 20px;
+min-height: 200px;
+width: 100%;
+z-index: 10;
 }
