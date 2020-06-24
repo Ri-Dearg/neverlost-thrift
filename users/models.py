@@ -49,6 +49,7 @@ class UserProfile(models.Model):
                                             related_name='users')
 
     def _readable_field(self, *args, **kwargs):
+        """Alters the field names to make them user friendly"""
         fields = self._meta.fields
         readable_names = []
         values = []

@@ -11,6 +11,7 @@ from products.models import Product
 
 
 class Order(models.Model):
+    """Model that sets the fields for orders"""
     order_number = models.CharField(max_length=32, null=False, editable=False)
     user_profile = models.ForeignKey(
         UserProfile,
@@ -35,18 +36,18 @@ class Order(models.Model):
     original_bag = models.TextField(null=False, blank=False, default='')
 
     def update_total(self):
-
+        """Updates the grand total figure in an order."""
         self.order_total = self.lineitems.aggregate(Sum(
             'lineitem_total'))['lineitem_total__sum'] or 0
         self.grand_total = self.order_total
         self.save()
 
     def _generate_order_number(self):
-
+        """Generates a random order number"""
         return uuid.uuid4().hex.upper()
 
     def save(self, *args, **kwargs):
-
+        """Saves the order number"""
         if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
@@ -56,6 +57,7 @@ class Order(models.Model):
 
 
 class OrderLineItem(models.Model):
+    """Associates the product to the order with quantity and total cost"""
     order = models.ForeignKey(Order,
                               on_delete=models.CASCADE,
                               null=False, blank=False,
@@ -69,7 +71,7 @@ class OrderLineItem(models.Model):
                                          null=False, blank=False)
 
     def save(self, *args, **kwargs):
-
+        """Saves the total cost"""
         self.lineitem_total = self.product.price * self.quantity
         super().save(*args, **kwargs)
 
