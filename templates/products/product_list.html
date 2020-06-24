@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if 'query' in request.GET %}
+<h3 class="text-center pt-2">check out:</h3>
+<h1 class="text-center text-primary">{{ request.GET.query }}</h1>
+<hr>
+{% endif %}
 {% if stockdrops %}
     {% include 'products/includes/stockdrop_splash.html' %}
 {% endif %}

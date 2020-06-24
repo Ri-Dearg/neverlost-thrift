@@ -1,8 +1,11 @@
+from django.shortcuts import redirect, reverse
+from django.contrib import messages
 from django.views.generic import ListView, DetailView
-from .models import Product, StockDrop
 from django.contrib.postgres.search import (SearchQuery,
                                             SearchRank,
                                             SearchVector)
+
+from .models import Product, StockDrop
 
 
 class ProductListView(ListView):
@@ -13,11 +16,13 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         if 'query' in self.request.GET:
+            if self.request.GET['query'] == '':
+                messages.warning(self.request,
+                                 "You didn't search for anything")
+                return Product.objects.all()
             self.user_query = self.request.GET['query']
-            self.vector = SearchVector('name',
-                                       'description',
-                                       'admin_tags',
-                                       'user_tags')
+            self.vector = SearchVector('name', 'description', weight='A') + \
+                SearchVector('admin_tags', 'user_tags', weight='B')
             self.query = SearchQuery(self.user_query)
             self.rank = SearchRank(self.vector, self.query)
             return Product.objects.annotate(rank=self.rank).order_by('-rank')\
