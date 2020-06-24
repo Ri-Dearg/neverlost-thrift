@@ -27,7 +27,7 @@
 
 <body class="body-mods">
 
-    {% include 'includes/header.html' %}
+    {% include 'base/includes/header.html' %}
 
     <section class="container shadow bg-white p-0 pb-4 min-vh-100">
 		{% block content %} {% endblock %}
@@ -37,7 +37,7 @@
 <div class="toast-position" aria-live="polite" aria-atomic="true">
   <div class="toast-wrapper">
 	{% for message in messages %}
-	{% include 'includes/messages.html' %}
+	{% include 'base/includes/messages.html' %}
 	{% endfor %}
   </div>
 </div>
