@@ -1,7 +1,7 @@
 {% load static %}
 <div class="col-md-4 p-0">
     <article class="card mx-0 mx-md-2 mt-3 border-0">
-        <a href="{% url 'products:detail' product.id %}">
+        <a href="{% url 'products:product-detail' product.id %}">
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
         </a>
         <div class="row card-body mx-0 pt-1 pb-0">
@@ -18,7 +18,7 @@
                     {% include 'likes/includes/box_add_to_likes.html' %}
                 {% endif %}  
             <p class="col-12 text-white mb-0 p-0">{% for tag in product.admin_tags %}
-                <a href="{% url 'products:list' %}?query={{ tag }}" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{ tag }}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="{% url 'products:list' %}?query={{ tag }}" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{ tag }}</a> {% endfor %}{% endif %}
+                <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{ tag }}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{ tag }}</a> {% endfor %}{% endif %}
             </p>
         </div>
     </article>

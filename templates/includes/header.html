@@ -2,12 +2,12 @@
 <header class="fixed-top container-fluid shadow p-0">
     <div class="row bg-dark">
         <div class="col-12">
-            <h1 class="text-center my-2 brand-logo"><a href="{% url 'products:list' %}">NEVERLOST</a></h1>
+            <h1 class="text-center my-2 brand-logo"><a href="{% url 'products:product-list' %}">NEVERLOST</a></h1>
         </div>
     </div>
     <div class="row bg-dark mx-0 pb-2 pr-2">
     <div class="col-6 col-md-9 px-md-5">
-        <form method="GET" action="{% url 'products:list' %}">
+        <form method="GET" action="{% url 'products:product-list' %}">
             <div class="input-group w-100">
                 <input class="form-control rounded-sm" type="text" name="query" placeholder="Search">
                 <div class="input-group-append">
@@ -34,27 +34,27 @@
         {% endif %}
     </div>
         {% if likes %}
-    <a class="col-1" href="{% url 'likes:list' %}">
+    <a class="col-1" href="{% url 'likes:likes-list' %}">
         <object class="header-object" type="image/svg+xml" data="{% static 'icons/heart-fill.svg' %}">        
             <img src="{% static 'icons/heart-fill-header.svg' %}" alt="Account">
         </object>
     </a>
     {% else %}
-    <a class="col-1" href="{% url 'likes:list' %}">
+    <a class="col-1" href="{% url 'likes:likes-list' %}">
         <object class="header-object" type="image/svg+xml" data="{% static 'icons/heart-white.svg' %}">        
             <img src="{% static 'icons/heart-white.svg' %}" alt="Account">
         </object>
     </a>
     {% endif %}
     {% if cart_quantity %}
-    <a class="col-1" href="{% url 'cart:list' %}">
+    <a class="col-1" href="{% url 'cart:cart-list' %}">
         <object class="header-object" type="image/svg+xml" data="{% static 'icons/cart-fill.svg' %}">        
             <img src="{% static 'icons/cart-fill.svg' %}" alt="Account">
         </object>
         <span class="badge badge-secondary rounded-circle mb-1">{{ cart_quantity }}</span>
     </a>
     {% else %}
-    <a class="col-1" href="{% url 'cart:list' %}">
+    <a class="col-1" href="{% url 'cart:cart-list' %}">
         <object class="header-object" type="image/svg+xml" data="{% static 'icons/cart.svg' %}">        
             <img src="{% static 'icons/cart.svg' %}" alt="Account">
         </object>
@@ -71,7 +71,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav nav nav-justified w-100">
                         <li class="nav-item {% if products_active %}active{% endif %}">
-                            <a href="{% url 'products:list' %}" class="nav-link text-right text-md-center pr-3 pr-md-0">Products<span class="sr-only"></span></a>
+                            <a href="{% url 'products:product-list' %}" class="nav-link text-right text-md-center pr-3 pr-md-0">Products<span class="sr-only"></span></a>
                         </li>
                         <li class="nav-item {% if categories_active %}active{% endif %}">
                             <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">Categories<span class="sr-only">(current)</span></a>

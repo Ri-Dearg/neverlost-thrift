@@ -12,7 +12,7 @@
 <hr>
 <div class="row">
 <div class="col-12 col-md-6">
-<form id="payment-form" action="{% url 'checkout:order_create' %}" method="POST">
+<form id="payment-form" action="{% url 'checkout:order-create' %}" method="POST">
 {% csrf_token %}
 {{ order_form|crispy }}
     <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
@@ -46,7 +46,7 @@
     <div class="col text-center">
     <h4 class="text-dark">Your cart is empty...</h4>
         <h2 class="text-primary">Let's do some shopping</h2>
-        <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:list' %}">Shop</a>
+        <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:product-list' %}">Shop</a>
     </div>
     </div>
 {% endif %}

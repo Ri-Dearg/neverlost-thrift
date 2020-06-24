@@ -24,7 +24,7 @@ class OrderCreateView(CreateView):
         cart = self.request.session.get('cart', {})
         if not cart:
             messages.warning(self.request, "The cart is empty")
-            return redirect(reverse('products:list'))
+            return redirect(reverse('products:product-list'))
         return super().dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
