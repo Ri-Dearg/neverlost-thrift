@@ -4,6 +4,7 @@ from products.models import Product
 
 
 def get_cart(request):
+    """Creates a cart context in the session and adds it to all pages."""
     cart = request.session.get('cart')
     cart_items = []
     cart_total = 0

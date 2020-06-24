@@ -1,13 +1,16 @@
 from django.contrib import admin
+
 from .models import Order, OrderLineItem
 
 
 class OrderLineItemAdminInline(admin.TabularInline):
+    """Setting for model on admin page."""
     model = OrderLineItem
     readonly_fields = ('lineitem_total',)
 
 
 class OrderAdmin(admin.ModelAdmin):
+    """Setting for model on admin page."""
     inlines = (OrderLineItemAdminInline,)
 
     readonly_fields = ('order_number', 'date',
