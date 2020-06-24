@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include 'products/includes/stockdrop_splash.html' %}
+{% if stockdrops %}
+    {% include 'products/includes/stockdrop_splash.html' %}
+{% endif %}
 	<div class="row mx-0">
 		{% for product in products %}
 		{% include 'products/includes/product_box.html' %}

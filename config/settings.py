@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Postgres specific functions
+    'django.contrib.postgres',
     # Required for aullauth
     'django.contrib.sites',
     'allauth',
