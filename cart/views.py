@@ -6,14 +6,16 @@ from products.models import Product
 
 
 class CartListView(ListView):
+    """View that displays all the products in the cart."""
     model = Product
     context_object_name = 'products'
     template_name = 'cart/cart_list.html'
 
 
 def add_to_cart(request, item_id):
-    """ Add a quantity of the specified product to the shopping cart """
+    """Add a quantity of the specified product to the shopping cart."""
 
+    # Used for redirection
     next = request.GET.get('next', '')
 
     try:
@@ -31,15 +33,18 @@ def add_to_cart(request, item_id):
             messages.success(request, f'Added {product.name} to your cart')
 
         request.session['cart'] = cart
+
         return HttpResponseRedirect(next)
+
     except Exception as e:
-        messages.error(request, f'Error adding item: {e}')
+        messages.warning(request, f'Error adding item: {e}')
         return HttpResponseRedirect(next)
 
 
 def remove_from_cart(request, item_id):
-    """Remove the item from the shopping cart"""
+    """Remove the item from the shopping cart."""
 
+    # Used for redirection
     next = request.GET.get('next', '')
 
     try:
@@ -53,5 +58,5 @@ def remove_from_cart(request, item_id):
         return HttpResponseRedirect(next)
 
     except Exception as e:
-        messages.error(request, f'Error removing item: {e}')
+        messages.warning(request, f'Error removing item: {e}')
         return HttpResponseRedirect(next)

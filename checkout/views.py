@@ -11,6 +11,7 @@ import stripe
 
 
 class OrderCreateView(CreateView):
+    """Creates an Order on payment completion"""
     model = Order
     fields = ['full_name', 'email', 'phone_number',
               'street_address1', 'street_address2',
@@ -18,14 +19,18 @@ class OrderCreateView(CreateView):
               'county', ]
 
     def dispatch(self, *args, **kwargs):
+        """Checks for items in cart and redirects to the home page if there
+        aren't any."""
         cart = self.request.session.get('cart', {})
         if not cart:
-            messages.error(self.request, "The cart is empty")
+            messages.warning(self.request, "The cart is empty")
             return redirect(reverse('products:list'))
         return super().dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        """Adds all necessary information to the context"""
         context = super().get_context_data(**kwargs)
+        # Details necessary for Stripe payment processing
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
 
@@ -39,6 +44,8 @@ class OrderCreateView(CreateView):
             currency=settings.STRIPE_CURRENCY,
         )
 
+        # Gets the Product IDs from the cart, places them in a list and then
+        # filters the list for display.
         cart_dict = self.request.session.get('cart', {})
         cart_list = []
         for key in cart_dict:
