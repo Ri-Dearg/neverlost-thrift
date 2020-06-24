@@ -3,6 +3,11 @@ from django.test import TestCase
 
 class TestViews(TestCase):
 
+    def test_correct_template_used(self):
+        response = self.client.get('/cart/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'cart/cart_list.html')
+
     def test_confirm_add_to_cart(self):
         response = self.client.post('/cart/add/1/?next=/product/1/',
                                     {'quantity': '1'})
