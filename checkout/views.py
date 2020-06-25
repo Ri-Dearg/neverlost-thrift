@@ -1,10 +1,10 @@
 from django.shortcuts import redirect, reverse
 from django.contrib import messages
-from django.views.generic.edit import CreateView
+from django.views.generic import CreateView, DetailView
 from django.conf import settings
 
 from products.models import Product
-from .models import Order
+from .models import Order, OrderLineItem
 from cart.context_processors import get_cart
 
 import stripe
@@ -26,6 +26,40 @@ class OrderCreateView(CreateView):
             messages.warning(self.request, "The cart is empty")
             return redirect(reverse('products:product-list'))
         return super().dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        order = form.save()
+        cart = self.request.session.get('cart', {})
+        for item_id, item_data in cart.items():
+            try:
+                product = Product.objects.get(id=item_id)
+                order_line_item = OrderLineItem(
+                    order=order,
+                    product=product,
+                    quantity=item_data,
+                )
+                order_line_item.save()
+            except Product.DoesNotExist:
+                messages.error(self.request, (
+                    "One of the products in your cart wasn't found in our collection. \
+                    Please call us for assistance!")
+                )
+                order.delete()
+
+        self.request.session['save_info'] = 'save-info' in self.request.POST
+
+        if 'cart' in self.request.session:
+            del self.request.session['cart']
+
+        messages.success(self.request, f'Order successfully processed! \
+            Your order number is {order.order_number}. A confirmation \
+            email will be sent to {order.email}.')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.warning(self.request, 'There was a problem processing the order. \
+                Please double check your information.')
+        return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         """Adds all necessary information to the context"""
@@ -59,3 +93,8 @@ class OrderCreateView(CreateView):
         context['products'] = products
         context['order_form'] = order_form
         return context
+
+
+class OrderDetailView(DetailView):
+    model = Order
+    context_object_name = 'order'

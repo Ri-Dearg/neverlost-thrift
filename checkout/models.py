@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.db.models import Sum
+from django.shortcuts import reverse
 
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
@@ -34,11 +35,13 @@ class Order(models.Model):
     grand_total = models.DecimalField(
         max_digits=10, decimal_places=2, null=False, default=0)
 
-    def update_total(self):
+    def get_absolute_url(self):
+        return reverse('checkout:order-detail', args=[str(self.id)])
+
+    def _update_total(self):
         """Updates the grand total figure in an order."""
-        print('Hello')
-        self.order_total = self.lineitems.aggregate(Sum('lineitem_total'))['lineitem_total__sum'] or 0
-        print(self.order_total)
+        self.order_total = self.lineitems.aggregate(Sum(
+            'lineitem_total'))['lineitem_total__sum'] or 0
         self.grand_total = self.order_total
 
     def _generate_order_number(self):
@@ -47,7 +50,7 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         """Saves the order number"""
-        self.update_total()
+        self._update_total()
         if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)

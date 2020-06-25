@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row mx-0 pt-3">
+	<div class="col">
+		<h1 class="heading-font text-primary text-center">Order</h1>
+	</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-12 col-md-6">
+{{ order.full_name }}
+{{ order.order_number }}
+</div>
+<div class="col-12 col-md-6">
+
+{% if order %}
+    {% for item in order.lineitems.all %}
+        {% with item.product as product %}
+            {% include 'checkout/includes/checkout_product_display.html' %}
+        {% endwith %}
+    {% endfor %}
+
+    <div class="row mx-0">
+        <div class="col text-right">
+            <p class="col">Total: </p>
+        </div>
+        <div class="col-3 col-md-2 pl-0 text-right">
+            <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ cart_total }}</strong></p>
+        </div>
+    </div>
+</div>
+</div>
+{% else %}
+    <div class="row mx-0">
+    <div class="col text-center">
+    <h4 class="text-dark">Your cart is empty...</h4>
+        <h2 class="text-primary">Let's do some shopping</h2>
+        <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:product-list' %}">Shop</a>
+    </div>
+    </div>
+{% endif %}
+
+{% endblock %}
