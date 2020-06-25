@@ -33,14 +33,13 @@ class Order(models.Model):
         max_digits=10, decimal_places=2, null=False, default=0)
     grand_total = models.DecimalField(
         max_digits=10, decimal_places=2, null=False, default=0)
-    original_bag = models.TextField(null=False, blank=False, default='')
 
     def update_total(self):
         """Updates the grand total figure in an order."""
-        self.order_total = self.lineitems.aggregate(Sum(
-            'lineitem_total'))['lineitem_total__sum'] or 0
+        print('Hello')
+        self.order_total = self.lineitems.aggregate(Sum('lineitem_total'))['lineitem_total__sum'] or 0
+        print(self.order_total)
         self.grand_total = self.order_total
-        self.save()
 
     def _generate_order_number(self):
         """Generates a random order number"""
@@ -48,6 +47,7 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         """Saves the order number"""
+        self.update_total()
         if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
