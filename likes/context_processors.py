@@ -6,7 +6,8 @@ def get_likes(request):
     # otherwise creates a session
     if user.is_authenticated:
         likes = []
-        liked_products = user.userprofile.liked_products.all()
+        liked_products = user.userprofile.liked_products.order_by(
+            '-liked__datetime_added')
         for product in liked_products:
             likes.append(product.id)
     else:

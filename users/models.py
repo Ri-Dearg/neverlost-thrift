@@ -46,7 +46,8 @@ class UserProfile(models.Model):
                                            default='', blank=True)
 
     liked_products = models.ManyToManyField(Product, blank=True,
-                                            related_name='users')
+                                            related_name='users',
+                                            through='Liked')
 
     def _readable_field(self, *args, **kwargs):
         """Alters the field names to make them user friendly"""
@@ -66,3 +67,9 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Liked(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    datetime_added = models.DateTimeField(auto_now_add=True)
