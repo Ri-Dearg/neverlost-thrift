@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Postgres specific functions
+    'django.contrib.postgres',
     # Required for aullauth
     'django.contrib.sites',
     'allauth',
@@ -70,6 +72,7 @@ INSTALLED_APPS = [
     'compressor',
     # My apps
     'cart',
+    'checkout',
     'likes',
     'products',
     'users',
@@ -258,6 +261,11 @@ if not DEVELOPMENT:
     MEDIAFILES_LOCATION = 'media'
     DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
+
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_CURRENCY = 'eur'
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'neverlost@example.com'

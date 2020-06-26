@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% block content %}
 <div class="row mx-0 pt-3">
 	<div class="col">
@@ -21,7 +21,7 @@
     <div class="col text-center">
     <h4 class="text-dark">No likes...</h4>
         <h2 class="text-primary">Let's browse!</h2>
-        <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:list' %}">Shop</a>
+        <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:product-list' %}">Shop</a>
     </div>
     </div>
 {% endif %}

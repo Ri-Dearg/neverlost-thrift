@@ -8,7 +8,7 @@
 	</ol>
 	<div class="carousel-inner">
         {% for collection in stockdrops %}
-		<a class="carousel-item {% if forloop.first %}active{% endif %}" href="{% url 'products:stockdrop_detail' collection.id %}">
+		<a class="carousel-item {% if forloop.first %}active{% endif %}" href="{% url 'products:stockdrop-detail' collection.id %}">
 			<img src="{{ collection.image.url }}" class="d-block w-100" alt="{{ collection.date_added|date:'M' }} StockDrop">
 			<div class="dark-overlay carousel-caption w-100">
 				<h5 class="heading-font">{{ collection.date_added|date:'F' }} StockDrop</h5>

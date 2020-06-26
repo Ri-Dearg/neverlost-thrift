@@ -7,7 +7,7 @@ from crispy_forms.layout import Layout, Row, Column, Submit
 
 
 class StyledSignupForm(SignupForm):
-
+    """Custom styled signup form using crispy forms for alluth Signup"""
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

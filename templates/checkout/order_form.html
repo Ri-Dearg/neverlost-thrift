@@ -1,0 +1,61 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row mx-0 pt-3">
+	<div class="col">
+		<h1 class="heading-font text-primary text-center">Checkout</h1>
+	</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-12 col-md-6">
+<form id="payment-form" action="{% url 'checkout:order-create' %}" method="POST">
+{% csrf_token %}
+{{ order_form|crispy }}
+    <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+    <!-- A Stripe card element will go here -->
+    <div class="mb-3" id="card-element"></div>
+    <!-- Used to display form errors -->
+    <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+    <!-- Pass the client secret to the view so we can get the payment intent id -->
+    <input type="hidden" value="{{ client_secret }}" name="client_secret">
+      <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+<div class="col-12 col-md-6">
+
+{% if products %}
+    {% for product in products %}
+            {% include 'checkout/includes/checkout_product_display.html' %}
+    {% endfor %}
+    <div class="row mx-0">
+        <div class="col text-right">
+            <p class="col">Total: </p>
+        </div>
+        <div class="col-3 col-md-2 pl-0 text-right">
+            <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ cart_total }}</strong></p>
+        </div>
+    </div>
+</div>
+</div>
+{% else %}
+    <div class="row mx-0">
+    <div class="col text-center">
+    <h4 class="text-dark">Your cart is empty...</h4>
+        <h2 class="text-primary">Let's do some shopping</h2>
+        <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:product-list' %}">Shop</a>
+    </div>
+    </div>
+{% endif %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
+    {{ client_secret|json_script:"id_client_secret" }}
+    <script src="{% static 'checkout/js/stripeElements.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

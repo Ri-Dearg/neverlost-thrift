@@ -13,6 +13,11 @@ class TestViews(TestCase):
                                    email=email,
                                    password=password)
 
+    def test_correct_template_used(self):
+        response = self.client.get('/likes/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'likes/likes_list.html')
+
     def test_confirm_add_to_likes(self):
         response = self.client.post('/likes/add/1/?next=/product/1/')
         session = self.client.session

@@ -91,6 +91,8 @@ class Product(models.Model):
 
 
 class StockDrop(models.Model):
+    """Allows creation of a set splash image and a collection of
+    Products for it"""
     name = models.CharField(max_length=30, null=False)
     description = models.CharField(max_length=200, null=False)
     image = models.ImageField(upload_to='stock_drop')
