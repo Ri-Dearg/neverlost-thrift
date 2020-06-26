@@ -13,7 +13,7 @@ valid_order_dict = {
     }
 
 
-class TestProductViews(TestCase):
+class TestCheckoutViews(TestCase):
 
     def test_order_creation(self):
         self.client.post('/cart/add/1/?next=/products/1',
