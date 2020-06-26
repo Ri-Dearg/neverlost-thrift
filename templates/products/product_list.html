@@ -5,7 +5,7 @@
 <h1 class="text-center text-primary">{{ request.GET.query }}</h1>
 <hr>
 {% endif %}
-{% if stockdrops %}
+{% if not 'query' in request.GET %}
     {% include 'products/includes/stockdrop_splash.html' %}
 {% endif %}
 	<div class="row mx-0">

@@ -138,6 +138,8 @@ TEMPLATES = [
                 # Processor for the cart
                 'cart.context_processors.get_cart',
                 'likes.context_processors.get_likes',
+                'products.context_processors.get_stockdrops',
+                'products.context_processors.get_categories',
             ],
         },
     },
