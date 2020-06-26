@@ -23,7 +23,7 @@ class OrderCreateView(CreateView):
         aren't any."""
         cart = self.request.session.get('cart', {})
         if not cart:
-            messages.warning(self.request, "The cart is empty")
+            messages.warning(self.request, "The cart is empty.")
             return redirect(reverse('products:product-list'))
         return super().dispatch(*args, **kwargs)
 
@@ -57,8 +57,7 @@ class OrderCreateView(CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.warning(self.request, 'There was a problem processing the order. \
-                Please double check your information.')
+        messages.warning(self.request, 'There was a problem processing the order. Please double check your information.') # noqa E501
         return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
