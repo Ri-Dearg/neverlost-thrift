@@ -70,14 +70,27 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav nav nav-justified w-100">
-                        <li class="nav-item {% if products_active %}active{% endif %}">
-                            <a href="{% url 'products:product-list' %}" class="nav-link text-right text-md-center pr-3 pr-md-0">Products<span class="sr-only"></span></a>
+                        <li class="nav-item dropdown {% if stockdrops_active %}active{% endif %}">
+                            <a class="nav-link dropdown-toggle text-right text-md-center pr-3 pr-md-0" href="#" id="stockdropsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">StockDrops</a>
+                            <div class="dropdown-menu w-100 bg-primary" aria-labelledby="stockdropsDropdown">
+                                {% for collection in stockdrops %}
+                                <a class="dropdown-item text-white text-right text-md-center {% if collection.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}" href="{% url 'products:stockdrop-detail' collection.id %}">{{ collection.name }}</a>
+                                {% endfor %}
+                            </div>
                         </li>
-                        <li class="nav-item {% if categories_active %}active{% endif %}">
-                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">Categories<span class="sr-only">(current)</span></a>
+                        <li class="nav-item dropdown {% if categories_active %}active{% endif %}">
+                            <a class="nav-link dropdown-toggle text-right text-md-center pr-3 pr-md-0" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
+                            <div class="dropdown-menu w-100 bg-primary" aria-labelledby="categoriesDropdown">
+                                {% for category in categories %}
+                                <a class="dropdown-item text-white text-right text-md-center {% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}" href="{% url 'products:category-detail' category.id %}">{{ category.friendly_name }}</a>
+                                {% endfor %}
+                            </div>
+                        </li>
+                        <li class="nav-item {% if about_active %}active{% endif %}">
+                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">About<span class="sr-only">{% if about_active %}(current){% endif %}</span></a>
                         </li>
                         <li class="nav-item {% if contact_active %}active{% endif %}">
-                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">Contact<span class="sr-only"></span></a>
+                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">Contact<span class="sr-only">{% if contact_active %}(current){% endif %}</span></a>
                         </li>
                     </ul>
                 </div>
