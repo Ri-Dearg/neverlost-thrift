@@ -8,12 +8,8 @@
 <hr>
 {% if likes %}
 <div class="row mx-0">
-    {% for item_id in likes %}
-        {% for product in products %}
-            {% if item_id == product.id %}
+    {% for product in likes %}
                 {% include 'products/includes/product_box.html' %}
-            {% endif %}
-        {% endfor %}
     {% endfor %}
 	</div>
 {% else %}

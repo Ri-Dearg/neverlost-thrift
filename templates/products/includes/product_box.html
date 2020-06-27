@@ -12,7 +12,7 @@
                 {% else %}
                     {% include 'cart/includes/box_add_to_cart.html' %}
                 {% endif %}   
-                {% if product.id in likes %}
+                {% if product in likes %}
                     {% include 'likes/includes/box_remove_from_likes.html' %}
                 {% else %}
                     {% include 'likes/includes/box_add_to_likes.html' %}
