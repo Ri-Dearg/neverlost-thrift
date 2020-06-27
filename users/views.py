@@ -1,6 +1,10 @@
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView
 from django.contrib.auth.models import User
+
+from allauth.account.views import EmailView, AddEmailForm
+from allauth.account.utils import sync_user_email_addresses
 
 
 class UserProfileDetailView(LoginRequiredMixin, DetailView):
@@ -19,8 +23,25 @@ class UserProfileDetailView(LoginRequiredMixin, DetailView):
         # Makes field names user friendly
         field_names, values = profile._readable_field()
 
+        add_email_form = AddEmailForm
+
         context['field_names'] = field_names
         context['values'] = values
         context['user'] = user
         context['profile'] = profile
+        context['add_email_form'] = add_email_form
         return context
+
+
+class CustomEmailView(EmailView):
+    """Custom email editing view to maintain use on the profile page"""
+
+    template_name = 'users/user_detail.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        sync_user_email_addresses(request.user)
+        user_id = User.objects.get(pk=self.request.user.id).id
+
+        self.success_url = reverse_lazy('users:user-detail',
+                                        kwargs={'pk': user_id})
+        return super(EmailView, self).dispatch(request, *args, **kwargs)

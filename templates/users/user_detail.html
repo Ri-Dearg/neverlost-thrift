@@ -7,7 +7,7 @@
 <hr>
 <div class="row mx-0">
     <div class="col-12 col-md-6">
-        <p>Email: <strong>{{ user.email }}</strong></p>
+{% include 'users/includes/email_info.html' %}
     </div>
         <div class="cl-12 col-md-6">
         <button class="btn btn-danger">Change Password</button>
@@ -55,4 +55,21 @@
 	</div>
 </div>
 <hr>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+<script type="text/javascript">
+(function() {
+  var message = "Do you really want to remove the selected e-mail address?8";
+  var actions = document.getElementsByName('action_remove');
+  if (actions.length) {
+    actions[0].addEventListener("click", function(e) {
+      if (! confirm(message)) {
+        e.preventDefault();
+      }
+    });
+  }
+})();
+</script>
 {% endblock %}
