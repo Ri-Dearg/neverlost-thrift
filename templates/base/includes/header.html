@@ -26,40 +26,44 @@
             </object>
         </a>
         {% else %}
-        <a href="#" class="d-inline-block" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="&lt;a href=&quot;{% url 'account_login' %}?next={{ request.path }}&quot;&gt;Sign In | Join&lt;/a&gt;" data-content="And here's some amazing content. It's very engaging. Right?" tabindex="0">
+        <a href="#" class="d-inline-block" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="{% include 'users/includes/unauthenticated_popover_title.html' %}" data-content="Become part of the community. Support small, support local." tabindex="0">
             <object class="header-object" type="image/svg+xml" data="{% static 'icons/user.svg' %}">
                 <img src="{% static 'icons/user.svg' %}" alt="Account">
             </object>
         </a>
         {% endif %}
     </div>
+    <div class="col-1">
         {% if likes %}
-    <a class="col-1" href="{% url 'likes:likes-list' %}">
+    <a class="d-inline-block" href="#" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="{% include 'likes/includes/likes_popover_title.html' %}" data-content="{% include 'likes/includes/likes_popover_content.html' %}" tabindex="0">
         <object class="header-object" type="image/svg+xml" data="{% static 'icons/heart-fill.svg' %}">        
-            <img src="{% static 'icons/heart-fill-header.svg' %}" alt="Account">
+            <img src="{% static 'icons/heart-fill.svg' %}" alt="Account">
         </object>
     </a>
     {% else %}
-    <a class="col-1" href="{% url 'likes:likes-list' %}">
+    <a class="d-inline-block" href="#" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-title="No Likes yet." data-content="Checkout some wares first!" tabindex="0">
         <object class="header-object" type="image/svg+xml" data="{% static 'icons/heart-white.svg' %}">        
             <img src="{% static 'icons/heart-white.svg' %}" alt="Account">
         </object>
     </a>
     {% endif %}
+    </div>
+    <div class="col-1">
     {% if cart_quantity %}
-    <a class="col-1" href="{% url 'cart:cart-list' %}">
+    <a class="d-inline-block" href="#" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="{% include 'cart/includes/cart_popover_title.html' %}" data-content="{% include 'cart/includes/cart_popover_content.html' %}" tabindex="0">
         <object class="header-object" type="image/svg+xml" data="{% static 'icons/cart-fill.svg' %}">        
             <img src="{% static 'icons/cart-fill.svg' %}" alt="Account">
         </object>
         <span class="badge badge-secondary rounded-circle mb-1">{{ cart_quantity }}</span>
     </a>
     {% else %}
-    <a class="col-1" href="{% url 'cart:cart-list' %}">
+    <a class="d-inline-block" href="#" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-title="Empty Cart" data-content="Hope you find something you like!" tabindex="0">
         <object class="header-object" type="image/svg+xml" data="{% static 'icons/cart.svg' %}">        
             <img src="{% static 'icons/cart.svg' %}" alt="Account">
         </object>
     </a>
     {% endif %}
+    </div>
     </div>
     <div class="row bg-primary">
         <div class="col">
@@ -70,11 +74,15 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav nav nav-justified w-100">
+                        <li class="nav-item {% if all_products_active %}active{% endif %}">
+                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="{% url 'products:product-list' %}">All Products{% if all_products_active %}<span class="sr-only">(current)</span>{% endif %}</a>
+                        </li>
                         <li class="nav-item dropdown {% if stockdrops_active %}active{% endif %}">
                             <a class="nav-link dropdown-toggle text-right text-md-center pr-3 pr-md-0" href="#" id="stockdropsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">StockDrops</a>
                             <div class="dropdown-menu w-100 bg-primary" aria-labelledby="stockdropsDropdown">
                                 {% for collection in stockdrops %}
-                                <a class="dropdown-item text-white text-right text-md-center {% if collection.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}" href="{% url 'products:stockdrop-detail' collection.id %}">{{ collection.name }}</a>
+                                <a class="dropdown-item text-white text-right text-md-center {% if collection.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}" href="{% url 'products:stockdrop-detail' collection.id %}">{{ collection.name }}{% if collection.id|stringformat:'s' == collection_active|stringformat:'s' %}<span class="sr-only">(current)</span>{% endif %}</a>
+
                                 {% endfor %}
                             </div>
                         </li>
@@ -82,15 +90,15 @@
                             <a class="nav-link dropdown-toggle text-right text-md-center pr-3 pr-md-0" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
                             <div class="dropdown-menu w-100 bg-primary" aria-labelledby="categoriesDropdown">
                                 {% for category in categories %}
-                                <a class="dropdown-item text-white text-right text-md-center {% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}" href="{% url 'products:category-detail' category.id %}">{{ category.friendly_name }}</a>
+                                <a class="dropdown-item text-white text-right text-md-center {% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}" href="{% url 'products:category-detail' category.id %}">{{ category.friendly_name }}{% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}<span class="sr-only">(current)</span>{% endif %}</a>
                                 {% endfor %}
                             </div>
                         </li>
                         <li class="nav-item {% if about_active %}active{% endif %}">
-                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">About<span class="sr-only">{% if about_active %}(current){% endif %}</span></a>
+                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">About{% if about_active %}<span class="sr-only">(current)</span>{% endif %}</a>
                         </li>
                         <li class="nav-item {% if contact_active %}active{% endif %}">
-                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">Contact<span class="sr-only">{% if contact_active %}(current){% endif %}</span></a>
+                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">Contact{% if contact_active %}<span class="sr-only">(current)</span>{% endif %}</a>
                         </li>
                     </ul>
                 </div>
