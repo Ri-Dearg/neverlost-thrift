@@ -18,11 +18,12 @@ def get_likes(request):
         id_list = []
         session_likes = request.session.get('likes')
 
-        for key in session_likes:
-            id_list.append(key)
-        liked_products = Product.objects.filter(id__in=id_list)
+        if session_likes:
+            for key in session_likes:
+                id_list.append(key)
+            liked_products = Product.objects.filter(id__in=id_list)
 
-        for product in liked_products:
-            likes.append(product)
+            for product in liked_products:
+                likes.append(product)
 
     return {'likes': likes}

@@ -20,5 +20,10 @@ class TestContext(TestCase):
         self.client.force_login(test_user)
         response = self.client.get('/')
 
-        self.assertEqual(response.context['likes'], [3, 2, 1])
+        test_list = []
+        for product in test_user.userprofile.liked_products.all():
+            test_list.append(product)
+
+        self.assertEqual(response.context['likes'],
+                         test_list)
         self.assertTrue(len(test_user.userprofile.liked_products.all()) == 3)
