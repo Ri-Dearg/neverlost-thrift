@@ -4,6 +4,9 @@ import string
 from django.test import TestCase
 from django.contrib.auth.models import User
 
+from products.models import Product
+from users.models import Liked
+
 
 class TestUserProfile(TestCase):
 
@@ -20,12 +23,20 @@ class TestUserProfile(TestCase):
                                     email=email,
                                     password=password)
         user1.userprofile.default_shipping_name = 'Fake name'
+        user1.userprofile.liked_products.set([Product.objects.latest(
+            'date_added').id])
         user1.userprofile.save()
 
     def test_str(self):
         user1 = User.objects.latest('date_joined')
         user_string = str(user1.userprofile)
+
+        liked_table = Liked.objects.get(userprofile=user1.userprofile)
+        liked_string = str(liked_table)
+        product = Product.objects.latest('date_added')
         self.assertEqual((user_string), (user1.username))
+        self.assertEqual((liked_string),
+                         (f'{user1.username}, {product.name}, {liked_table.datetime_added}')) # noqa E501
 
     def test_readable_fields(self):
         user1 = User.objects.latest('date_joined')

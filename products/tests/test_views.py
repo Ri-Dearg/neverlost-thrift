@@ -55,6 +55,22 @@ class TestProductViews(TestCase):
         self.assertTrue(response.context['product'])
         self.assertTrue(response.context['categories_active'])
 
+    def test_render_stockdrop_with_context(self):
+        valid_stockdrop = StockDrop.objects.latest('date_added')
+        response = self.client.get(f'/stockdrop/{valid_stockdrop.id}/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'products/stockdrop_detail.html')
+        self.assertTrue(response.context['stockdrops_active'])
+        self.assertTrue(response.context['collection_active'])
+
+    def test_render_category_with_context(self):
+        valid_category = Category.objects.get(id=4)
+        response = self.client.get(f'/category/{valid_category.id}/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'products/category_detail.html')
+        self.assertTrue(response.context['categories_active'])
+        self.assertTrue(response.context['collection_active'])
+
     def test_render_404_not_found(self):
         response = self.client.get('/product/0/')
         self.assertEqual(response.status_code, 404)

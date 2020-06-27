@@ -70,9 +70,9 @@ class UserProfile(models.Model):
 
 
 class Liked(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    userprofile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     datetime_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user}, {self.product}, {self.atetime_added}'
+        return f'{self.userprofile.user.username}, {self.product.name}, {self.datetime_added}'
