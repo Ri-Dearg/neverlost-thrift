@@ -1,0 +1,7 @@
+{% load static %}
+&lt;div class=&quot;list-group border-0&quot;&gt;
+    {% for item in cart_items %}
+                &lt;a class=&quot;list-group-item border-0 mx-0 my-1 p-1 w-100&quot; href=&quot;{% url 'products:product-detail' item.product.id %}&quot;&gt;&lt;img src=&quot;{{ item.product.image.url }}&quot; class=&quot;img-fluid float-left pr-1 like-thumb&quot; alt=&quot;{{ item.product.name }}&quot;&gt;&lt;p class=&quot;d-inline-block pb-0 mb-0 float-right&quot;&gt;{{ item.product.name|truncatechars:'20' }} &lt;span class=&quot;text-dark&quot;&gt; | €{{ item.product.price }}&lt;/span&gt;&lt;/p&gt;&lt;/a&gt;
+{% endfor %}
+&lt;p class=&quot;list-group-item border-0 mx-0 my-1 p-1&quot;&gt;&lt;strong&gt;&lt;span class=&quot;float-left&quot;&gt;Total&lt;/span&gt;&lt;/strong&gt; &lt;span class=&quot;float-right&quot;&gt;| €{{ cart_total }}&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;

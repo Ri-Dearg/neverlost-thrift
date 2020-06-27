@@ -1,0 +1,6 @@
+{% load static %}
+&lt;div class=&quot;list-group border-0&quot;&gt;
+    {% for product in likes|slice:':3' %}
+                &lt;a class=&quot;list-group-item border-0 mx-0 my-1 p-1&quot; href=&quot;{% url 'products:product-detail' product.id %}&quot;&gt;&lt;img src=&quot;{{ product.image.url }}&quot; class=&quot;img-fluid float-left pr-1 like-thumb&quot; alt=&quot;{{ product.name }}&quot;&gt;&lt;p class=&quot;d-inline-block pb-0 mb-0&quot;&gt;{{ product.name|truncatechars:'20' }}&lt;/p&gt;&lt;/a&gt;
+    {% endfor %}
+&lt;/div&gt;

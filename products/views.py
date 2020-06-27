@@ -1,11 +1,10 @@
-from django.shortcuts import reverse
 from django.contrib import messages
 from django.views.generic import ListView, DetailView
 from django.contrib.postgres.search import (SearchQuery,
                                             SearchRank,
                                             SearchVector)
 
-from .models import Product, StockDrop
+from .models import Category, Product, StockDrop
 
 
 class ProductListView(ListView):
@@ -40,15 +39,11 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs):
         """Adds all necessary information to the context"""
         context = super().get_context_data(**kwargs)
-        # Displays stockdrops if there is no query
-        if not self.request.GET:
-            stockdrops = StockDrop.objects.filter(display=True)
-            context['stockdrops'] = stockdrops
-
         # Selects the active tab
-        products_active = True
+        if 'query' not in self.request.GET and self.request.path == '/':
+            all_products_active = True
+            context['all_products_active'] = all_products_active
 
-        context['products_active'] = products_active
         return context
 
 
@@ -60,7 +55,7 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         """Adds all necessary information to the context"""
         context = super().get_context_data(**kwargs)
-        # Selects the active tab       
+        # Selects the active tab
         categories_active = True
 
         context['categories_active'] = categories_active
@@ -71,3 +66,33 @@ class StockDropDetailView(DetailView):
     """Renders the home page with a Products List."""
     model = StockDrop
     context_object_name = 'stockdrop'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        key = self.request.path.split('/')[2]
+
+        # Selects the active tab
+        stockdrops_active = True
+
+        context['stockdrops_active'] = stockdrops_active
+        context['collection_active'] = key
+        return context
+
+
+class CategoryDetailView(DetailView):
+    """Renders the home page with a Products List."""
+    model = Category
+    context_object_name = 'category'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        key = self.request.path.split('/')[2]
+
+        # Selects the active tab
+        categories_active = True
+
+        context['categories_active'] = categories_active
+        context['collection_active'] = key
+        return context

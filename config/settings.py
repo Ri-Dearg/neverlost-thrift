@@ -138,6 +138,8 @@ TEMPLATES = [
                 # Processor for the cart
                 'cart.context_processors.get_cart',
                 'likes.context_processors.get_likes',
+                'products.context_processors.get_stockdrops',
+                'products.context_processors.get_categories',
             ],
         },
     },
@@ -233,6 +235,7 @@ USE_TZ = True
 # Static files are maintained in a base directory
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

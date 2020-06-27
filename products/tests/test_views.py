@@ -33,8 +33,6 @@ class TestProductViews(TestCase):
         response = self.client.get('/?query=')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'products/product_list.html')
-        with self.assertRaises(KeyError):
-            self.assertTrue(response.context['stockdrops'])
         self.assertQuerysetEqual(response.context['products'],
                                  Product.objects.all().order_by('-date_added'),
                                  transform=lambda x: x)
@@ -43,8 +41,8 @@ class TestProductViews(TestCase):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'products/product_list.html')
-        self.assertTrue(response.context['products_active'])
         self.assertTrue(response.context['stockdrops'])
+        self.assertTrue(response.context['categories'])
         self.assertQuerysetEqual(response.context['products'],
                                  Product.objects.all().order_by('-date_added'),
                                  transform=lambda x: x)
