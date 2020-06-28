@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, reverse
 from django.contrib import messages
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
 
@@ -18,6 +19,18 @@ class OrderDetailView(DetailView):
     context_object_name = 'order'
 
 
+class OrderListView(LoginRequiredMixin, ListView):
+    model = Order
+    context_object_name = 'orders'
+    ordering = ['-date']
+
+    def get_queryset(self):
+        userprofile_id = self.request.user.userprofile.id
+        Order.objects.filter(pk=userprofile_id)
+        return super().get_queryset()
+
+
+
 class OrderCreateView(CreateView):
     """Creates an Order on payment completion"""
     model = Order
@@ -26,6 +39,7 @@ class OrderCreateView(CreateView):
               'country', 'postcode']
 
     def get_form(self, form_class=None):
+        """Adds custom placeholders and widgets to form"""
         form = super().get_form(form_class)
         form.fields['full_name'].widget.attrs = {'placeholder': 'Full Name'}
         form.fields['email'].widget.attrs = {'placeholder': 'Email Address'}
@@ -40,12 +54,12 @@ class OrderCreateView(CreateView):
                 }),
             initial='+353')
         form.fields['street_address_1'].widget.attrs = {
-            'placeholder': 'Street Address 1'}
+            '123 Main St.': 'Street Address 1'}
         form.fields['street_address_2'].widget.attrs = {
             'placeholder': 'Street Address 2'}
         form.fields['town_or_city'].widget.attrs = {
             'placeholder': 'Town or City'}
-        form.fields['county'].widget.attrs = {'placeholder': 'County'}
+        form.fields['county'].widget.attrs = {'placeholder': 'Locality'}
         form.fields['country'].widget.attrs = {'placeholder': 'Country'}
         form.fields['postcode'].widget.attrs = {'placeholder': 'Postcode'}
         return form
@@ -87,8 +101,7 @@ class OrderCreateView(CreateView):
             order.user_profile = self.request.user.userprofile
             order.save()
         messages.success(self.request, f'Order successfully processed! \
-            Your order number is {order.order_number}. A confirmation \
-            email will be sent to {order.email}.')
+             A confirmation email will be sent to {order.email}.')
         return super().form_valid(form)
 
     def form_invalid(self, form):

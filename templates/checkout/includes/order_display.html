@@ -1,0 +1,26 @@
+{% load static %}
+<article class="row mx-0">
+    <div class="col-2 col-md-1">
+    <div class="row">
+    <div class="col">
+            <a href="{% url 'checkout:order-detail' order.id %}">
+                <img src="{{ order.lineitems.first.product.image.url }}" class="img-fluid cart-thumb" alt="{{ item.product.name }}">
+            </a>
+            </div>
+            </div>
+    </div>
+    <div class="col-10 col-md-11">
+    <div class="row">
+    <p class=" col-4 text-dark mb-1"><strong>Order Number</strong></p>
+    <p class="col-8 text-dark mb-1 d-none d-md-block"><a href="{% url 'checkout:order-detail' order.id %}">{{ order.order_number }}</a></p>
+    <p class="col-8 text-dark mb-1 d-md-none"><a href="{% url 'checkout:order-detail' order.id %}">{{ order.order_number|truncatechars:'15' }}</a></p>
+    <p class=" col-4 text-dark mb-1"><strong>Date:</strong></p>
+    <p class="col-8 text-dark mb-1">{{ order.date }}</p>
+    <p class=" col-4 text-dark mb-1"><strong>No. of Items:</strong></p>
+    <p class="col-8 text-dark mb-1">{{ order.lineitems.count }}</p>
+    <p class=" col-4 text-dark mb-1"><strong>Total:</strong></p>
+    <p class="col-8 text-dark mb-1">€{{ order.grand_total }}</p>
+    </div>
+    </div>
+</article>
+<hr>

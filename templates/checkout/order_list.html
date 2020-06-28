@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="row mx-0 pt-3">
+	<div class="col">
+		<h1 class="heading-font text-primary text-center">Your Orders</h1>
+	</div>
+</div>
+<hr>
+{% if orders %}
+    {% for order in orders %}
+        {% include 'checkout/includes/order_display.html' %}
+    {% endfor %}
+{% else %}
+    <article class="row mx-0">
+    <div class="col text-center">
+    <h4 class="text-dark">No order here!</h4>
+        <h2 class="text-primary">See what's in stock:</h2>
+        <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:product-list' %}">Shop</a>
+    </div>
+    </article>
+{% endif %}
+{% endblock %}
