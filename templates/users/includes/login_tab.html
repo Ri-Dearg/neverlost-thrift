@@ -26,11 +26,6 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 <form class="login" method="POST" action="{% url 'account_login' %}?next={{ request.path }}">
 <!-- https://stackoverflow.com/questions/53320056/django-allauth-display-all-error-messages -->
-{% if request.path == account_login_url %}
-{% for key, value in form.errors.items %}
-    {{ value }}
-{% endfor %}
-{% endif %}
   {% csrf_token %}
   {{ allauth_login_form|crispy }}
   {% if redirect_field_value %}

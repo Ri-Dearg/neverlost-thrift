@@ -35,13 +35,12 @@
 	<h5 class="col-12 heading-font text-primary">{% trans "Add E-mail Address" %}</h5>
 <div class="col-12">
 	<form method="post" action="{% url 'users:user-email' %}" class="add_email">
+    		{% csrf_token %}
     {% if request.path == url_add_email %}
-    {% for key, value in form.errors.items %}
-    {{ value }}
-{% endfor %}
-{% endif %}
-		{% csrf_token %}
+        {{ form|crispy }}
+        {% else %}
 		{{ add_email_form|crispy }}
+{% endif %}
 		<button class="btn btn-sm btn-primary" name="action_add" type="submit">{% trans "Add E-mail" %}</button>
 	</form>
     </div>

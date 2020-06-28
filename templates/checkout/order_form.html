@@ -10,22 +10,23 @@
 	</div>
 </div>
 <hr>
-<div class="row">
-<div class="col-12 col-md-6">
+<div class="row mx-0">
+<div class="col-12 col-md-6 order-2 order-md-1">
 <form id="payment-form" action="{% url 'checkout:order-create' %}" method="POST">
 {% csrf_token %}
 {{ order_form|crispy }}
-    <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+    <legend class="fieldset-label h6 text-dark px-2 w-auto">Payment*</legend>
     <!-- A Stripe card element will go here -->
-    <div class="mb-3" id="card-element"></div>
+    <div class="mb-3 form-control" id="card-element"></div>
     <!-- Used to display form errors -->
     <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
     <!-- Pass the client secret to the view so we can get the payment intent id -->
     <input type="hidden" value="{{ client_secret }}" name="client_secret">
       <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<hr class="d-md-none my-4">
 </div>
-<div class="col-12 col-md-6">
+<div class="col-12 col-md-6 order-1 order-md-2">
 
 {% if products %}
     {% for product in products %}

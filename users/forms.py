@@ -27,7 +27,7 @@ class StyledSignupForm(SignupForm):
                 Column('username')
             ),
             Row(
-                Column('email', css_class='hjdsbfjsfbsjh     col-md-6'),
+                Column('email', css_class='col-md-6'),
                 Column('email2', css_class='col-md-6')
             ),
             Row(
