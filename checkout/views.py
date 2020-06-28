@@ -3,6 +3,9 @@ from django.contrib import messages
 from django.views.generic import CreateView, DetailView
 from django.conf import settings
 
+
+from phonenumber_field import formfields, widgets
+
 from products.models import Product
 from .models import Order, OrderLineItem
 from cart.context_processors import get_cart
@@ -10,13 +13,42 @@ from cart.context_processors import get_cart
 import stripe
 
 
+class OrderDetailView(DetailView):
+    model = Order
+    context_object_name = 'order'
+
+
 class OrderCreateView(CreateView):
     """Creates an Order on payment completion"""
     model = Order
-    fields = ['full_name', 'email', 'phone_number',
-              'street_address1', 'street_address2',
-              'town_or_city', 'postcode', 'country',
-              'county', ]
+    fields = ['full_name', 'email', 'phone_number', 'street_address_1',
+              'street_address_2', 'town_or_city', 'county',
+              'country', 'postcode']
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['full_name'].widget.attrs = {'placeholder': 'Full Name'}
+        form.fields['email'].widget.attrs = {'placeholder': 'Email Address'}
+        form.fields['phone_number'] = formfields.PhoneNumberField(
+            label='Phone Number',
+            widget=widgets.PhoneNumberPrefixWidget(
+                attrs={
+                    'type': 'tel',
+                    'placeholder': 'xxxxxxxxx',
+                    'class': 'custom-select',
+                    'pattern': '[0-9]+',
+                }),
+            initial='+353')
+        form.fields['street_address_1'].widget.attrs = {
+            'placeholder': 'Street Address 1'}
+        form.fields['street_address_2'].widget.attrs = {
+            'placeholder': 'Street Address 2'}
+        form.fields['town_or_city'].widget.attrs = {
+            'placeholder': 'Town or City'}
+        form.fields['county'].widget.attrs = {'placeholder': 'County'}
+        form.fields['country'].widget.attrs = {'placeholder': 'Country'}
+        form.fields['postcode'].widget.attrs = {'placeholder': 'Postcode'}
+        return form
 
     def dispatch(self, *args, **kwargs):
         """Checks for items in cart and redirects to the home page if there
@@ -51,6 +83,9 @@ class OrderCreateView(CreateView):
         if 'cart' in self.request.session:
             del self.request.session['cart']
 
+        if self.request.user.is_authenticated:
+            order.user_profile = self.request.user.userprofile
+            order.save()
         messages.success(self.request, f'Order successfully processed! \
             Your order number is {order.order_number}. A confirmation \
             email will be sent to {order.email}.')
@@ -92,8 +127,3 @@ class OrderCreateView(CreateView):
         context['products'] = products
         context['order_form'] = order_form
         return context
-
-
-class OrderDetailView(DetailView):
-    model = Order
-    context_object_name = 'order'

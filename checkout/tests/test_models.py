@@ -5,10 +5,11 @@ from checkout.models import Order
 valid_order_dict = {
         'full_name': 'Jeremy Fisher',
         'email': 'test@test.com',
-        'phone_number': '+353890000000',
+        'phone_number_0': '+353',
+        'phone_number_1': '891111111',
         'country': 'IE',
         'town_or_city': 'Location',
-        'street_address1': 'location at place',
+        'street_address_1': 'location at place',
     }
 
 
