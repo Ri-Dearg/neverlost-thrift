@@ -44,20 +44,23 @@
 </div>
 
     {% block postloadjs %}
-    <script src="{% static 'likes/script.js' %}"></script>
+    <script src="{% static 'base/script.js' %}"></script>
     <script>
-    var liked = "{% static 'icons/heart-fill.svg' %}"
-    var unliked = "{% static 'icons/heart.svg' %}"
-    {% if '/product/' in request.path %}
-    var carted = "{% static 'icons/cart-check-white.svg' %}"
-    var uncarted = "{% static 'icons/cart-plus-white.svg' %}"
-    {% else %}
-    var carted = "{% static 'icons/cart-check.svg' %}"
-    var uncarted = "{% static 'icons/cart-plus.svg' %}"
-    {% endif %}
-    var likeUpdate = "{% url 'likes:likes-update' %}"
+        hrefStop()
 
-    buttonToggle(liked, unliked, carted, uncarted, likeUpdate)
+        var liked = "{% static 'icons/heart-fill.svg' %}"
+        var unliked = "{% static 'icons/heart.svg' %}"
+        {% if '/product/' in request.path %}
+        var carted = "{% static 'icons/cart-check-white.svg' %}"
+        var uncarted = "{% static 'icons/cart-plus-white.svg' %}"
+        {% else %}
+        var carted = "{% static 'icons/cart-check.svg' %}"
+        var uncarted = "{% static 'icons/cart-plus.svg' %}"
+        {% endif %}
+        var likeUpdate = "{% url 'likes:likes-update' %}"
+        var cartUpdate = "{% url 'cart:cart-update' %}"
+
+        buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate)
 
         $(function () {
             $('[data-toggle="popover"]').popover({
@@ -67,14 +70,12 @@
         $('.popover-dismiss').popover({
             trigger: 'focus'
             })
-	{% if messages %}
 
-    $(document).ready(function(){
+        {% if messages %}
         {% for message in messages %}
         $('.toast').toast('show')
         {% endfor %}
-        })
-    {% endif %}
+        {% endif %}
     </script>
     {% endblock %}
 </body>

@@ -64,11 +64,24 @@ def likes_toggle(request):
 
 def update_likes(request):
     likes = []
-    
+
     user = request.user
-    liked_products = user.userprofile.liked_products.all()
-    for product in liked_products:
-        likes.append(product)
+    if user.is_authenticated:
+        liked_products = user.userprofile.liked_products.order_by(
+            '-liked__datetime_added')
+        for product in liked_products:
+            likes.append(product)
+    else:
+        id_list = []
+        session_likes = request.session.get('likes')
+
+        if session_likes:
+            for key in session_likes:
+                id_list.append(key)
+            liked_products = Product.objects.filter(id__in=id_list)
+
+            for product in liked_products:
+                likes.append(product)
 
     RequestContext(request).push({'likes': likes})
     return render(request, 'likes/includes/likes_popover.html')

@@ -1,3 +1,7 @@
+function hrefStop() {
+    $('.href-stop').on('click', function(e) {e.preventDefault(); return true;});
+}
+
 function toastMessage(tag, message) {
     titleTag = tag.charAt(0).toUpperCase() + tag.slice(1)
     $('.toast-wrapper').html(
@@ -14,7 +18,23 @@ function toastMessage(tag, message) {
  * to indicate liked/not liked.
  * @param {string} id - a unique id for that story which identifies the correct like button
  */
-function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg, likeUpdate) {
+function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg, likeUpdate, cartUpdate) {
+
+    function svgSwitch(btn, id, svgUrl) {
+        $(`#${btn}-svg-${id}`).attr('data', svgUrl);
+        $(`#${btn}-img-${id}`).attr('src', svgUrl);
+    }
+
+    function popoverUpdate(btn, update) {
+        $(`#${btn}-popover`).popover('dispose');
+        $(`#${btn}-popover-container`).fadeTo("fast", 0, function() {
+            $(`#${btn}-popover-container`).html('').load(update);
+        }).fadeTo(1500, 1, function() {
+        $(`#${btn}-popover`).popover()
+        hrefStop()
+        });
+    }
+
 
     /**
      * Runs the form to like the post through an ajax function.
@@ -31,46 +51,40 @@ function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg, likeUpdate) 
                 if (data.content.result === 'liked') {
                 //     var unlikeAudio = new Audio('/static/audio/pop-cork.wav');
                 //     unlikeAudio.play();
-                    $(`#like-svg-${id}`).attr('data', likedSvg);
-                    $(`#like-img-${id}`).attr('src', likedSvg);
+                    svgSwitch('like', id, likedSvg)
                     toastMessage(data.content.tag, data.content.message);
-                    $("#like-popover").popover('dispose');
-                    $('#like-popover-container').fadeTo("fast", 0, function() {
-                        $('#like-popover-container').html('').load(likeUpdate);
-                    }).fadeTo(1000, 1, function() {
-                    $("#like-popover").popover()
-                });
+                    popoverUpdate('like', likeUpdate)
                 }
                 // Otherwise it likes it and plays the corresponding sound
                 else if (data.content.result === 'unliked') {
                     // var likeAudio = new Audio('/static/audio/blop.wav');
                     // likeAudio.play();
-                    $(`#like-svg-${id}`).attr('data', unlikedSvg);
-                    $(`#like-img-${id}`).attr('src', unlikedSvg);
+                    svgSwitch('like', id, unlikedSvg)
                     toastMessage(data.content.tag, data.content.message)
+                    popoverUpdate('like', likeUpdate)
                 }
                 else if (data.content.result === 'carted') {
                     // var likeAudio = new Audio('/static/audio/blop.wav');
                     // likeAudio.play();
-                    $(`#cart-svg-${id}`).attr('data', cartedSvg);
-                    $(`#cart-img-${id}`).attr('src', cartedSvg);
+                    svgSwitch('cart', id, cartedSvg)
                     toastMessage(data.content.tag, data.content.message)
-                    if ($(`#btn-${id}`) != null) {
+                    popoverUpdate('cart', cartUpdate)
+                    if ($(`#btn-${id}`).length > 0) {
                         $(`#btn-${id}`).contents().last()[0].textContent='  Remove from Cart';
                     } 
                 }
                 else if (data.content.result === 'uncarted') {
                     // var likeAudio = new Audio('/static/audio/blop.wav');
                     // likeAudio.play();
-                    $(`#cart-svg-${id}`).attr('data', uncartedSvg);
-                    $(`#cart-img-${id}`).attr('src', uncartedSvg);
-                    if ($(`#btn-${id}`) != null) {
+                    svgSwitch('cart', id, uncartedSvg)
+                    toastMessage(data.content.tag, data.content.message)
+                    popoverUpdate('cart', cartUpdate)
+                    if ($(`#btn-${id}`).length > 0) {
                         $(`#btn-${id}`).contents().last()[0].textContent='  Add to Cart';
                     }
                     if (window.location.pathname == "/cart/") {
                         $(`#cart-item-${id}`).fadeOut("slow")
                     }
-                    toastMessage(data.content.tag, data.content.message)
                 }
                 else {
                     toastMessage(data.content.tag, data.content.message)

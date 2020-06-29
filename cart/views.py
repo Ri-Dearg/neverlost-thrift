@@ -1,6 +1,6 @@
-from django.shortcuts import get_object_or_404, HttpResponseRedirect
-from django.contrib import messages
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
+from django.template import RequestContext
 
 from django_ajax.decorators import ajax
 
@@ -48,3 +48,27 @@ def cart_toggle(request):
             message = f'Error adding item to cart: {e}'
 
         return {'message': message, 'result': result, 'tag': tag}
+
+
+def update_cart(request):
+    cart = request.session.get('cart')
+    cart_items = []
+    cart_total = 0
+    cart_quantity = 0
+
+    if cart:
+        cart_quantity += len(cart)
+        for item_id, item_data in cart.items():
+            product = get_object_or_404(Product, pk=item_id)
+            cart_total += item_data * product.price
+            cart_items.append({
+                'item_id': item_id,
+                'quantity': item_data,
+                'product': product,
+            })
+
+    RequestContext(request).push({'cart': cart,
+                                  'cart_quantity': cart_quantity,
+                                  'cart_items': cart_items,
+                                  'cart_total': cart_total})
+    return render(request, 'cart/includes/cart_popover.html')

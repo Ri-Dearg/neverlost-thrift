@@ -4,9 +4,16 @@
     <input type="hidden" name="item-id" value="{{ product.id }}">
     <input type="hidden" name="quantity" value="1">
     <button type="submit" id="btn-{{ product.id }}" class="btn-lg btn-dark w-100">
-        <object class="detail-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" {% if product.id|stringformat:'s' in cart %}data="{% static 'icons/cart-check-white.svg' %}"{% else %}data="{% static 'icons/cart-plus-white.svg' %}"{% endif %}>
-            <img id="cart-img-{{ product.id }}" {% if product.id|stringformat:'s' in cart %}src="{% static 'icons/cart-check-white.svg' %}"{% else %}src="{% static 'icons/cart-plus-white.svg' %}"{% endif %} alt="Add to Cart">
+    {% if product.id|stringformat:'s' in cart %}
+        <object class="detail-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-check-white.svg' %}">
+            <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-check-white.svg' %}" alt="Add to Cart">
         </object>
-    {% if product.id|stringformat:'s' in cart %}&nbsp;&nbsp;Remove from Cart{% else %}&nbsp;&nbsp;Add to Cart{% endif %}
+        &nbsp;&nbsp;Remove from Cart
+        {% else %}
+                <object class="detail-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-plus-white.svg' %}">
+            <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-plus-white.svg' %}" alt="Add to Cart">
+        </object>
+        &nbsp;&nbsp;Add to Cart
+        {% endif %}
     </button>
 </form>   

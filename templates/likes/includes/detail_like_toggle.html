@@ -3,8 +3,14 @@
 	{% csrf_token %}
     <input type="hidden" name="item-id" value="{{ product.id }}">
 	<button type="submit" class="btn btn-link p-0 h-100 w-100">
-        <object class="detail-object" id="like-svg-{{ product.id }}" type="image/svg+xml"{% if product in likes %}data="{% static 'icons/heart-fill.svg' %}"{% else %}data="{% static 'icons/heart.svg' %}"{% endif %}>
-            <img id="like-img-{{ product.id }}" {% if product in likes %}src="{% static 'icons/heart-fill.svg' %}"{% else %}src="{% static 'icons/heart.svg' %}"{% endif %} alt="Like">
+            {% if product in likes %}
+        <object class="detail-object" id="like-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/heart-fill.svg' %}">
+            <img id="like-img-{{ product.id }}" src="{% static 'icons/heart-fill.svg' %}" alt="Like">
         </object>
+    {% else %}
+        <object class="detail-object" id="like-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/heart.svg' %}">
+            <img id="like-img-{{ product.id }}" src="{% static 'icons/heart.svg' %}" alt="Unlike">
+        </object>
+    {% endif %} 
     </button>
 </form>

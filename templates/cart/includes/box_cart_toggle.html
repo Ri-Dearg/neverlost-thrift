@@ -4,8 +4,14 @@
     <input type="hidden" name="item-id" value="{{ product.id }}">
 	<input type="hidden" name="quantity" value="1">
 	<button type="submit" class="btn btn-link p-0 h-100 w-100">
-        <object class="box-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" {% if product.id|stringformat:'s' in cart %}data="{% static 'icons/cart-check.svg' %}"{% else %}data="{% static 'icons/cart-plus.svg' %}"{% endif %}>
-            <img id="cart-img-{{ product.id }}" {% if product.id|stringformat:'s' in cart %}src="{% static 'icons/cart-check.svg' %}"{% else %}src="{% static 'icons/cart-plus.svg' %}"{% endif %} alt="Add to Cart">
+    {% if product.id|stringformat:'s' in cart %}
+        <object class="box-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-check.svg' %}">
+            <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-check.svg' %}" alt="Add to Cart">
         </object>
+    {% else %}
+            <object class="box-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-plus.svg' %}">
+            <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart">
+        </object>
+    {% endif %}
     </button>
 </form>
