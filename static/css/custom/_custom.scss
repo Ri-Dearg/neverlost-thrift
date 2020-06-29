@@ -109,3 +109,17 @@ z-index: 10;
 .invalid-feedback {
     display: block;
 }
+
+.preloader {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    z-index: 1020;
+    padding-bottom: 153px 
+}
+
+.spinner-border{
+    width: 5rem;
+    height: 5rem;
+}

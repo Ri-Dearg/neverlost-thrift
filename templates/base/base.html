@@ -27,6 +27,12 @@
 
 <body class="body-mods">
 
+<div class="preloader justify-content-center align-items-center bg-dark">
+  <div class="spinner-border text-secondary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
     {% include 'base/includes/header.html' %}
 
     <section class="container shadow bg-white p-0 pb-4 min-vh-100">
@@ -46,6 +52,10 @@
     {% block postloadjs %}
     <script src="{% static 'base/script.js' %}"></script>
     <script>
+    // Runs the fade for the preloader once content has loaded.
+        window.onload = function(){
+            window.document.body.onload = fadePreload(); 
+        };        
         hrefStop()
 
         var liked = "{% static 'icons/heart-fill.svg' %}"

@@ -1,3 +1,8 @@
+function fadePreload() {
+    $('.preloader').fadeOut(1200);
+}
+
+
 function hrefStop() {
     $('.href-stop').on('click', function(e) {e.preventDefault(); return true;});
 }
