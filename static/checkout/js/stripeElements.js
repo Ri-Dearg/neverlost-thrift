@@ -1,4 +1,3 @@
-
 var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var clientSecret = $('#id_client_secret').text().slice(1, -1);
 var stripe = Stripe(stripePublicKey);
@@ -26,9 +25,6 @@ card.addEventListener('change', function (event) {
     var errorDiv = document.getElementById('card-errors');
     if (event.error) {
         var html = `
-            <span class="icon" role="alert">
-                <i class="fas fa-times"></i>
-            </span>
             <span>${event.error.message}</span>
         `;
         $(errorDiv).html(html);
@@ -42,7 +38,8 @@ var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(ev) {
     ev.preventDefault();
     card.update({ 'disabled': true});
-    $('#submit-button').attr('disabled', true);
+    $('#payment-submit').attr('disabled', true);
+    $('.preloader').fadeTo('fast', 1)
     stripe.confirmCardPayment(clientSecret, {
         payment_method: {
             card: card,
@@ -51,13 +48,12 @@ form.addEventListener('submit', function(ev) {
         if (result.error) {
             var errorDiv = document.getElementById('card-errors');
             var html = `
-                <span class="icon" role="alert">
-                <i class="fas fa-times"></i>
-                </span>
                 <span>${result.error.message}</span>`;
             $(errorDiv).html(html);
+            $('.preloader').fadeToggle('fast')
             card.update({ 'disabled': false});
-            $('#submit-button').attr('disabled', false);
+            $('#payment-submit').attr('disabled', false);
+            $('.preloader').fadeTo('fast', 0)
         } else {
             if (result.paymentIntent.status === 'succeeded') {
                 form.submit();

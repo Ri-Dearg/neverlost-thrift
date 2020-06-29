@@ -32,9 +32,9 @@ function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg, likeUpdate, 
 
     function popoverUpdate(btn, update) {
         $(`#${btn}-popover`).popover('dispose');
-        $(`#${btn}-popover-container`).fadeTo("fast", 0, function() {
+        $(`#${btn}-popover-container`).fadeTo(100, 0, function() {
             $(`#${btn}-popover-container`).html('').load(update);
-        }).fadeTo(1500, 1, function() {
+        }).fadeTo(100, 1, function() {
         $(`#${btn}-popover`).popover()
         hrefStop()
         });
