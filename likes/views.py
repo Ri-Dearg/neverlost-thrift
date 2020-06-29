@@ -1,5 +1,4 @@
-from django.shortcuts import get_object_or_404, HttpResponseRedirect
-from django.contrib import messages
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 
 from django_ajax.decorators import ajax
@@ -53,10 +52,9 @@ def likes_toggle(request):
                     tag = 'success'
                     message = f'{product.name} liked!'
                     result = 'liked'
-            return {'message': message, 'result': result, 'tag': tag}
 
         except Exception as e:
             result = 'error'
             tag = 'warning'
             message = f'Error liking item: {e}'
-            return {'message': message, 'result': result, 'tag': tag}
+        return {'message': message, 'result': result, 'tag': tag}

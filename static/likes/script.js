@@ -14,16 +14,16 @@ function toastMessage(tag, message) {
  * to indicate liked/not liked.
  * @param {string} id - a unique id for that story which identifies the correct like button
  */
-function likeUnlike(likeUrl, likedSvg, unlikedSvg) {
+function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg) {
 
     /**
      * Runs the form to like the post through an ajax function.
      */    
-    function like(id, serializedData, likeUrl, likedSvg, unlikedSvg) {
+    function like(id, serializedData, formUrl, likedSvg, unlikedSvg) {
         // Sends form to flask view
         $.ajax({
             method: 'POST',
-            url: likeUrl,
+            url: formUrl,
             data: serializedData,
             datatype: 'json',
             success: function (data) {
@@ -43,17 +43,43 @@ function likeUnlike(likeUrl, likedSvg, unlikedSvg) {
                     $(`#like-img-${id}`).attr('src', unlikedSvg);
                     toastMessage(data.content.tag, data.content.message)
                 }
+                else if (data.content.result === 'carted') {
+                    // var likeAudio = new Audio('/static/audio/blop.wav');
+                    // likeAudio.play();
+                    $(`#cart-svg-${id}`).attr('data', cartedSvg);
+                    $(`#cart-img-${id}`).attr('src', cartedSvg);
+                    toastMessage(data.content.tag, data.content.message)
+                    if ($(`#btn-${id}`) != undefined) {
+                        $(`#btn-${id}`).contents().last()[0].textContent='  Remove from Cart';
+                    } 
+                }
+                else if (data.content.result === 'uncarted') {
+                    // var likeAudio = new Audio('/static/audio/blop.wav');
+                    // likeAudio.play();
+                    $(`#cart-svg-${id}`).attr('data', uncartedSvg);
+                    $(`#cart-img-${id}`).attr('src', uncartedSvg);
+                    if ($(`#btn-${id}`) == null) {
+                        $(`#btn-${id}`).contents().last()[0].textContent='  Add to Cart';
+                    }
+                    if (window.location.pathname == "/cart/") {
+                        console.log(id)
+                        $(`#cart-item-${id}`).fadeOut("slow")
+                    }
+                    toastMessage(data.content.tag, data.content.message)
+                }
                 else {
                     toastMessage(data.content.tag, data.content.message)
                 }
             }
         });
     }
-        $(`.like-form`).on('submit', function(ev) {
+        $(`.toggle-form`).on('submit', function(ev) {
         // stops form from sending
         ev.preventDefault();
         var id = this.id.slice(3);
+        console.log(id)
         var serializedData = $(this).serialize()
-        like(id, serializedData, likeUrl, likedSvg, unlikedSvg)
+        var formUrl = this.action
+        like(id, serializedData, formUrl, likedSvg, unlikedSvg, cartedSvg, uncartedSvg)
         })
 }

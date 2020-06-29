@@ -46,8 +46,17 @@
     {% block postloadjs %}
     <script src="{% static 'likes/script.js' %}"></script>
     <script>
+    var liked = "{% static 'icons/heart-fill.svg' %}"
+    var unliked = "{% static 'icons/heart.svg' %}"
+    {% if '/product/' in request.path %}
+    var carted = "{% static 'icons/cart-check-white.svg' %}"
+    var uncarted = "{% static 'icons/cart-plus-white.svg' %}"
+    {% else %}
+    var carted = "{% static 'icons/cart-check.svg' %}"
+    var uncarted = "{% static 'icons/cart-plus.svg' %}"
+    {% endif %}
 
-    likeUnlike("{% url 'likes:likes-toggle' %}", "{% static 'icons/heart-fill.svg' %}", "{% static 'icons/heart.svg' %}")
+    buttonToggle(liked, unliked, carted, uncarted)
 
         $(function () {
             $('[data-toggle="popover"]').popover({

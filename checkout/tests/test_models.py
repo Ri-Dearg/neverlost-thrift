@@ -16,8 +16,9 @@ valid_order_dict = {
 class TestCheckoutModels(TestCase):
 
     def test_order_and_lineitem_string(self):
-        self.client.post('/cart/add/1/?next=/products/1',
-                         {'quantity': '1'})
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 1, 'quantity': '1'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         global valid_order_dict
         self.client.post('/checkout/', valid_order_dict)

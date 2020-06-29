@@ -17,10 +17,12 @@ valid_order_dict = {
 class TestCheckoutViews(TestCase):
 
     def test_order_creation(self):
-        self.client.post('/cart/add/1/?next=/products/1',
-                         {'quantity': '1'})
-        self.client.post('/cart/add/2/?next=/products/2',
-                         {'quantity': '2'})
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 1, 'quantity': '1'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 2, 'quantity': '2'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         self.client.get('/checkout/')
         self.assertTemplateUsed('order_form.html')
@@ -34,15 +36,15 @@ class TestCheckoutViews(TestCase):
 
     def test_invalid_form_message(self):
 
-        self.client.post('/cart/add/1/?next=/products/1',
-                         {'quantity': '1'})
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 1, 'quantity': '1'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         response = self.client.post('/checkout/', {'full_name': 'whatever'})
 
         messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(len(messages), 2)
-        self.assertEqual(str(messages[0]), 'Added A product to your cart')
-        self.assertEqual(str(messages[1]), 'There was a problem processing the order. Please double check your information.') # noqa E501
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'There was a problem processing the order. Please double check your information.') # noqa E501
 
     def test_empty_cart_returns_redirect(self):
         response = self.client.get('/checkout/')
@@ -53,8 +55,9 @@ class TestCheckoutViews(TestCase):
         self.assertRedirects(response, '/')
 
     def test_order_error_on_adding_invalid_item(self):
-        self.client.post('/cart/add/1/?next=/products/1',
-                         {'quantity': '1'})
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 1, 'quantity': '1'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         session = self.client.session
         session['cart'] = {'1': 1, '0': 0}

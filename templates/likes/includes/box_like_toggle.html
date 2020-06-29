@@ -1,5 +1,5 @@
 {% load static %}
-<form class="col-2 text-center px-0 like-form" id="lf-{{ product.id }}" action="{% url 'likes:likes-toggle' %}" method="POST">
+<form class="col-2 text-center px-0 toggle-form" id="lf-{{ product.id }}" action="{% url 'likes:likes-toggle' %}" method="POST">
 	{% csrf_token %}
     <input type="hidden" name="item-id" value="{{ product.id }}">
 	<button type="submit" class="btn btn-link p-0 h-100 w-100">

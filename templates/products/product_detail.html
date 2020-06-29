@@ -19,11 +19,7 @@
                     <h4 class="col-12 mb-3">&nbsp;€{{ product.price }}</h4>
                 </div>
                 <div class="row w-100 card-detail-buttons ml-1">
-                    {% if product.id|stringformat:"s" in cart %}
-                        {% include 'cart/includes/detail_remove_from_cart.html' %}
-                    {% else %}
-                    {% include 'cart/includes/detail_add_to_cart.html' %}
-                {% endif %}                                  
+                    {% include 'cart/includes/detail_cart_toggle.html' %}
                     {% include 'likes/includes/detail_like_toggle.html' %}
                     <p class="col-12 text-white mt-3 p-0">{% for tag in product.admin_tags %}
                         <a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="#" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}{% endif %}
