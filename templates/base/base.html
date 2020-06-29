@@ -33,27 +33,22 @@
 		{% block content %} {% endblock %}
 	</section>
 
-{% if messages %}
 <div class="toast-position" aria-live="polite" aria-atomic="true">
   <div class="toast-wrapper">
+  {% if messages %}
 	{% for message in messages %}
 	{% include 'base/includes/messages.html' %}
 	{% endfor %}
+{% endif %}
   </div>
 </div>
-{% endif %}
 
     {% block postloadjs %}
     <script src="{% static 'likes/script.js' %}"></script>
     <script>
-    $(document).ready(function(){
-        $(`.like-form`).on('submit', function(ev) {
-        ev.preventDefault();
-        var id = this.id;
-        likeUrl = {% url 'likes:add-to-likes' product.id %}
-        like(id, likeUrl)
-    });
-    }
+
+    likeUnlike("{% url 'likes:likes-toggle' %}", "{% static 'icons/heart-fill.svg' %}", "{% static 'icons/heart.svg' %}")
+
         $(function () {
             $('[data-toggle="popover"]').popover({
                 sanitize: false
@@ -64,7 +59,7 @@
             })
 	{% if messages %}
 
-            $(document).ready(function(){
+    $(document).ready(function(){
         {% for message in messages %}
         $('.toast').toast('show')
         {% endfor %}

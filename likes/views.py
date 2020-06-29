@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, HttpResponseRedirect
 from django.contrib import messages
 from django.views.generic import ListView
 
+from django_ajax.decorators import ajax
+
 from products.models import Product
 
 
@@ -12,57 +14,49 @@ class LikesListView(ListView):
     template_name = 'likes/likes_list.html'
 
 
-def add_to_likes(request, item_id):
+@ajax
+def likes_toggle(request):
     """ Add an item to liked products"""
 
-    # Used for redirection
-    next = request.GET.get('next', '')
+    if request.is_ajax and request.method == "POST":
+        try:
+            item_id = request.POST.get('item-id', '0')
+            product = get_object_or_404(Product, pk=item_id)
 
-    try:
-        product = get_object_or_404(Product, pk=item_id)
-        # Saves the item to the profile if the user is logged in, otherwise
-        # saves to the session
-        if request.user.is_authenticated:
-            user = request.user
-            user.userprofile.liked_products.add(product)
+            # Saves the item to the profile if the user is logged in, otherwise
+            # saves to the session
+            if request.user.is_authenticated:
+                user = request.user
+                liked_products = user.userprofile.liked_products
 
-            messages.success(request, f'{product.name} liked!')
-        else:
-            likes = request.session.get('likes', [])
-            likes.append(item_id)
-            request.session['likes'] = likes
+                if product in liked_products.all():
+                    user.userprofile.liked_products.remove(product)
+                    tag = 'info'
+                    message = f'{product.name} unliked!'
+                    result = 'unliked'
+                else:
+                    user.userprofile.liked_products.add(product)
+                    tag = 'success'
+                    message = f'{product.name} liked!'
+                    result = 'liked'
+            else:
+                likes = request.session.get('likes', [])
+                if item_id in likes:
+                    likes.remove(item_id)
+                    request.session['likes'] = likes
+                    tag = 'info'
+                    result = 'unliked'
+                    message = f'{product.name} unliked!'
+                else:
+                    likes.append(item_id)
+                    request.session['likes'] = likes
+                    tag = 'success'
+                    message = f'{product.name} liked!'
+                    result = 'liked'
+            return {'message': message, 'result': result, 'tag': tag}
 
-            messages.success(request, f'{product.name} liked!')
-        return HttpResponseRedirect(next)
-
-    except Exception as e:
-        messages.warning(request, f'Error liking item: {e}')
-        return HttpResponseRedirect(next)
-
-
-def remove_from_likes(request, item_id):
-    """Remove the item from the shopping cart"""
-
-    # Used for redirection
-    next = request.GET.get('next', '')
-
-    try:
-        product = get_object_or_404(Product, pk=item_id)
-        # Removes the item from the profile if the user is logged in, otherwise
-        # removes from the session
-        if request.user.is_authenticated:
-            user = request.user
-            user.userprofile.liked_products.remove(product)
-
-            messages.warning(request, f'{product.name} unliked!')
-        else:
-            likes = request.session.get('likes', [])
-            likes.remove(item_id)
-            request.session['likes'] = likes
-
-            messages.warning(request, f'{product.name} unliked!')
-        return HttpResponseRedirect(next)
-
-    except Exception as e:
-        messages.warning(request, f'Error unliking item: {e}')
-        return HttpResponseRedirect(next)
+        except Exception as e:
+            result = 'error'
+            tag = 'warning'
+            message = f'Error liking item: {e}'
+            return {'message': message, 'result': result, 'tag': tag}

@@ -70,6 +70,8 @@ INSTALLED_APPS = [
     # Apps for compiling SASS
     'sass_processor',
     'compressor',
+    # For ajax decorator
+    'django_ajax',
     # My apps
     'cart',
     'checkout',

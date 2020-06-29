@@ -1,9 +1,0 @@
-{% load static %}
-<form class="col-2 text-center px-0" action="{% url 'likes:remove-from-likes' product.id %}?next={{ request.path }}" method="POST">
-	{% csrf_token %}
-	<button type="submit" class="btn btn-link p-0 h-100 w-100">
-        <object class="box-object" type="image/svg+xml" data="{% static 'icons/heart-fill.svg' %}">
-            <img src="{% static 'icons/heart-fill.svg' %}" alt="Add to Cart">
-        </object>
-    </button>
-</form>

@@ -80,6 +80,7 @@ object {
     position: absolute;
     top: 0;
     right: 0;
+    min-width: 300px;
 }
 
 .toast-position {
@@ -87,8 +88,6 @@ position: fixed;
 top: 160px;
 right: 20px;
 min-height: 200px;
-width: 100%;
-z-index: 10;
 }
 
 .header-object {
