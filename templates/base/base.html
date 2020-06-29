@@ -55,8 +55,9 @@
     var carted = "{% static 'icons/cart-check.svg' %}"
     var uncarted = "{% static 'icons/cart-plus.svg' %}"
     {% endif %}
+    var likeUpdate = "{% url 'likes:likes-update' %}"
 
-    buttonToggle(liked, unliked, carted, uncarted)
+    buttonToggle(liked, unliked, carted, uncarted, likeUpdate)
 
         $(function () {
             $('[data-toggle="popover"]').popover({

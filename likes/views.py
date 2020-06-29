@@ -1,5 +1,7 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
+from django.template import RequestContext
+
 
 from django_ajax.decorators import ajax
 
@@ -19,7 +21,7 @@ def likes_toggle(request):
 
     if request.is_ajax and request.method == "POST":
         try:
-            item_id = request.POST.get('item-id', '0')
+            item_id = request.POST.get('item-id')
             product = get_object_or_404(Product, pk=item_id)
 
             # Saves the item to the profile if the user is logged in, otherwise
@@ -58,3 +60,15 @@ def likes_toggle(request):
             tag = 'warning'
             message = f'Error liking item: {e}'
         return {'message': message, 'result': result, 'tag': tag}
+
+
+def update_likes(request):
+    likes = []
+    
+    user = request.user
+    liked_products = user.userprofile.liked_products.all()
+    for product in liked_products:
+        likes.append(product)
+
+    RequestContext(request).push({'likes': likes})
+    return render(request, 'likes/includes/likes_popover.html')

@@ -14,12 +14,12 @@ function toastMessage(tag, message) {
  * to indicate liked/not liked.
  * @param {string} id - a unique id for that story which identifies the correct like button
  */
-function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg) {
+function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg, likeUpdate) {
 
     /**
      * Runs the form to like the post through an ajax function.
      */    
-    function like(id, serializedData, formUrl, likedSvg, unlikedSvg) {
+    function like(id, serializedData, formUrl) {
         // Sends form to flask view
         $.ajax({
             method: 'POST',
@@ -33,7 +33,13 @@ function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg) {
                 //     unlikeAudio.play();
                     $(`#like-svg-${id}`).attr('data', likedSvg);
                     $(`#like-img-${id}`).attr('src', likedSvg);
-                    toastMessage(data.content.tag, data.content.message)
+                    toastMessage(data.content.tag, data.content.message);
+                    $("#like-popover").popover('dispose');
+                    $('#like-popover-container').fadeTo("fast", 0, function() {
+                        $('#like-popover-container').html('').load(likeUpdate);
+                    }).fadeTo(1000, 1, function() {
+                    $("#like-popover").popover()
+                });
                 }
                 // Otherwise it likes it and plays the corresponding sound
                 else if (data.content.result === 'unliked') {
@@ -49,7 +55,7 @@ function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg) {
                     $(`#cart-svg-${id}`).attr('data', cartedSvg);
                     $(`#cart-img-${id}`).attr('src', cartedSvg);
                     toastMessage(data.content.tag, data.content.message)
-                    if ($(`#btn-${id}`) != undefined) {
+                    if ($(`#btn-${id}`) != null) {
                         $(`#btn-${id}`).contents().last()[0].textContent='  Remove from Cart';
                     } 
                 }
@@ -58,11 +64,10 @@ function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg) {
                     // likeAudio.play();
                     $(`#cart-svg-${id}`).attr('data', uncartedSvg);
                     $(`#cart-img-${id}`).attr('src', uncartedSvg);
-                    if ($(`#btn-${id}`) == null) {
+                    if ($(`#btn-${id}`) != null) {
                         $(`#btn-${id}`).contents().last()[0].textContent='  Add to Cart';
                     }
                     if (window.location.pathname == "/cart/") {
-                        console.log(id)
                         $(`#cart-item-${id}`).fadeOut("slow")
                     }
                     toastMessage(data.content.tag, data.content.message)
@@ -77,9 +82,8 @@ function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg) {
         // stops form from sending
         ev.preventDefault();
         var id = this.id.slice(3);
-        console.log(id)
         var serializedData = $(this).serialize()
         var formUrl = this.action
-        like(id, serializedData, formUrl, likedSvg, unlikedSvg, cartedSvg, uncartedSvg)
+        like(id, serializedData, formUrl)
         })
 }
