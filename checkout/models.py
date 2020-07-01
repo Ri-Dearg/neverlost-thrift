@@ -11,6 +11,10 @@ from users.models import UserProfile
 from products.models import Product
 
 
+class CustomPhoneNumberField(PhoneNumberField):
+    default_validators = []
+
+
 class Order(models.Model):
     """Model that sets the fields for orders"""
     order_number = models.CharField(max_length=32, null=False, editable=False)
@@ -20,7 +24,7 @@ class Order(models.Model):
         null=True, blank=True, related_name='orders')
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
-    phone_number = PhoneNumberField(null=False, blank=False)
+    phone_number = CustomPhoneNumberField(null=False, blank=False)
     country = CountryField(blank_label='Country *', null=False, blank=False)
     postcode = models.CharField(max_length=20, default='', blank=True)
     town_or_city = models.CharField(max_length=40, null=False, blank=False)
@@ -34,6 +38,9 @@ class Order(models.Model):
         max_digits=10, decimal_places=2, null=False, default=0)
     grand_total = models.DecimalField(
         max_digits=10, decimal_places=2, null=False, default=0)
+    original_cart = models.TextField(null=False, blank=False, default='')
+    stripe_pid = models.CharField(max_length=254,
+                                  null=False, blank=False, default='')
 
     def get_absolute_url(self):
         return reverse('checkout:order-detail', args=[str(self.id)])

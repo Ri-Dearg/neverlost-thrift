@@ -3,10 +3,10 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.views.generic import CreateView, DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import CharField
 from django.conf import settings
 
-
-from phonenumber_field import formfields, widgets
+from phonenumber_field import widgets
 
 from products.models import Product
 from .models import Order, OrderLineItem
@@ -44,7 +44,7 @@ class OrderCreateView(CreateView):
         form = super().get_form(form_class)
         form.fields['full_name'].widget.attrs = {'placeholder': 'Full Name'}
         form.fields['email'].widget.attrs = {'placeholder': 'Email Address'}
-        form.fields['phone_number'] = formfields.PhoneNumberField(
+        form.fields['phone_number'] = CharField(
             label='Phone Number',
             widget=widgets.PhoneNumberPrefixWidget(
                 attrs={
@@ -75,8 +75,13 @@ class OrderCreateView(CreateView):
         return super().dispatch(*args, **kwargs)
 
     def form_valid(self, form):
-        order = form.save()
+        order = form.save(commit=False)
         cart = self.request.session.get('cart', {})
+        pid = self.request.POST.get('client_secret').split('_secret')[0]
+        order.stripe_pid = pid
+        order.original_cart = json.dumps(cart)
+        order.save()
+
         for item_id, item_data in cart.items():
             try:
                 product = Product.objects.get(id=item_id)
@@ -87,7 +92,7 @@ class OrderCreateView(CreateView):
                 )
                 order_line_item.save()
             except Product.DoesNotExist:
-                messages.error(self.request, (
+                messages.warning(self.request, (
                     "One of the products in your cart wasn't found in our collection. \
                     Please call us for assistance!")
                 )
