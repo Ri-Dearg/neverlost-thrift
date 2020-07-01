@@ -50,7 +50,7 @@ form.addEventListener('submit', function (ev) {
         'save_info': saveInfo,
     };
 
-    var url = '/checkout/cache_checkout_data/';
+    var url = '/checkout/cache_data/';
 
     $.post(url, postData).done(function () {
     stripe.confirmCardPayment(clientSecret, {
@@ -58,7 +58,7 @@ form.addEventListener('submit', function (ev) {
             card: card,
             billing_details: {
                 name: $.trim(form.full_name.value),
-                phone: $.trim(form.phone_number_0.value + form.phone_number_1.value),
+                phone: $.trim(form.phone_number_0.value + '.' + form.phone_number_1.value),
                 email: $.trim(form.email.value),
                 address: {
                     line1: $.trim(form.street_address_1.value),
@@ -71,7 +71,7 @@ form.addEventListener('submit', function (ev) {
         },
         shipping: {
             name: $.trim(form.full_name.value),
-            phone: $.trim(form.phone_number_0.value + form.phone_number_1.value),
+            phone: $.trim(form.phone_number_0.value + '.' + form.phone_number_1.value),
             address: {
                 line1: $.trim(form.street_address_1.value),
                 line2: $.trim(form.street_address_2.value),

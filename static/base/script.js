@@ -2,7 +2,6 @@ function fadePreload() {
     $('.preloader').fadeOut(1200);
 }
 
-
 function hrefStop() {
     $('.href-stop').on('click', function(e) {e.preventDefault(); return true;});
 }
@@ -34,7 +33,7 @@ function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg, likeUpdate, 
         $(`#${btn}-popover`).popover('dispose');
         $(`#${btn}-popover-container`).fadeTo(100, 0, function() {
             $(`#${btn}-popover-container`).html('').load(update);
-        }).fadeTo(100, 1, function() {
+        }).fadeTo(500, 1, function() {
         $(`#${btn}-popover`).popover()
         hrefStop()
         });
