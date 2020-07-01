@@ -3,13 +3,20 @@ from django.test import TestCase
 from checkout.models import Order
 
 valid_order_dict = {
-        'full_name': 'Jeremy Fisher',
+        'shipping_full_name': 'Jeremy Fisher',
         'email': 'test@test.com',
-        'phone_number_0': '+353',
-        'phone_number_1': '891111111',
-        'country': 'IE',
-        'town_or_city': 'Location',
-        'street_address_1': 'location at place',
+        'shipping_phone_number_0': '+353',
+        'shipping_phone_number_1': '891111111',
+        'shipping_country': 'IE',
+        'shipping_town_or_city': 'Location',
+        'shipping_street_address_1': 'location at place',
+        'billing_full_name': 'Jeremy Fisher',
+        'billing_phone_number_0': '+353',
+        'billing_phone_number_1': '891111111',
+        'billing_country': 'IE',
+        'billing_town_or_city': 'Location',
+        'billing_street_address_1': 'location at place',
+        'client_secret': '_secret_test'
     }
 
 

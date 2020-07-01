@@ -22,7 +22,7 @@ class TestUserProfile(TestCase):
         user1 = User.objects.create(username=username,
                                     email=email,
                                     password=password)
-        user1.userprofile.default_shipping_name = 'Fake name'
+        user1.userprofile.shipping_name = 'Fake name'
         user1.userprofile.liked_products.set([Product.objects.latest(
             'date_added').id])
         user1.userprofile.save()
@@ -42,5 +42,5 @@ class TestUserProfile(TestCase):
         user1 = User.objects.latest('date_joined')
         result1, result2 = user1.userprofile._readable_field()
 
-        self.assertEqual((result1[0]), ('default shipping name'))
+        self.assertEqual((result1[0]), ('shipping name'))
         self.assertEqual((result2[0]), 'Fake name')
