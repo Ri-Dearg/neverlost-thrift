@@ -12,37 +12,37 @@ class UserProfile(models.Model):
     """User Profile used to store default delivery information and
     liked/bookmarked items"""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    default_shipping_name = models.CharField(max_length=50,
+    shipping_name = models.CharField(max_length=50,
                                              default='', blank=True)
-    default_shipping_phone_number = PhoneNumberField(default='', blank=True)
-    default_shipping_street_address_1 = models.CharField(max_length=80,
+    shipping_phone_number = PhoneNumberField(default='', blank=True)
+    shipping_street_address_1 = models.CharField(max_length=80,
                                                          default='',
                                                          blank=True)
-    default_shipping_street_address_2 = models.CharField(max_length=80,
+    shipping_street_address_2 = models.CharField(max_length=80,
                                                          default='',
                                                          blank=True)
-    default_shipping_city = models.CharField(max_length=40,
+    shipping_city = models.CharField(max_length=40,
                                              default='', blank=True)
-    default_shipping_county = models.CharField(max_length=80,
+    shipping_county = models.CharField(max_length=80,
                                                default='', blank=True)
-    default_shipping_postcode = models.CharField(max_length=20,
+    shipping_postcode = models.CharField(max_length=20,
                                                  default='', blank=True)
-    default_shipping_country = CountryField(blank_label='Country',
+    shipping_country = CountryField(blank_label='Country',
                                             default='', blank=True)
-    default_billing_name = models.CharField(max_length=50,
+    billing_name = models.CharField(max_length=50,
                                             default='', blank=True)
-    default_billing_phone_number = PhoneNumberField(default='', blank=True)
-    default_billing_street_address_1 = models.CharField(max_length=80,
+    billing_phone_number = PhoneNumberField(default='', blank=True)
+    billing_street_address_1 = models.CharField(max_length=80,
                                                         default='', blank=True)
-    default_billing_street_address_2 = models.CharField(max_length=80,
+    billing_street_address_2 = models.CharField(max_length=80,
                                                         default='', blank=True)
-    default_billing_city = models.CharField(max_length=40,
+    billing_city = models.CharField(max_length=40,
                                             default='', blank=True)
-    default_billing_county = models.CharField(max_length=80,
+    billing_county = models.CharField(max_length=80,
                                               default='', blank=True)
-    default_billing_postcode = models.CharField(max_length=20,
+    billing_postcode = models.CharField(max_length=20,
                                                 default='', blank=True)
-    default_billing_country = CountryField(blank_label='Country',
+    billing_country = CountryField(blank_label='Country',
                                            default='', blank=True)
 
     liked_products = models.ManyToManyField(Product, blank=True,

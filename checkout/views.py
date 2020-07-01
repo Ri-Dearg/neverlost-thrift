@@ -35,16 +35,17 @@ class OrderListView(LoginRequiredMixin, ListView):
 class OrderCreateView(CreateView):
     """Creates an Order on payment completion"""
     model = Order
-    fields = ['full_name', 'email', 'phone_number', 'street_address_1',
-              'street_address_2', 'town_or_city', 'county',
-              'country', 'postcode']
+    fields = ['email', 'billing_full_name', 'billing_phone_number',
+              'billing_street_address_1','billing_street_address_2', 
+              'billing_town_or_city', 'billing_county',
+              'billing_country', 'billing_postcode']
 
     def get_form(self, form_class=None):
         """Adds custom placeholders and widgets to form"""
         form = super().get_form(form_class)
-        form.fields['full_name'].widget.attrs = {'placeholder': 'Full Name'}
         form.fields['email'].widget.attrs = {'placeholder': 'Email Address'}
-        form.fields['phone_number'] = CharField(
+        form.fields['billing_full_name'].widget.attrs = {'placeholder': 'Full Name'}
+        form.fields['billing_phone_number'] = CharField(
             label='Phone Number',
             widget=widgets.PhoneNumberPrefixWidget(
                 attrs={
@@ -54,15 +55,15 @@ class OrderCreateView(CreateView):
                     'pattern': '[0-9]+',
                 }),
             initial='+353')
-        form.fields['street_address_1'].widget.attrs = {
+        form.fields['billing_street_address_1'].widget.attrs = {
             '123 Main St.': 'Street Address 1'}
-        form.fields['street_address_2'].widget.attrs = {
+        form.fields['billing_street_address_2'].widget.attrs = {
             'placeholder': 'Street Address 2'}
-        form.fields['town_or_city'].widget.attrs = {
+        form.fields['billing_town_or_city'].widget.attrs = {
             'placeholder': 'Town or City'}
-        form.fields['county'].widget.attrs = {'placeholder': 'Locality'}
-        form.fields['country'].widget.attrs = {'placeholder': 'Country'}
-        form.fields['postcode'].widget.attrs = {'placeholder': 'Postcode'}
+        form.fields['billing_county'].widget.attrs = {'placeholder': 'Locality'}
+        form.fields['billing_country'].widget.attrs = {'placeholder': 'Country'}
+        form.fields['billing_postcode'].widget.attrs = {'placeholder': 'Postcode'}
         return form
 
     def dispatch(self, *args, **kwargs):
