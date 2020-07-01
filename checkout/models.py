@@ -35,7 +35,7 @@ class Order(models.Model):
         max_length=80, null=False, blank=False)
     shipping_street_address_2 = models.CharField(
         max_length=80, default='', blank=True)
-    billing_county = models.CharField(max_length=80, blank=True)
+    shipping_county = models.CharField(max_length=80, blank=True)
     billing_full_name = models.CharField(
         max_length=50, null=False, blank=False)
     billing_phone_number = CustomPhoneNumberField(null=False, blank=False)

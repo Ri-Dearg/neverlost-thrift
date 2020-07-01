@@ -36,34 +36,72 @@ class OrderCreateView(CreateView):
     """Creates an Order on payment completion"""
     model = Order
     fields = ['email', 'billing_full_name', 'billing_phone_number',
-              'billing_street_address_1','billing_street_address_2', 
+              'billing_street_address_1', 'billing_street_address_2',
               'billing_town_or_city', 'billing_county',
-              'billing_country', 'billing_postcode']
+              'billing_country', 'billing_postcode', 'shipping_full_name', 'shipping_phone_number',
+              'shipping_street_address_1','shipping_street_address_2', 
+              'shipping_town_or_city', 'shipping_county',
+              'shipping_country', 'shipping_postcode']
 
     def get_form(self, form_class=None):
         """Adds custom placeholders and widgets to form"""
         form = super().get_form(form_class)
         form.fields['email'].widget.attrs = {'placeholder': 'Email Address'}
+        form.fields['shipping_full_name'].widget.attrs = {'placeholder': 'Full Name'}
+        form.fields['shipping_full_name'].label = 'Full Name'
+        form.fields['shipping_phone_number'] = CharField(
+            widget=widgets.PhoneNumberPrefixWidget(
+                attrs={
+                    'type': 'tel',
+                    'placeholder': 'Phone Number',
+                    'class': 'form-control',
+                    'pattern': '[0-9]+',
+                }),
+            initial='+353')
+        form.fields['shipping_street_address_1'].widget.attrs = {
+            'placeholder': '123 Main St.'}
+        form.fields['shipping_street_address_1'].label = 'Street Address 1'
+        form.fields['shipping_street_address_2'].widget.attrs = {
+            'placeholder': 'Street Address 2'}
+        form.fields['shipping_street_address_2'].label = 'Street Address 2'
+        form.fields['shipping_town_or_city'].widget.attrs = {
+            'placeholder': 'Town or City'}
+        form.fields['shipping_town_or_city'].label = 'City or Town'
+        form.fields['shipping_county'].widget.attrs = {'placeholder': 'Locality'}
+        form.fields['shipping_county'].label = 'County, State or Locality'
+        form.fields['shipping_country'].widget.attrs = {'placeholder': 'Country',
+                                                       'class': 'form-control'}
+        form.fields['shipping_country'].label = 'Country'
+        form.fields['shipping_postcode'].widget.attrs = {'placeholder': 'Postcode'}
+        form.fields['shipping_postcode'].label = 'Postcode'
         form.fields['billing_full_name'].widget.attrs = {'placeholder': 'Full Name'}
+        form.fields['billing_full_name'].label = 'Full Name'
         form.fields['billing_phone_number'] = CharField(
             label='Phone Number',
             widget=widgets.PhoneNumberPrefixWidget(
                 attrs={
                     'type': 'tel',
-                    'placeholder': 'xxxxxxxxx',
-                    'class': 'custom-select',
+                    'placeholder': 'Phone Number',
+                    'class': 'form-control',
                     'pattern': '[0-9]+',
                 }),
             initial='+353')
         form.fields['billing_street_address_1'].widget.attrs = {
-            '123 Main St.': 'Street Address 1'}
+            'Placeholder': 'Street Address 1'}
+        form.fields['billing_street_address_1'].label = 'Street Address 1'
         form.fields['billing_street_address_2'].widget.attrs = {
             'placeholder': 'Street Address 2'}
+        form.fields['billing_street_address_2'].label = 'Street Address 2'
         form.fields['billing_town_or_city'].widget.attrs = {
             'placeholder': 'Town or City'}
+        form.fields['billing_town_or_city'].label = 'City or Town'
         form.fields['billing_county'].widget.attrs = {'placeholder': 'Locality'}
-        form.fields['billing_country'].widget.attrs = {'placeholder': 'Country'}
+        form.fields['billing_county'].label = 'County, State or Locality'
+        form.fields['billing_country'].widget.attrs = {'placeholder': 'Country',
+                                                       'class': 'form-control'}
+        form.fields['billing_county'].label = 'Country'
         form.fields['billing_postcode'].widget.attrs = {'placeholder': 'Postcode'}
+        form.fields['billing_postcode'].label = 'Postcode'
         return form
 
     def dispatch(self, *args, **kwargs):
