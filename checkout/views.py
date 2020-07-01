@@ -1,4 +1,5 @@
-from django.shortcuts import redirect, reverse
+from django.shortcuts import redirect, reverse, HttpResponse
+from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.views.generic import CreateView, DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,6 +13,7 @@ from .models import Order, OrderLineItem
 from cart.context_processors import get_cart
 
 import stripe
+import json
 
 
 class OrderDetailView(DetailView):
@@ -28,7 +30,6 @@ class OrderListView(LoginRequiredMixin, ListView):
         userprofile_id = self.request.user.userprofile.id
         Order.objects.filter(pk=userprofile_id)
         return super().get_queryset()
-
 
 
 class OrderCreateView(CreateView):
@@ -69,7 +70,7 @@ class OrderCreateView(CreateView):
         aren't any."""
         cart = self.request.session.get('cart', {})
         if not cart:
-            messages.warning(self.request, "The cart is empty.")
+            messages.info(self.request, "The cart is empty.")
             return redirect(reverse('products:product-list'))
         return super().dispatch(*args, **kwargs)
 
@@ -140,3 +141,20 @@ class OrderCreateView(CreateView):
         context['products'] = products
         context['order_form'] = order_form
         return context
+
+
+@require_POST
+def cache_data(request):
+    try:
+        pid = request.POST.get('client_secret').split('_secret')[0]
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.PaymentIntent.modify(pid, metadata={
+            'cart': json.dumps(request.session.get('cart', {})),
+            'save_info': request.POST.get('save_info'),
+            'user': request.user,
+        })
+        return HttpResponse(status=200)
+    except Exception as e:
+        messages.warning(request, 'Sorry, your payment cannot be \
+            processed right now. Please try again later.')
+        return HttpResponse(content=e, status=400)

@@ -15,7 +15,18 @@
 <form id="payment-form" action="{% url 'checkout:order-create' %}" method="POST">
 {% csrf_token %}
 {{ order_form|crispy }}
-    <legend class="fieldset-label h6 text-dark px-2 w-auto">Payment*</legend>
+    <div class="form-check mb-2">
+        {% if user.is_authenticated %}
+            <input class="form-check-input" type="checkbox" id="id-save-info" name="save-info" checked>
+            <label class="form-check-label" for="id-save-info">Save this delivery information to my profile</label>
+        {% else %}
+            <label class="form-check-label" for="id-save-info">
+                <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or 
+                <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
+            </label>
+        {% endif %}
+    </div>
+    <legend class="fieldset-label h6 text-dark w-auto">Payment*</legend>
     <!-- A Stripe card element will go here -->
     <div class="mb-3 form-control" id="card-element"></div>
     <!-- Used to display form errors -->
