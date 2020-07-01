@@ -42,13 +42,28 @@ form.addEventListener('submit', function (ev) {
     $('.preloader').fadeIn('fast')
 
     var saveInfo = Boolean($('#id-save-info').attr('checked'));
+    var billingSame = Boolean($('#billing-same').prop('checked'));
     // From using {% csrf_token %} in the form
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
     var postData = {
         'csrfmiddlewaretoken': csrfToken,
         'client_secret': clientSecret,
         'save_info': saveInfo,
+        'billing-is-delivery': billingSame
     };
+
+    if (billingSame == true) {
+        form.billing_full_name.value = form.shipping_full_name.value
+        form.billing_phone_number_0.value = form.shipping_phone_number_0.value
+        form.billing_phone_number_1.value = form.shipping_phone_number_1.value
+        form.billing_street_address_1.value = form.shipping_street_address_1.value
+        form.billing_street_address_2.value = form.shipping_street_address_2.value
+        form.billing_town_or_city.value = form.shipping_town_or_city.value
+        form.billing_country.value = form.shipping_country.value
+        form.billing_county.value = form.shipping_county.value
+        console.log(form.billing_full_name.value, form.shipping_full_name.value)
+
+    }
 
     var url = '/checkout/cache_data/';
 
@@ -57,28 +72,28 @@ form.addEventListener('submit', function (ev) {
         payment_method: {
             card: card,
             billing_details: {
-                name: $.trim(form.full_name.value),
-                phone: $.trim(form.phone_number_0.value + '.' + form.phone_number_1.value),
+                name: $.trim(form.billing_full_name.value),
+                phone: $.trim(form.billing_phone_number_0.value + form.billing_phone_number_1.value),
                 email: $.trim(form.email.value),
                 address: {
-                    line1: $.trim(form.street_address_1.value),
-                    line2: $.trim(form.street_address_2.value),
-                    city: $.trim(form.town_or_city.value),
-                    country: $.trim(form.country.value),
-                    state: $.trim(form.county.value),
+                    line1: $.trim(form.billing_street_address_1.value),
+                    line2: $.trim(form.billing_street_address_2.value),
+                    city: $.trim(form.billing_town_or_city.value),
+                    country: $.trim(form.billing_country.value),
+                    state: $.trim(form.billing_county.value),
                 }
             }
         },
         shipping: {
-            name: $.trim(form.full_name.value),
-            phone: $.trim(form.phone_number_0.value + '.' + form.phone_number_1.value),
+            name: $.trim(form.shipping_full_name.value),
+            phone: $.trim(form.shipping_phone_number_0.value + form.shipping_phone_number_1.value),
             address: {
-                line1: $.trim(form.street_address_1.value),
-                line2: $.trim(form.street_address_2.value),
-                city: $.trim(form.town_or_city.value),
-                country: $.trim(form.country.value),
-                postal_code: $.trim(form.postcode.value),
-                state: $.trim(form.county.value),
+                line1: $.trim(form.shipping_street_address_1.value),
+                line2: $.trim(form.shipping_street_address_2.value),
+                city: $.trim(form.shipping_town_or_city.value),
+                country: $.trim(form.shipping_country.value),
+                postal_code: $.trim(form.shipping_postcode.value),
+                state: $.trim(form.shipping_county.value),
             }
         },
     }).then(function (result) {

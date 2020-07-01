@@ -38,16 +38,16 @@ class OrderCreateView(CreateView):
     fields = ['email', 'billing_full_name', 'billing_phone_number',
               'billing_street_address_1', 'billing_street_address_2',
               'billing_town_or_city', 'billing_county',
-              'billing_country', 'billing_postcode', 'shipping_full_name', 'shipping_phone_number',
-              'shipping_street_address_1','shipping_street_address_2', 
-              'shipping_town_or_city', 'shipping_county',
-              'shipping_country', 'shipping_postcode']
+              'billing_country', 'billing_postcode', 'shipping_full_name',
+              'shipping_phone_number', 'shipping_street_address_1',
+              'shipping_street_address_2', 'shipping_town_or_city',
+              'shipping_county', 'shipping_country', 'shipping_postcode']
 
     def get_form(self, form_class=None):
         """Adds custom placeholders and widgets to form"""
         form = super().get_form(form_class)
         form.fields['email'].widget.attrs = {'placeholder': 'Email Address'}
-        form.fields['shipping_full_name'].widget.attrs = {'placeholder': 'Full Name'}
+        form.fields['shipping_full_name'].widget.attrs = {'placeholder': 'Full Name'}  # noqa E501
         form.fields['shipping_full_name'].label = 'Full Name'
         form.fields['shipping_phone_number'] = CharField(
             widget=widgets.PhoneNumberPrefixWidget(
@@ -67,14 +67,17 @@ class OrderCreateView(CreateView):
         form.fields['shipping_town_or_city'].widget.attrs = {
             'placeholder': 'Town or City'}
         form.fields['shipping_town_or_city'].label = 'City or Town'
-        form.fields['shipping_county'].widget.attrs = {'placeholder': 'Locality'}
+        form.fields['shipping_county'].widget.attrs = {
+            'placeholder': 'Locality'}
         form.fields['shipping_county'].label = 'County, State or Locality'
-        form.fields['shipping_country'].widget.attrs = {'placeholder': 'Country',
-                                                       'class': 'form-control'}
+        form.fields['shipping_country'].widget.attrs = {'placeholder': 'Country',  # noqa E501
+                                                        'class': 'form-control'}  # noqa E501
         form.fields['shipping_country'].label = 'Country'
-        form.fields['shipping_postcode'].widget.attrs = {'placeholder': 'Postcode'}
+        form.fields['shipping_postcode'].widget.attrs = {
+            'placeholder': 'Postcode'}
         form.fields['shipping_postcode'].label = 'Postcode'
-        form.fields['billing_full_name'].widget.attrs = {'placeholder': 'Full Name'}
+        form.fields['billing_full_name'].widget.attrs = {
+            'placeholder': 'Full Name', 'class': 'billing-field'}
         form.fields['billing_full_name'].label = 'Full Name'
         form.fields['billing_phone_number'] = CharField(
             label='Phone Number',
@@ -82,25 +85,27 @@ class OrderCreateView(CreateView):
                 attrs={
                     'type': 'tel',
                     'placeholder': 'Phone Number',
-                    'class': 'form-control',
+                    'class': 'form-control billing-field',
                     'pattern': '[0-9]+',
                 }),
             initial='+353')
         form.fields['billing_street_address_1'].widget.attrs = {
-            'Placeholder': 'Street Address 1'}
+            'Placeholder': 'Street Address 1', 'class': 'billing-field'}
         form.fields['billing_street_address_1'].label = 'Street Address 1'
         form.fields['billing_street_address_2'].widget.attrs = {
             'placeholder': 'Street Address 2'}
         form.fields['billing_street_address_2'].label = 'Street Address 2'
         form.fields['billing_town_or_city'].widget.attrs = {
-            'placeholder': 'Town or City'}
+            'placeholder': 'Town or City', 'class': 'billing-field'}
         form.fields['billing_town_or_city'].label = 'City or Town'
-        form.fields['billing_county'].widget.attrs = {'placeholder': 'Locality'}
+        form.fields['billing_county'].widget.attrs = {
+            'placeholder': 'Locality'}
         form.fields['billing_county'].label = 'County, State or Locality'
-        form.fields['billing_country'].widget.attrs = {'placeholder': 'Country',
-                                                       'class': 'form-control'}
+        form.fields['billing_country'].widget.attrs = {'placeholder': 'Country',  # noqa E501
+                                                       'class': 'form-control billing-field'}  # noqa E501
         form.fields['billing_county'].label = 'Country'
-        form.fields['billing_postcode'].widget.attrs = {'placeholder': 'Postcode'}
+        form.fields['billing_postcode'].widget.attrs = {
+            'placeholder': 'Postcode'}
         form.fields['billing_postcode'].label = 'Postcode'
         return form
 
@@ -119,6 +124,16 @@ class OrderCreateView(CreateView):
         pid = self.request.POST.get('client_secret').split('_secret')[0]
         order.stripe_pid = pid
         order.original_cart = json.dumps(cart)
+        if 'billing-same' in self.request.POST:
+            order.billing_full_name = self.request.POST['shipping_full_name']
+            order.billing_phone_number = self.request.POST[
+                'shipping_phone_number_0'] + self.request.POST['shipping_phone_number_1'] # noqa E501
+            order.billing_street_address_1 = self.request.POST['shipping_street_address_1']  # noqa E501
+            order.billing_street_address_2 = self.request.POST['shipping_street_address_2'] # noqa E501
+            order.billing_town_or_city  = self.request.POST['shipping_town_or_city'] # noqa E501
+            order.billing_county = self.request.POST['shipping_county']
+            order.billing_country = self.request.POST['shipping_country']
+            order.billing_postcode = self.request.POST['shipping_postcode']
         order.save()
 
         for item_id, item_data in cart.items():
@@ -137,12 +152,14 @@ class OrderCreateView(CreateView):
                 )
                 order.delete()
 
-        self.request.session['save_info'] = 'save-info' in self.request.POST
+        self.request.session['billing_same'] = 'billing-same' in self.request.POST  # noqa E501
 
         if 'cart' in self.request.session:
             del self.request.session['cart']
 
         if self.request.user.is_authenticated:
+            self.request.session['save_info'] = 'save-info' in self.request.POST  # noqa E501
+
             order.user_profile = self.request.user.userprofile
             order.save()
         messages.success(self.request, f'Order successfully processed! \
@@ -150,7 +167,7 @@ class OrderCreateView(CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.warning(self.request, 'There was a problem processing the order. Please double check your information.') # noqa E501
+        messages.warning(self.request, 'There was a problem processing the order. Please double check your information.')  # noqa E501
         return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):

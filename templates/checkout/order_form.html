@@ -29,7 +29,7 @@
     {{ order_form.shipping_postcode|as_crispy_field }}
     {{ order_form.shipping_country }}
     <div class="form-check my-2">
-    <input class="form-check-input" type="checkbox" id="billing-same" name="billing-is-delivery" checked>
+    <input class="form-check-input" type="checkbox" id="billing-same" name="billing-same" checked>
     <label class="form-check-label" for="billing-same">My billing details are the same as delivery.</label> 
     </div>   
     </fieldset>
@@ -106,12 +106,15 @@
     $(document).ready(function() {
     
     $('#hidden-form-details').hide();
+    $('.billing-field').prop('required', false);
     $('#billing-same').change(function() {
         if(this.checked) {
             $('#hidden-form-details').slideUp('slow');
+            $('.billing-field').prop('required', false);
         }
         else {
             $('#hidden-form-details').slideDown('slow');
+            $('.billing-field').prop('required', false);
         }
     });
 });

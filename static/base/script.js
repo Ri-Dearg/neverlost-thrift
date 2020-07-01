@@ -31,11 +31,11 @@ function buttonToggle(likedSvg, unlikedSvg, cartedSvg, uncartedSvg, likeUpdate, 
 
     function popoverUpdate(btn, update) {
         $(`#${btn}-popover`).popover('dispose');
-        $(`#${btn}-popover-container`).fadeTo(100, 0, function() {
+        $(`#${btn}-popover-container`).fadeToggle('fast', function() {
             $(`#${btn}-popover-container`).html('').load(update);
-        }).fadeTo(500, 1, function() {
-        $(`#${btn}-popover`).popover()
-        hrefStop()
+        }).fadeToggle('slow', function() {
+            $(`#${btn}-popover`).popover()
+            hrefStop()
         });
     }
 
