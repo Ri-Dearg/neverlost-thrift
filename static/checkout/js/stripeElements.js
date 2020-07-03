@@ -41,7 +41,7 @@ form.addEventListener('submit', function (ev) {
     $('#payment-submit').attr('disabled', true);
     $('.preloader').fadeIn('fast')
 
-    var saveInfo = Boolean($('#id-save-info').attr('checked'));
+    var saveInfo = Boolean($('#id-save-info').prop('checked'));
     var billingSame = Boolean($('#billing-same').prop('checked'));
     // From using {% csrf_token %} in the form
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
@@ -61,8 +61,6 @@ form.addEventListener('submit', function (ev) {
         form.billing_town_or_city.value = form.shipping_town_or_city.value
         form.billing_country.value = form.shipping_country.value
         form.billing_county.value = form.shipping_county.value
-        console.log(form.billing_full_name.value, form.shipping_full_name.value)
-
     }
 
     var url = '/checkout/cache_data/';

@@ -47,10 +47,8 @@
     </fieldset>
     <div class="form-check mb-2">
         {% if user.is_authenticated %}
-        <div class="form-check">
             <input class="form-check-input" type="checkbox" id="id-save-info" name="save-info" checked>
             <label class="form-check-label" for="id-save-info">Save this delivery information to my profile</label>
-        </div>
         {% else %}
                 <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or 
                 <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information

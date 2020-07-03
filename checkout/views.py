@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.views.generic import CreateView, DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.forms import CharField
+from django.forms import CharField, model_to_dict
 from django.conf import settings
 
 from phonenumber_field import widgets
@@ -14,6 +14,7 @@ from cart.context_processors import get_cart
 
 import stripe
 import json
+import itertools
 
 
 class OrderDetailView(DetailView):
@@ -118,6 +119,22 @@ class OrderCreateView(CreateView):
             return redirect(reverse('products:product-list'))
         return super().dispatch(*args, **kwargs)
 
+    def get_initial(self):
+        initial = super().get_initial()
+        user = self.request.user
+        userprofile = user.userprofile
+        userprofile_dict = model_to_dict(userprofile)
+
+        if self.request.user.is_authenticated:
+            for field, key in itertools.product(self.fields, userprofile_dict):
+                if field == 'email':
+                    initial['email'] = user.email
+                elif field == key:
+                    initial[f'{field}'] = userprofile_dict[key]
+            return initial
+        else:
+            return initial
+
     def form_valid(self, form):
         order = form.save(commit=False)
         cart = self.request.session.get('cart', {})
@@ -152,13 +169,8 @@ class OrderCreateView(CreateView):
                 )
                 order.delete()
 
-        self.request.session['billing_same'] = 'billing-same' in self.request.POST  # noqa E501
-
         if 'cart' in self.request.session:
             del self.request.session['cart']
-
-        if self.request.user.is_authenticated:
-            self.request.session['save_info'] = 'save-info' in self.request.POST  # noqa E501
 
             order.user_profile = self.request.user.userprofile
             order.save()
