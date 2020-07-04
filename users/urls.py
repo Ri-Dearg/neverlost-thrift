@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 
 from .views import (UserProfileDetailView,
                     CustomEmailView,
-                    CustomPasswordChangeView)
+                    CustomPasswordChangeView,
+                    update_shipping_billing)
 
 urlpatterns = [
     path('profile/<int:pk>/', login_required(UserProfileDetailView.as_view()),
@@ -13,4 +14,7 @@ urlpatterns = [
     path('accounts/password/change/',
          login_required(CustomPasswordChangeView.as_view()),
          name='user-change-password'),
+    path('shipping-billing/',
+         login_required(update_shipping_billing),
+         name='shipping-billing'),
 ]

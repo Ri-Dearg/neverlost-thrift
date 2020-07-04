@@ -38,9 +38,3 @@ class TestUserProfile(TestCase):
         self.assertEqual((liked_string),
                          (f'{user1.username}, {product.name}, {liked_table.datetime_added}')) # noqa E501
 
-    def test_readable_fields(self):
-        user1 = User.objects.latest('date_joined')
-        result1, result2 = user1.userprofile._readable_field()
-
-        self.assertEqual((result1[0]), ('shipping name'))
-        self.assertEqual((result2[0]), 'Fake name')
