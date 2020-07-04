@@ -62,5 +62,4 @@ class Liked(models.Model):
     datetime_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.userprofile.user.username}, {self.product.name}, \
-        {self.datetime_added}'
+        return f'{self.userprofile.user.username}, {self.product.name}, {self.datetime_added}' # noqa E501

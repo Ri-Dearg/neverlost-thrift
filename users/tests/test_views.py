@@ -18,7 +18,8 @@ class TestUserViews(TestCase):
         self.client.force_login(test_user)
         response = self.client.get(f'/users/profile/{test_user.id}/')
 
-        self.assertTrue(response.context['field_names'])
-        self.assertTrue(response.context['values'])
+        self.assertTrue(response.context['user_profile_detail'])
+        self.assertTrue(response.context['add_email_form'])
+        self.assertTrue(response.context['change_password_form'])
         self.assertTrue(response.context['user'])
         self.assertTrue(response.context['profile'])

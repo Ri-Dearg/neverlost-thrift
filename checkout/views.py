@@ -121,11 +121,11 @@ class OrderCreateView(CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        user = self.request.user
-        userprofile = user.userprofile
-        userprofile_dict = model_to_dict(userprofile)
-
         if self.request.user.is_authenticated:
+            user = self.request.user
+            userprofile = user.userprofile
+            userprofile_dict = model_to_dict(userprofile)
+
             for field, key in itertools.product(self.fields, userprofile_dict):
                 if field == 'email':
                     initial['email'] = user.email
@@ -172,8 +172,9 @@ class OrderCreateView(CreateView):
         if 'cart' in self.request.session:
             del self.request.session['cart']
 
-            order.user_profile = self.request.user.userprofile
-            order.save()
+            if self.request.user.is_authenticated:
+                order.user_profile = self.request.user.userprofile
+                order.save()
         messages.success(self.request, f'Order successfully processed! \
              A confirmation email will be sent to {order.email}.')
         return super().form_valid(form)
