@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 from django.views.generic import ListView
 from django.template import RequestContext
 
@@ -13,6 +14,37 @@ class LikesListView(ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'likes/likes_list.html'
+
+    def get_context_data(self, **kwargs):
+        """Adds all necessary information to the context"""
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['products'] = []
+
+        if user.is_authenticated:
+            liked_products = user.userprofile.liked_products.order_by(
+                '-liked__datetime_added')
+            for product in liked_products:
+                context['products'].append(product)
+        else:
+            id_list = []
+            session_likes = self.request.session.get('likes')
+
+            if session_likes:
+                for key in session_likes:
+                    id_list.append(key)
+                liked_products = Product.objects.filter(id__in=id_list)
+
+                for product in liked_products:
+                    context['products'].append(product)
+
+        products = context['products']
+        paginator = Paginator(products, 9)
+
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
+        return context
 
 
 @ajax

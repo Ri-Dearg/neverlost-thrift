@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView
 from django.contrib.postgres.search import (SearchQuery,
                                             SearchRank,
@@ -12,6 +13,7 @@ class ProductListView(ListView):
     If there is a GET request, performs a search."""
     model = Product
     context_object_name = 'products'
+    paginate_by = 9
     ordering = ['-date_added']
 
     def get_queryset(self):
@@ -70,11 +72,18 @@ class StockDropDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        products = context['stockdrop'].products.all()
+        paginator = Paginator(products, 9)
+
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         key = self.request.path.split('/')[2]
 
         # Selects the active tab
         stockdrops_active = True
 
+        context['page_obj'] = page_obj
         context['stockdrops_active'] = stockdrops_active
         context['collection_active'] = key
         return context
@@ -88,11 +97,18 @@ class CategoryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        products = context['category'].products.all()
+        paginator = Paginator(products, 9)
+
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         key = self.request.path.split('/')[2]
 
         # Selects the active tab
         categories_active = True
 
+        context['page_obj'] = page_obj
         context['categories_active'] = categories_active
         context['collection_active'] = key
         return context

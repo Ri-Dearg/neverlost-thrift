@@ -34,7 +34,8 @@ class TestProductViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'products/product_list.html')
         self.assertQuerysetEqual(response.context['products'],
-                                 Product.objects.all().order_by('-date_added'),
+                                 Product.objects.all().order_by(
+                                     '-date_added')[:9],
                                  transform=lambda x: x)
 
     def test_render_index(self):
@@ -44,7 +45,8 @@ class TestProductViews(TestCase):
         self.assertTrue(response.context['stockdrops'])
         self.assertTrue(response.context['categories'])
         self.assertQuerysetEqual(response.context['products'],
-                                 Product.objects.all().order_by('-date_added'),
+                                 Product.objects.all().order_by(
+                                     '-date_added')[:9],
                                  transform=lambda x: x)
 
     def test_render_product_detail(self):
