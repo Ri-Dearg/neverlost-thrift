@@ -27,7 +27,7 @@ class ProductListView(ListView):
             # functionality, weighting tags above other text
             self.user_query = self.request.GET['query']
             self.vector = SearchVector('name', 'description', weight='A') + \
-                SearchVector('admin_tags', 'user_tags', weight='B')
+                SearchVector('admin_tags', weight='B')
             self.query = SearchQuery(self.user_query)
             self.rank = SearchRank(self.vector, self.query)
 

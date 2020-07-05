@@ -40,10 +40,7 @@ class Product(models.Model):
     image = models.ImageField(default='default.png',
                               upload_to='product_images')
     date_added = models.DateTimeField(default=timezone.now)
-    admin_tags = fields.ArrayField(models.CharField(max_length=40), size=4)
-    user_tags = fields.ArrayField(models.CharField(max_length=40),
-                                  size=4,
-                                  default=list, blank=True)
+    admin_tags = fields.ArrayField(models.CharField(max_length=40), size=8)
 
     def save(self, *args, **kwargs):
         """Image resizing, snippet repurposed from:

@@ -10,7 +10,7 @@
                     {% include 'cart/includes/box_cart_toggle.html' %}
                     {% include 'likes/includes/box_like_toggle.html' %}
             <p class="col-12 text-white mb-0 p-0">{% for tag in product.admin_tags %}
-                <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{ tag }}</a> {% endfor %}{% if product.user_tags %}{% for tag in product.user_tags %}<a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{ tag }}</a> {% endfor %}{% endif %}
+                <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{ tag }}</a> {% endfor %}
             </p>
         </div>
     </article>
