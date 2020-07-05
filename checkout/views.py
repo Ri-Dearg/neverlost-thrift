@@ -141,6 +141,8 @@ class OrderCreateView(CreateView):
         pid = self.request.POST.get('client_secret').split('_secret')[0]
         order.stripe_pid = pid
         order.original_cart = json.dumps(cart)
+        cart_contents = get_cart(self.request)
+        order.delivery_cost = cart_contents['delivery']
         if 'billing-same' in self.request.POST:
             order.billing_full_name = self.request.POST['shipping_full_name']
             order.billing_phone_number = self.request.POST[
@@ -191,7 +193,7 @@ class OrderCreateView(CreateView):
         stripe_secret_key = settings.STRIPE_SECRET_KEY
 
         cart_contents = get_cart(self.request)
-        total = cart_contents['cart_total']
+        total = cart_contents['grand_total']
 
         stripe_total = round(total * 100)
         stripe.api_key = stripe_secret_key

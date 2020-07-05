@@ -67,7 +67,7 @@ class Order(models.Model):
         """Updates the grand total figure in an order."""
         self.order_total = self.lineitems.aggregate(Sum(
             'lineitem_total'))['lineitem_total__sum'] or 0
-        self.grand_total = self.order_total
+        self.grand_total = self.order_total + self.delivery_cost
 
     def _generate_order_number(self):
         """Generates a random order number"""

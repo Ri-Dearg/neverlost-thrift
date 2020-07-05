@@ -1,6 +1,9 @@
 from django.shortcuts import get_object_or_404
 
+from config import settings
 from products.models import Product
+
+from decimal import Decimal
 
 
 def get_cart(request):
@@ -21,7 +24,16 @@ def get_cart(request):
                 'product': product,
             })
 
+    if cart_total < settings.FREE_DELIVERY_THRESHOLD and cart_total > 0:
+        delivery = Decimal(settings.STANDARD_DELIVERY)
+    else:
+        delivery = 0
+
+    grand_total = cart_total + delivery
+
     return {'cart': cart,
             'cart_quantity': cart_quantity,
             'cart_items': cart_items,
-            'cart_total': cart_total}
+            'cart_total': cart_total,
+            'delivery': delivery,
+            'grand_total': grand_total}

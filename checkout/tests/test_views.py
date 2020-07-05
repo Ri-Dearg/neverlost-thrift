@@ -72,6 +72,5 @@ class TestCheckoutViews(TestCase):
 
         global valid_order_dict
         self.client.post('/checkout/', valid_order_dict)
-        new_order = Order.objects.latest('date')
-        with self.assertRaises(OrderLineItem.DoesNotExist):
-            new_order.lineitems.get(product=0)
+        with self.assertRaises(Order.DoesNotExist):
+            Order.objects.latest('date')

@@ -76,10 +76,22 @@
     {% endfor %}
     <div class="row mx-0">
         <div class="col text-right">
+            <p class="col">Delivery: </p>
+        </div>
+        <div class="col-3 col-md-2 pl-0 text-right">
+        {% if delivery != 0 %}
+            <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ delivery|floatformat:2 }}</strong></p>
+            {% else %}
+            <p class="text-dark p-0 pr-2 pr-md-4"><strong>Free!</strong></p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mx-0">
+        <div class="col text-right">
             <p class="col">Total: </p>
         </div>
         <div class="col-3 col-md-2 pl-0 text-right">
-            <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ cart_total }}</strong></p>
+            <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ grand_total }}</strong></p>
         </div>
     </div>
 </div>

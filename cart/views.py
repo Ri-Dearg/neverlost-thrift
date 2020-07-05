@@ -4,7 +4,10 @@ from django.template import RequestContext
 
 from django_ajax.decorators import ajax
 
+from config import settings
 from products.models import Product
+
+from decimal import Decimal
 
 
 class CartListView(ListView):
@@ -33,7 +36,7 @@ def cart_toggle(request):
                 result = 'uncarted'
 
                 # cart[item_id] += quantity
-                # messages.success(request, f'Updated {product.name} quantity to \
+            # messages.success(request, f'Updated {product.name} quantity to \
                 #     {cart[item_id]}')
             else:
                 cart[item_id] = quantity
@@ -67,8 +70,23 @@ def update_cart(request):
                 'product': product,
             })
 
+    if cart_total < settings.FREE_DELIVERY_THRESHOLD:
+        delivery = Decimal(settings.STANDARD_DELIVERY)
+    else:
+        delivery = 0
+
+    grand_total = cart_total + delivery
+
     RequestContext(request).push({'cart': cart,
                                   'cart_quantity': cart_quantity,
                                   'cart_items': cart_items,
-                                  'cart_total': cart_total})
+                                  'cart_total': cart_total,
+                                  'delivery': delivery,
+                                  'grand_total': grand_total})
+
     return render(request, 'cart/includes/cart_popover.html')
+
+
+def refresh_total(request):
+    print(request)
+    return render(request, 'cart/includes/totals.html')
