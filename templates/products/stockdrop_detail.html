@@ -36,6 +36,7 @@ var infinite = new Waypoint.Infinite({
     $('.spinner-border').show();
     },
     onAfterPageLoad: function () {
+    $(`.toggle-form`).off("submit")
     $('.spinner-border').hide();
     buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate)
     }
