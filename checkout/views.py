@@ -21,6 +21,23 @@ class OrderDetailView(DetailView):
     model = Order
     context_object_name = 'order'
 
+    def dispatch(self, *args, **kwargs):
+        user = self.request.user
+        self.object = self.get_object()
+        if user.is_authenticated:
+            userprofile = self.request.user.userprofile
+            if self.object.user_profile == userprofile:
+                return super().dispatch(*args, **kwargs)
+            else:
+                return redirect(reverse('products:product-list'))
+        elif 'my_order' in self.request.session:
+            if self.request.session['my_order'] == self.object.id:
+                return super().dispatch(*args, **kwargs)
+            else:
+                return redirect(reverse('products:product-list'))
+        else:
+            return redirect(reverse('products:product-list'))
+
 
 class OrderListView(LoginRequiredMixin, ListView):
     model = Order
@@ -28,9 +45,8 @@ class OrderListView(LoginRequiredMixin, ListView):
     ordering = ['-date']
 
     def get_queryset(self):
-        userprofile_id = self.request.user.userprofile.id
-        Order.objects.filter(pk=userprofile_id)
-        return super().get_queryset()
+        userprofile = self.request.user.userprofile
+        return Order.objects.filter(user_profile=userprofile).order_by('-date')
 
 
 class OrderCreateView(CreateView):
@@ -177,6 +193,9 @@ class OrderCreateView(CreateView):
             if self.request.user.is_authenticated:
                 order.user_profile = self.request.user.userprofile
                 order.save()
+            else:
+                self.request.session['my_order'] = order.id
+
         messages.success(self.request, f'Order successfully processed! \
              A confirmation email will be sent to {order.email}.')
         return super().form_valid(form)
