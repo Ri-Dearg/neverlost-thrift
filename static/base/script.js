@@ -51,13 +51,12 @@ function buttonToggle(
         hrefStop();
       });
       })
-    
   }
+
 
   /**
    * Runs the form to like the post through an ajax function.
    */
-
   function like(id, serializedData, formUrl) {
     // Sends form to flask view
     $.ajax({
@@ -101,7 +100,9 @@ function buttonToggle(
             $(`#btn-${id}`).contents().last()[0].textContent = "  Add to Cart";
           }
           if (window.location.pathname == "/cart/") {
-            $(`#cart-item-${id}`).fadeOut("slow");
+            if (data.content.updated != 'updated') {
+                $(`#cart-item-${id}`).fadeOut("slow");
+            }
               $("#totals-box")
             .fadeTo("slow", 0, function () {
                 $(`#totals-box`)

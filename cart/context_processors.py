@@ -14,8 +14,8 @@ def get_cart(request):
     cart_quantity = 0
 
     if cart:
-        cart_quantity += len(cart)
         for item_id, item_data in cart.items():
+            cart_quantity += item_data
             product = get_object_or_404(Product, pk=item_id)
             cart_total += item_data * product.price
             cart_items.append({

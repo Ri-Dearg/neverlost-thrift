@@ -28,16 +28,32 @@ def cart_toggle(request):
             quantity = int(request.POST.get('quantity'))
             cart = request.session.get('cart', {})
 
-            if item_id in list(cart.keys()):
+            if request.POST.get('update'):
+                cart[item_id] = quantity
+                request.session['cart'] = cart
+                updated = 'updated'
+                tag = 'success'
+                message = f'Updated {product.name} quantity to \
+                    {cart[item_id]}.'
+                result = 'uncarted'
+                return {'message': message, 'result': result, 'tag': tag,
+                        'updated': updated}
+
+            elif (item_id in list(cart.keys()) and product.is_unique) or (
+                    request.POST.get('remove')):
                 cart.pop(str(item_id))
                 request.session['cart'] = cart
                 tag = 'info'
                 message = f'Removed {product.name} from your cart.'
                 result = 'uncarted'
 
-                # cart[item_id] += quantity
-            # messages.success(request, f'Updated {product.name} quantity to \
-                #     {cart[item_id]}')
+            elif item_id in list(cart.keys()) and not product.is_unique:
+                cart[item_id] += quantity
+                request.session['cart'] = cart
+                tag = 'success'
+                message = f'Updated {product.name} quantity to \
+                    {cart[item_id]}.'
+                result = 'uncarted'
             else:
                 cart[item_id] = quantity
                 request.session['cart'] = cart
@@ -60,8 +76,8 @@ def update_cart(request):
     cart_quantity = 0
 
     if cart:
-        cart_quantity += len(cart)
         for item_id, item_data in cart.items():
+            cart_quantity += item_data
             product = get_object_or_404(Product, pk=item_id)
             cart_total += item_data * product.price
             cart_items.append({
@@ -88,5 +104,4 @@ def update_cart(request):
 
 
 def refresh_total(request):
-    print(request)
     return render(request, 'cart/includes/totals.html')

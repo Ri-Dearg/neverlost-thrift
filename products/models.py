@@ -41,6 +41,10 @@ class Product(models.Model):
                               upload_to='product_images')
     date_added = models.DateTimeField(default=timezone.now)
     admin_tags = fields.ArrayField(models.CharField(max_length=40), size=8)
+    is_unique = models.BooleanField(default=True,
+                                    blank=False,
+                                    null=False)
+    stock = models.SmallIntegerField(default=1, blank=False, null=False)
 
     def save(self, *args, **kwargs):
         """Image resizing, snippet repurposed from:
@@ -52,6 +56,9 @@ class Product(models.Model):
         except Product.DoesNotExist:
             pass
         finally:
+            if not self.is_unique and self.stock == 1:
+                self.stock = 50
+
             img = Image.open(self.image)
             img_format = img.format.lower()
 
