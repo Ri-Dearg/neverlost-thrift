@@ -10,12 +10,24 @@
     {% include 'products/includes/stockdrop_splash.html' %}
 {% endif %}
 	<div class="row mx-0 infinite-container">
-		{% for product in products %}
+    {% if page_obj %}
+		{% for product in page_obj %}
 		{% include 'products/includes/product_box.html' %}
 		{% endfor %}
+        {% else %}
+    <div class="col text-center">
+    <h4 class="text-dark">Nothing to see here...</h4>
+        <h2 class="text-primary">Let's do some shopping</h2>
+        <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:product-list' %}">Shop</a>
+    </div>
+    {% endif %}
     </div>
 {% if page_obj.has_next %}
-    <a class="infinite-more-link d-none" href="?page={{ page_obj.next_page_number }}"></a>
+{% if 'query' in request.get_full_path %}
+    <a class="infinite-more-link d-none" href="{{ request.path }}?query={{ keyword }}?page={{ page_obj.next_page_number }}"></a>
+{% else %}
+    <a class="infinite-more-link d-none" href="{{ request.path }}?page={{ page_obj.next_page_number }}"></a>
+{% endif %}
     <div class="d-flex justify-content-center text-secondary d-none mt-3">
         <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>

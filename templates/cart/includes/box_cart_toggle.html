@@ -1,5 +1,5 @@
 {% load static %}
-<form class="col-2 text-center px-0 toggle-form" id="cf-{{ product.id }}" action="{% url 'cart:cart-toggle' %}" method="POST">
+<form class="col-2 text-center px-0 ml-auto toggle-form" id="cf-{{ product.id }}" action="{% url 'cart:cart-toggle' %}" method="POST">
 	{% csrf_token %}
     <input type="hidden" name="item-id" value="{{ product.id }}">
 	<input type="hidden" name="quantity" value="1">

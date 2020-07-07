@@ -12,7 +12,7 @@ function hrefStop() {
 function toastMessage(tag, message) {
   titleTag = tag.charAt(0).toUpperCase() + tag.slice(1);
   $(".toast-wrapper").html(
-    `<div class="toast" data-delay="4000">
+    `<div class="toast" data-delay="5000">
                             <div class="toast-header bg-${tag}"><strong class="mr-auto text-white">${titleTag}</strong><button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
                             <div class="toast-body">${message}</div>
                         </div>`
