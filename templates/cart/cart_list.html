@@ -43,8 +43,8 @@
     })
     $(".remove-button").on("click", function() {
         var id = this.id.slice(3);
-        $(`#af-${id}`).append('<input type="hidden" name="remove" value="remove"/>')
-        $(`#bf-${id}`).append('<input type="hidden" name="remove" value="remove"/>')
+        $(`#af-${id}`).append('<input type="hidden" name="special" value="remove"/>')
+        $(`#bf-${id}`).append('<input type="hidden" name="special" value="remove"/>')
     })
 </script>
 {{ block.super }}
