@@ -6,61 +6,78 @@
         </div>
     </div>
     <div class="row bg-dark mx-0 pb-2 pr-2">
-    <div class="d-none d-md-block col-md-9 col-lg-7 px-md-5">
-        <form method="GET" action="{% url 'products:product-list' %}">
-            <div class="input-group w-100">
-                <input class="form-control" type="text" name="query" placeholder="Search">
-                <div class="input-group-append">
-                    <button class="form-control btn-info" type="submit">Search
-                    </button>
+        <div class="d-none d-md-block col-md-9 col-lg-7 px-md-5">
+            <form method="GET" action="{% url 'products:product-list' %}">
+                <div class="input-group w-100">
+                    <input class="form-control" type="text" name="query" placeholder="Search" />
+                    <div class="input-group-append">
+                        <button class="form-control btn-info" type="submit">Search</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
-    <div class="col-4 col-md-1 col-lg-2 text-center">
-        {% if user.is_authenticated %}
-        {% csrf_token as csrf_token %}
-        <a href="#" class="d-inline-block href-stop" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="{% include 'users/includes/authenticated_popover_title.html' %}" data-content="{% include 'users/includes/authenticated_popover_content.html' %}" tabindex="0">
-            <object class="header-object" type="image/svg+xml" data="{% static 'icons/user.svg' %}">
-                <img src="{% static 'icons/user.svg' %}" alt="Account">
-            </object>
-        </a>
-        {% else %}
-        <a href="#" class="d-inline-block href-stop" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="{% include 'users/includes/unauthenticated_popover_title.html' %}" data-content="Join the community." tabindex="0">
-            <object class="header-object" type="image/svg+xml" data="{% static 'icons/user.svg' %}">
-                <img src="{% static 'icons/user.svg' %}" alt="Account">
-            </object>
-        </a>
-        {% endif %}
-    </div>
-    <div class="col-4 col-md-1 col-lg-1 text-center" id="like-popover-container">
-    {% include 'likes/includes/likes_popover.html' %}
-    </div>
-    <div class="col-4 col-md-1 col-lg-2 text-center px-0" id="cart-popover-container">
-    {% include 'cart/includes/cart_popover.html' %}
-    </div>
+            </form>
+        </div>
+        <div class="col-4 col-md-1 col-lg-2 text-center">
+            {% if user.is_authenticated %} {% csrf_token as csrf_token %}
+            <a
+                href="#"
+                class="d-inline-block href-stop"
+                data-toggle="popover"
+                data-trigger="focus"
+                data-placement="bottom"
+                data-html="true"
+                data-title="{% include 'users/includes/authenticated_popover_title.html' %}"
+                data-content="{% include 'users/includes/authenticated_popover_content.html' %}"
+                tabindex="0"
+            >
+                <object class="header-object" type="image/svg+xml" data="{% static 'icons/user.svg' %}">
+                    <img src="{% static 'icons/user.svg' %}" alt="Account" />
+                </object>
+            </a>
+            {% else %}
+            <a
+                href="#"
+                class="d-inline-block href-stop"
+                data-toggle="popover"
+                data-trigger="focus"
+                data-placement="bottom"
+                data-html="true"
+                data-title="{% include 'users/includes/unauthenticated_popover_title.html' %}"
+                data-content="Join the community."
+                tabindex="0"
+            >
+                <object class="header-object" type="image/svg+xml" data="{% static 'icons/user.svg' %}">
+                    <img src="{% static 'icons/user.svg' %}" alt="Account" />
+                </object>
+            </a>
+            {% endif %}
+        </div>
+        <div class="col-4 col-md-1 col-lg-1 text-center" id="like-popover-container">
+            {% include 'likes/includes/likes_popover.html' %}
+        </div>
+        <div class="col-4 col-md-1 col-lg-2 text-center px-0" id="cart-popover-container">
+            {% include 'cart/includes/cart_popover.html' %}
+        </div>
     </div>
     <div class="row bg-primary">
         <div class="col">
             <nav class="navbar navbar-expand-md navbar-dark p-0">
-            
-            <form class="col-9 d-md-none" method="GET" action="{% url 'products:product-list' %}">
-            <div class="input-group w-100">
-                <input class="form-control" type="text" name="query" placeholder="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-info" type="submit">            
-                    <object class="search-object" type="image/svg+xml" data="{% static 'icons/search.svg' %}">
-                <img src="{% static 'icons/search.svg' %}" alt="Search">
-            </object>
+                <form class="col-9 d-md-none" method="GET" action="{% url 'products:product-list' %}">
+                    <div class="input-group w-100">
+                        <input class="form-control" type="text" name="query" placeholder="Search" />
+                        <div class="input-group-append">
+                            <button class="btn btn-info" type="submit">
+                                <object class="search-object" type="image/svg+xml" data="{% static 'icons/search.svg' %}">
+                                    <img src="{% static 'icons/search.svg' %}" alt="Search" />
+                                </object>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-3 d-md-none">
+                    <button class="navbar-toggler my-2 mr-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-            </div>
-            </form>
-            <div class="col-3 d-md-none">
-                <button class="navbar-toggler my-2 mr-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav nav nav-justified w-100">
@@ -71,7 +88,12 @@
                             <a class="nav-link dropdown-toggle text-right text-md-center pr-3 pr-md-0" href="#" id="stockdropsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">StockDrops</a>
                             <div class="dropdown-menu w-100 bg-primary" aria-labelledby="stockdropsDropdown">
                                 {% for collection in stockdrops %}
-                                <a class="dropdown-item text-white text-right text-md-center {% if collection.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}" href="{% url 'products:stockdrop-detail' collection.id %}">{{ collection.name }}{% if collection.id|stringformat:'s' == collection_active|stringformat:'s' %}<span class="sr-only">(current)</span>{% endif %}</a>
+                                <a
+                                    class="dropdown-item text-white text-right text-md-center {% if collection.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}"
+                                    href="{% url 'products:stockdrop-detail' collection.id %}"
+                                >
+                                    {{ collection.name }}{% if collection.id|stringformat:'s' == collection_active|stringformat:'s' %}<span class="sr-only">(current)</span>{% endif %}
+                                </a>
 
                                 {% endfor %}
                             </div>
@@ -80,7 +102,12 @@
                             <a class="nav-link dropdown-toggle text-right text-md-center pr-3 pr-md-0" href="#" id="categoriesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
                             <div class="dropdown-menu w-100 bg-primary" aria-labelledby="categoriesDropdown">
                                 {% for category in categories %}
-                                <a class="dropdown-item text-white text-right text-md-center {% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}" href="{% url 'products:category-detail' category.id %}">{{ category.friendly_name }}{% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}<span class="sr-only">(current)</span>{% endif %}</a>
+                                <a
+                                    class="dropdown-item text-white text-right text-md-center {% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}"
+                                    href="{% url 'products:category-detail' category.id %}"
+                                >
+                                    {{ category.friendly_name }}{% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}<span class="sr-only">(current)</span>{% endif %}
+                                </a>
                                 {% endfor %}
                             </div>
                         </li>

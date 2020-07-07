@@ -1,86 +1,77 @@
 <!DOCTYPE html>
-{% load static %}
-{% load sass_tags %}
+{% load static %} {% load sass_tags %}
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" type="text/css" href="{% sass_src 'css/main.scss' %}" />
+        <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="https://js.stripe.com/v3/"></script>
 
-    <link rel="stylesheet" type="text/css" href="{% sass_src 'css/main.scss' %}">
-    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="https://js.stripe.com/v3/"></script>
+        <title>Neverlost | {% block head_title %}{% endblock %}</title>
+    </head>
 
+    <body class="body-mods">
+        <div class="preloader justify-content-center align-items-center bg-dark">
+            <div class="spinner-border text-secondary bg-dark" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
 
-	<title>Neverlost | Found</title>
-</head>
+        {% include 'base/includes/header.html' %}
 
-<body class="body-mods">
+        <section class="container shadow bg-white p-0 pb-4 min-vh-100">
+            {% block content %} {% endblock %}
+        </section>
 
-<div class="preloader justify-content-center align-items-center bg-dark">
-  <div class="spinner-border text-secondary bg-dark" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-</div>
+        <div class="toast-position" aria-live="polite" aria-atomic="true">
+            <div class="toast-wrapper">
+                {% if messages %} {% for message in messages %} {% include 'base/includes/messages.html' %} {% endfor %} {% endif %}
+            </div>
+        </div>
 
-    {% include 'base/includes/header.html' %}
-
-    <section class="container shadow bg-white p-0 pb-4 min-vh-100">
-		{% block content %} {% endblock %}
-	</section>
-
-<div class="toast-position" aria-live="polite" aria-atomic="true">
-  <div class="toast-wrapper">
-  {% if messages %}
-	{% for message in messages %}
-	{% include 'base/includes/messages.html' %}
-	{% endfor %}
-{% endif %}
-  </div>
-</div>
-
-    {% block postloadjs %}
-    <script src="{% static 'js/script.js' %}"></script>
-    <script>
-    // Runs the fade for the preloader once content has loaded.
-        window.onload = function(){
-            window.document.body.onload = fadePreload(); 
-        };        
-        hrefStop()
-
-        var liked = "{% static 'icons/heart-fill.svg' %}"
-        var unliked = "{% static 'icons/heart.svg' %}"
-        {% if '/product/' in request.path %}
-        var carted = "{% static 'icons/cart-check-white.svg' %}"
-        var uncarted = "{% static 'icons/cart-plus-white.svg' %}"
-        {% else %}
-        var carted = "{% static 'icons/cart-check.svg' %}"
-        var uncarted = "{% static 'icons/cart-plus.svg' %}"
-        {% endif %}
-        var likeUpdate = "{% url 'likes:likes-update' %}"
-        var cartUpdate = "{% url 'cart:cart-update' %}"
-        var cartRefresh = "{% url 'cart:cart-refresh' %}"
-
-        buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate, cartRefresh)
-
-        $(function () {
-            $('[data-toggle="popover"]').popover({
-                sanitize: false,
+        {% block postloadjs %}
+        <script src="{% static 'js/script.js' %}"></script>
+        <script>
+            // Runs the fade for the preloader once content has loaded.
+            window.onload = function(){
+				window.document.body.onload = fadePreload();
+            };
+            hrefStop()
+				
+            var liked = "{% static 'icons/heart-fill.svg' %}"
+            var unliked = "{% static 'icons/heart.svg' %}"
+            {% if '/product/' in request.path %}
+            var carted = "{% static 'icons/cart-check-white.svg' %}"
+            var uncarted = "{% static 'icons/cart-plus-white.svg' %}"
+            {% else %}
+            var carted = "{% static 'icons/cart-check.svg' %}"
+            var uncarted = "{% static 'icons/cart-plus.svg' %}"
+            {% endif %}
+            var likeUpdate = "{% url 'likes:likes-update' %}"
+            var cartUpdate = "{% url 'cart:cart-update' %}"
+            var cartRefresh = "{% url 'cart:cart-refresh' %}"
+            
+            buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate, cartRefresh)
+				
+            $(function () {
+				$('[data-toggle="popover"]').popover({
+				    sanitize: false,
+				})
             })
+            $('.popover-dismiss').popover({
+                trigger: 'focus'
             })
-        $('.popover-dismiss').popover({
-            trigger: 'focus'
-            })
-
-        {% if messages %}
-        {% for message in messages %}
-        $('.toast').toast('show')
-        {% endfor %}
-        {% endif %}
-    </script>
-    {% endblock %}
-</body>
-
+				
+            {% if messages %}
+				{% for message in messages %}
+				    $('.toast').toast('show')
+				{% endfor %}
+            {% endif %}
+        </script>
+        {% endblock %}
+    </body>
 </html>
