@@ -13,7 +13,6 @@ class ProductListView(ListView):
     If there is a GET request, performs a search."""
     model = Product
     context_object_name = 'products'
-    paginate_by = 9
 
     def get_queryset(self):
         """Returns either all Products or a query appropriately."""
@@ -22,20 +21,22 @@ class ProductListView(ListView):
             if self.request.GET['query'] == '':
                 messages.warning(self.request,
                                  "You didn't search for anything")
-                return Product.objects.all()
+                return Product.objects.all().order_by('-stock', '-popularity')
+            else:
+                # Performs a full text search using Postgres database
+                # functionality, weighting tags above other text
+                self.user_query = self.request.GET['query']
+                self.vector = SearchVector(
+                    'name', 'description', 'category', weight='B') + SearchVector(
+                        'admin_tags', weight='A')
+                self.query = SearchQuery(self.user_query)
+                self.rank = SearchRank(self.vector, self.query)
 
-            # Performs a full text search using Postgres database
-            # functionality, weighting tags above other text
-            self.user_query = self.request.GET['query']
-            self.vector = SearchVector('name', 'description', weight='A') + \
-                SearchVector('admin_tags', weight='B')
-            self.query = SearchQuery(self.user_query)
-            self.rank = SearchRank(self.vector, self.query)
-
-            return Product.objects.annotate(rank=self.rank).order_by('-rank')\
-                .filter(rank__gt=0)
-
-        return Product.objects.all().order_by('-stock', '-date_added')
+                return Product.objects.annotate(
+                    rank=self.rank).order_by(
+                         '-rank').filter(rank__gt=0)
+        else:
+            return Product.objects.all().order_by('-stock', '-popularity')
 
     def get_context_data(self, **kwargs):
         """Adds all necessary information to the context"""
@@ -44,6 +45,20 @@ class ProductListView(ListView):
         if 'query' not in self.request.GET and self.request.path == '/':
             all_products_active = True
             context['all_products_active'] = all_products_active
+
+        products = context['products']
+        paginator = Paginator(products, 9)
+        page_number = self.request.GET.get('page')
+
+        if 'query' in self.request.GET:
+            if 'page' in self.request.GET['query']:
+                page_number = self.request.GET['query'].rpartition('=')[-1]
+            keyword = self.request.GET['query'].split('?')[0]
+            context['keyword'] = keyword
+
+        page_obj = paginator.get_page(page_number)
+
+        context['page_obj'] = page_obj
 
         return context
 
@@ -71,7 +86,8 @@ class StockDropDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        products = context['stockdrop'].products.all()
+        products = context['stockdrop'].products.all().order_by(
+            '-stock', '-popularity')
         paginator = Paginator(products, 9)
 
         page_number = self.request.GET.get('page')
@@ -96,7 +112,8 @@ class CategoryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        products = context['category'].products.all()
+        products = context['category'].products.all().order_by(
+            '-stock', '-popularity')
         paginator = Paginator(products, 9)
 
         page_number = self.request.GET.get('page')

@@ -46,6 +46,10 @@ class Product(models.Model):
                                     blank=False,
                                     null=False)
     stock = models.SmallIntegerField(default=1, blank=False, null=False)
+    times_purchased = models.IntegerField(
+        default=0, blank=False, null=False, editable=False)
+    popularity = models.IntegerField(
+        default=0, blank=False, null=False, editable=False)
 
     def save(self, *args, **kwargs):
         """Image resizing, snippet repurposed from:
@@ -57,6 +61,8 @@ class Product(models.Model):
         except Product.DoesNotExist:
             pass
         finally:
+            self._update_popularity()
+
             if not self.is_unique and self.stock == 1:
                 self.stock = 50
 
@@ -88,8 +94,11 @@ class Product(models.Model):
             else:
                 super().save(*args, **kwargs)
 
+    def _update_popularity(self):
+        self.popularity = self.users.count() + self.times_purchased
+
     class Meta:
-        ordering = ['-date_added']
+        ordering = ['-popularity']
 
     def __str__(self):
         return f'{self.name}: €{self.price}'

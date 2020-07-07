@@ -64,11 +64,13 @@ def likes_toggle(request):
 
                 if product in liked_products.all():
                     user.userprofile.liked_products.remove(product)
+                    product.save()
                     tag = 'info'
                     message = f'{product.name} unliked!'
                     result = 'unliked'
                 else:
                     user.userprofile.liked_products.add(product)
+                    product.save()
                     tag = 'success'
                     message = f'{product.name} liked!'
                     result = 'liked'
