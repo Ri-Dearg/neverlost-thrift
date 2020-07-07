@@ -6,18 +6,18 @@
         </div>
     </div>
     <div class="row bg-dark mx-0 pb-2 pr-2">
-    <div class="col-6 col-md-9 px-md-5">
+    <div class="d-none d-md-block col-md-9 col-lg-7 px-md-5">
         <form method="GET" action="{% url 'products:product-list' %}">
             <div class="input-group w-100">
-                <input class="form-control rounded-sm" type="text" name="query" placeholder="Search">
+                <input class="form-control" type="text" name="query" placeholder="Search">
                 <div class="input-group-append">
-                    <button class="form-control btn-secondary rounded-sm" type="submit">Search
+                    <button class="form-control btn-secondary" type="submit">Search
                     </button>
                 </div>
             </div>
         </form>
     </div>
-    <div class="col-1">
+    <div class="col-4 col-md-1 col-lg-2 text-center">
         {% if user.is_authenticated %}
         {% csrf_token as csrf_token %}
         <a href="#" class="d-inline-block href-stop" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" data-title="{% include 'users/includes/authenticated_popover_title.html' %}" data-content="{% include 'users/includes/authenticated_popover_content.html' %}" tabindex="0">
@@ -33,19 +33,34 @@
         </a>
         {% endif %}
     </div>
-    <div class="col-1" id="like-popover-container">
+    <div class="col-4 col-md-1 col-lg-1 text-center" id="like-popover-container">
     {% include 'likes/includes/likes_popover.html' %}
     </div>
-    <div class="col-1" id="cart-popover-container">
+    <div class="col-4 col-md-1 col-lg-2 text-center px-0" id="cart-popover-container">
     {% include 'cart/includes/cart_popover.html' %}
     </div>
     </div>
     <div class="row bg-primary">
         <div class="col">
-            <nav class="navbar navbar-expand-lg navbar-dark p-0">
-                <button class="navbar-toggler ml-auto my-2 mr-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <nav class="navbar navbar-expand-md navbar-dark p-0">
+            
+            <form class="col-9 d-md-none" method="GET" action="{% url 'products:product-list' %}">
+            <div class="input-group w-100">
+                <input class="form-control" type="text" name="query" placeholder="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">            
+                    <object class="search-object" type="image/svg+xml" data="{% static 'icons/search.svg' %}">
+                <img src="{% static 'icons/search.svg' %}" alt="Search">
+            </object>
+                    </button>
+                </div>
+            </div>
+            </form>
+            <div class="col-3 d-md-none">
+                <button class="navbar-toggler my-2 mr-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+            </div>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav nav nav-justified w-100">
@@ -68,9 +83,6 @@
                                 <a class="dropdown-item text-white text-right text-md-center {% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}active{% endif %}" href="{% url 'products:category-detail' category.id %}">{{ category.friendly_name }}{% if category.id|stringformat:'s' == collection_active|stringformat:'s' %}<span class="sr-only">(current)</span>{% endif %}</a>
                                 {% endfor %}
                             </div>
-                        </li>
-                        <li class="nav-item {% if about_active %}active{% endif %}">
-                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">About{% if about_active %}<span class="sr-only">(current)</span>{% endif %}</a>
                         </li>
                         <li class="nav-item {% if contact_active %}active{% endif %}">
                             <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">Contact{% if contact_active %}<span class="sr-only">(current)</span>{% endif %}</a>
