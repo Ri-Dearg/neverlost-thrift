@@ -1,5 +1,15 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&family=Montserrat:wght@500&display=swap');
 
+/*--------------------------------------------------------------------------
+Basic Layout
+--------------------------------------------------------------------------*/
 .body-mods {
     margin-top: 153px;
     padding-top: 1px;
@@ -10,13 +20,46 @@
     min-height: 75vh;
 }
 
+
+/*--------------------------------------------------------------------------
+Fonts
+--------------------------------------------------------------------------*/
+
 .heading-font {
     font-family: 'Lexend Deca', sans-serif;
 }
 
+.brand-logo a {
+    font-family: 'Lexend Deca', sans-serif;
+    text-decoration: none;
+    color: #f8f8f8;
+    letter-spacing: 1rem;
+    font-weight: 800
+}
+
+
+/*--------------------------------------------------------------------------
+Forms
+--------------------------------------------------------------------------*/
+
+.invalid-feedback {
+    display: block;
+}
+
+#totals-box {
+    min-height: 80px;
+}
+
+
+/*--------------------------------------------------------------------------
+Navbar
+--------------------------------------------------------------------------*/
+
 .nav-item {
     height: 100%;
     width: 100%;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
     transition: 0.5s;
 }
 
@@ -30,24 +73,35 @@
     color: #f8f8f8;
 }
 
-.brand-logo a {
-    font-family: 'Lexend Deca', sans-serif;
-    text-decoration: none;
-    color: #f8f8f8;
-    letter-spacing: 1rem;
-    font-weight: 800
+.popover {
+    max-width: none;
 }
 
-.carousel-caption {
-    position: absolute;
-    right: 0;
+
+/*--------------------------------------------------------------------------
+Preloader
+--------------------------------------------------------------------------*/
+
+.preloader {
+    height: 100%;
+    width: 100%;
+    position: fixed;
     bottom: 0;
-    left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 1020;
+    padding-bottom: 153px 
 }
 
-.dark-overlay {
-    background-color: rgba(38, 30, 46, 0.7);
+.spinner-border{
+    width: 5rem;
+    height: 5rem;
 }
+
+/*--------------------------------------------------------------------------
+Product Box
+--------------------------------------------------------------------------*/
 
 .card-header {
     background-color: #fff
@@ -58,7 +112,8 @@
 }
 
 .card-img-top {
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
 }
 
 .cart-thumb {
@@ -71,10 +126,60 @@
     height: auto;
 }
 
+.product-alert {
+    position: relative;
+    bottom: 50px;
+}
+
+
+/*--------------------------------------------------------------------------
+Splash Image
+--------------------------------------------------------------------------*/
+
+.carousel-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.dark-overlay {
+    background-color: rgba(38, 30, 46, 0.7);
+}
+
+
+/*--------------------------------------------------------------------------
+SVG Icons
+--------------------------------------------------------------------------*/
+
 object {
     pointer-events: none;
 }
 
+.header-object {
+    width: 2rem;
+    height: 2rem;
+}
+
+.detail-object {
+    width: 2.2rem;
+    height: 2.2rem;    
+}
+
+.box-object {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.search-object {
+    height: 1rem;
+    width: 1rem;
+}
+
+
+/*--------------------------------------------------------------------------
+Toasts
+--------------------------------------------------------------------------*/
 
 .toast-wrapper {
     position: absolute;
@@ -95,45 +200,10 @@ z-index: 1021;
     z-index: 1022;
 }
 
-.header-object {
-    width: 2rem;
-    height: 2rem;
-}
 
-.detail-object {
-    width: 2.2rem;
-    height: 2.2rem;    
-}
-
-.box-object {
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
-.invalid-feedback {
-    display: block;
-}
-
-.preloader {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    display: flex;
-    z-index: 1020;
-    padding-bottom: 153px 
-}
-
-.spinner-border{
-    width: 5rem;
-    height: 5rem;
-}
-
-
-.popover {
-    max-width: none;
-}
-
+/*--------------------------------------------------------------------------
+Floating labels from: https://getbootstrap.com/docs/4.0/examples/floating-labels/
+--------------------------------------------------------------------------*/
 
 :root {
   --input-padding-x: .75rem;
@@ -161,6 +231,8 @@ z-index: 1021;
   color: #495057;
   border: 1px solid transparent;
   border-radius: .25rem;
+  -webkit-transition: all .1s ease-in-out;
+  -o-transition: all .1s ease-in-out;
   transition: all .1s ease-in-out;
 }
 
@@ -196,17 +268,3 @@ z-index: 1021;
   font-size: 12px;
   color: #777;
 }
-
-#totals-box {
-    min-height: 80px;
-}
-
-.search-object {
-    height: 1rem;
-    width: 1rem;
-}
-
-.product-alert {
-    position: relative;
-    bottom: 50px;
-    }
