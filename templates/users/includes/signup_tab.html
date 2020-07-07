@@ -1,13 +1,9 @@
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% url 'account_signup' as account_signup_url %}
+{% load i18n %} {% block head_title %}Join{% endblock%} {% load crispy_forms_tags %} {% url 'account_signup' as account_signup_url %}
 
 <form class="login" method="POST" action="{% url 'account_signup' %}?next={{ request.path }}">
-<!-- https://stackoverflow.com/questions/53320056/django-allauth-display-all-error-messages -->
+    <!-- https://stackoverflow.com/questions/53320056/django-allauth-display-all-error-messages -->
 
-  {% csrf_token %}
-  {% crispy allauth_signup_form %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ request.path }}" />
-  {% endif %}
+    {% csrf_token %} {% crispy allauth_signup_form %} {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ request.path }}" />
+    {% endif %}
 </form>

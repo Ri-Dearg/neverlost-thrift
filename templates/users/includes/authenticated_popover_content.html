@@ -1,10 +1,10 @@
 &lt;div class=&quot;list-group border-0&quot;&gt;
     &lt;a class=&quot;list-group-item border-0 h6 mx-0 my-1 p-1&quot; href=&quot;{% url 'checkout:order-list' %}&quot;&gt;Orders&lt;/a&gt;
-&lt;form class=&quot;list-group-item border-0 mx-0 my-1 p-1&quot; method=&quot;POST&quot; action=&quot;{% url 'account_logout' %}?next={{ request.path }}&quot;&gt;
-	&lt;input type=&quot;hidden&quot; name=&quot;csrfmiddlewaretoken&quot; value=&quot;{{ csrf_token }}&quot;&gt;
-    {% if redirect_field_value %}
-	&lt;input type=&quot;hidden&quot; name=&quot;{{ redirect_field_name }}&quot; value=&quot;{{ redirect_field_value }}&quot;&gt;
-    {% endif %}
-	&lt;button type=&quot;submit&quot; class=&quot;btn btn-link text-left p-0&quot; value=&quot;Submit&quot;&gt;Logout&lt;/button&gt;
-&lt;/form&gt;
+    &lt;form class=&quot;list-group-item border-0 mx-0 my-1 p-1&quot; method=&quot;POST&quot; action=&quot;{% url 'account_logout' %}?next={{ request.path }}&quot;&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;csrfmiddlewaretoken&quot; value=&quot;{{ csrf_token }}&quot; /&gt;
+        {% if redirect_field_value %}
+        &lt;input type=&quot;hidden&quot; name=&quot;{{ redirect_field_name }}&quot; value=&quot;{{ redirect_field_value }}&quot; /&gt;
+        {% endif %}
+        &lt;button type=&quot;submit&quot; class=&quot;btn btn-link text-left p-0&quot; value=&quot;Submit&quot;&gt;Logout&lt;/button&gt;
+    &lt;/form&gt;
 &lt;/div&gt;
