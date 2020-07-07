@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.messages import get_messages
 
-from checkout.models import Order, OrderLineItem
+from checkout.models import Order
 
 valid_order_dict = {
         'shipping_full_name': 'Jeremy Fisher',

@@ -1,0 +1,26 @@
+Thank you!
+
+This is a confirmation of your order at Neverlost Thrift. Your order information is below:
+
+Order Number: {{ order.order_number }}
+Order Date: {{ order.date }}
+
+Order Total: ${{ order.order_total }}
+Delivery: ${{ order.delivery_cost }}
+Grand Total: ${{ order.grand_total }}
+
+The billing has been charged to {{ order.billing_full_name }}
+
+Your order will be shipped to {{ order.shipping_full_name }}{{ order.shipping_street_address1 }} in {{ order.shipping_town_or_city }}, {{ order.country }}.
+
+We've got your delivery phone number on file as {{ order.shipping_phone_number }}.
+
+We hopy you found what you were looking for.
+
+If you have any questions, feel free to contact us at {{ contact_email }}.
+
+Thank you for your order!
+
+Sincerely,
+
+Neverlost Thrift

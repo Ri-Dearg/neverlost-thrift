@@ -1,0 +1,1 @@
+Neverlost Thrift Order Confirmation: {{ order.order_number }}
