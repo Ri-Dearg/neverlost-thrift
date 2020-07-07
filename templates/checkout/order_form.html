@@ -15,8 +15,8 @@
             </fieldset>
             <fieldset>
                 <legend class="heading-font">Delivery Information</legend>
-                {{ order_form.shipping_street_address_1|as_crispy_field }} {{ order_form.shipping_street_address_2|as_crispy_field }} {{ order_form.shipping_town_or_city|as_crispy_field }} {{ order_form.shipping_county|as_crispy_field }} {{
-                order_form.shipping_postcode|as_crispy_field }} {{ order_form.shipping_country }}
+                {{ order_form.shipping_street_address_1|as_crispy_field }} {{ order_form.shipping_street_address_2|as_crispy_field }} {{ order_form.shipping_town_or_city|as_crispy_field }} {{ order_form.shipping_county|as_crispy_field }}
+                {{ order_form.shipping_postcode|as_crispy_field }} {{ order_form.shipping_country }}
                 <div class="form-check my-2">
                     <input class="form-check-input" type="checkbox" id="billing-same" name="billing-same" checked />
                     <label class="form-check-label" for="billing-same">My billing details are the same as delivery.</label>
@@ -26,8 +26,8 @@
                 <legend class="heading-font">Billing Information</legend>
                 {{ order_form.billing_full_name|as_crispy_field }} {{ order_form.billing_phone_number }}
                 <div class="mt-3"></div>
-                {{ order_form.billing_street_address_1|as_crispy_field }} {{ order_form.billing_street_address_2|as_crispy_field }} {{ order_form.billing_town_or_city|as_crispy_field }} {{ order_form.billing_county|as_crispy_field }} {{
-                order_form.billing_postcode|as_crispy_field }} {{ order_form.billing_country }}
+                {{ order_form.billing_street_address_1|as_crispy_field }} {{ order_form.billing_street_address_2|as_crispy_field }} {{ order_form.billing_town_or_city|as_crispy_field }} {{ order_form.billing_county|as_crispy_field }}
+                {{ order_form.billing_postcode|as_crispy_field }} {{ order_form.billing_country }}
             </fieldset>
             <div class="form-check mb-2">
                 {% if user.is_authenticated %}

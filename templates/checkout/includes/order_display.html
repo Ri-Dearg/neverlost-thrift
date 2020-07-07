@@ -12,7 +12,7 @@
     <div class="col-12 col-md-10">
         <div class="row">
             <p class="col-4 text-dark mb-1"><strong>Order Number:</strong></p>
-            <p class="col-8 text-dark mb-1 d-none d-md-block"><a href="{% url 'checkout:order-detail' order.id %}">{{ order.order_number }}</a></p>
+            <h6 class="col-8 text-dark mb-1 d-none d-md-block"><a href="{% url 'checkout:order-detail' order.id %}">{{ order.order_number }}</a></h6>
             <p class="col-8 text-dark align-self-end mb-1 d-md-none"><a href="{% url 'checkout:order-detail' order.id %}">{{ order.order_number|truncatechars:'15' }}</a></p>
             <p class="col-4 text-dark mb-1"><strong>Date:</strong></p>
             <p class="col-8 text-dark align-self-end mb-1">{{ order.date }}</p>
