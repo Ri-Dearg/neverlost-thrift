@@ -1,133 +1,102 @@
-{% extends 'base/base.html' %}
-{% load static %}
-{% load crispy_forms_tags %}
-
-{% block content %}
-
-{% if cart %}
+{% extends 'base/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block head_title %}Checkout{% endblock%} {% block content %} {% if cart %}
 <div class="row mx-0 pt-3">
-	<div class="col">
-		<h1 class="heading-font text-primary text-center">Checkout</h1>
-	</div>
+    <div class="col">
+        <h1 class="heading-font text-primary text-center">Checkout</h1>
+    </div>
 </div>
-<hr>
+<hr />
 <div class="row mx-0">
-<div class="col-12 col-md-6 order-2 order-md-1">
-<form id="payment-form" action="{% url 'checkout:order-create' %}" method="POST">
-    {% csrf_token %}
-    <fieldset class="mb-3">
-    <legend>Personal Details</legend>
-    {{ order_form.email|as_crispy_field }}
-    {{ order_form.shipping_full_name|as_crispy_field }}
-    {{ order_form.shipping_phone_number }}
-    </fieldset>
-    <fieldset>
-    <legend>Delivery Information</legend>
-    {{ order_form.shipping_street_address_1|as_crispy_field }}
-    {{ order_form.shipping_street_address_2|as_crispy_field }}
-    {{ order_form.shipping_town_or_city|as_crispy_field }}
-    {{ order_form.shipping_county|as_crispy_field }}
-    {{ order_form.shipping_postcode|as_crispy_field }}
-    {{ order_form.shipping_country }}
-    <div class="form-check my-2">
-    <input class="form-check-input" type="checkbox" id="billing-same" name="billing-same" checked>
-    <label class="form-check-label" for="billing-same">My billing details are the same as delivery.</label> 
-    </div>   
-    </fieldset>
-    <fieldset id="hidden-form-details" class="mb-3">
-    <legend>Billing Information</legend>
-    {{ order_form.billing_full_name|as_crispy_field }}
-    {{ order_form.billing_phone_number }}
-    <div class="mt-3"></div>
-    {{ order_form.billing_street_address_1|as_crispy_field }}
-    {{ order_form.billing_street_address_2|as_crispy_field }}
-    {{ order_form.billing_town_or_city|as_crispy_field }}
-    {{ order_form.billing_county|as_crispy_field }}
-    {{ order_form.billing_postcode|as_crispy_field }}
-    {{ order_form.billing_country }}
-    </fieldset>
-    <div class="form-check mb-2">
-        {% if user.is_authenticated %}
-            <input class="form-check-input" type="checkbox" id="id-save-info" name="save-info" checked>
-            <label class="form-check-label" for="id-save-info">Save this delivery information to my profile</label>
-        {% else %}
-                <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or 
-                <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information
-        {% endif %}
-    </div>
-    <fieldset>
-    <legend class="h6 text-dark w-auto">Payment*</legend>
-    <!-- A Stripe card element will go here -->
-    <div class="mb-3 form-control" id="card-element"></div>
-    <!-- Used to display form errors -->
-    <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-    <!-- Pass the client secret to the view so we can get the payment intent id -->
-    <input type="hidden" value="{{ client_secret }}" name="client_secret">
-    </fieldset>
-      <button type="submit" id="payment-submit" class="btn btn-primary">Submit</button>
-</form>
+    <div class="col-12 col-md-6 order-2 order-md-1">
+        <form id="payment-form" action="{% url 'checkout:order-create' %}" method="POST">
+            {% csrf_token %}
+            <fieldset class="mb-3">
+                <legend class="heading-font">Personal Details</legend>
+                {{ order_form.email|as_crispy_field }} {{ order_form.shipping_full_name|as_crispy_field }} {{ order_form.shipping_phone_number }}
+            </fieldset>
+            <fieldset>
+                <legend class="heading-font">Delivery Information</legend>
+                {{ order_form.shipping_street_address_1|as_crispy_field }} {{ order_form.shipping_street_address_2|as_crispy_field }} {{ order_form.shipping_town_or_city|as_crispy_field }} {{ order_form.shipping_county|as_crispy_field }} {{
+                order_form.shipping_postcode|as_crispy_field }} {{ order_form.shipping_country }}
+                <div class="form-check my-2">
+                    <input class="form-check-input" type="checkbox" id="billing-same" name="billing-same" checked />
+                    <label class="form-check-label" for="billing-same">My billing details are the same as delivery.</label>
+                </div>
+            </fieldset>
+            <fieldset id="hidden-form-details" class="mb-3">
+                <legend class="heading-font">Billing Information</legend>
+                {{ order_form.billing_full_name|as_crispy_field }} {{ order_form.billing_phone_number }}
+                <div class="mt-3"></div>
+                {{ order_form.billing_street_address_1|as_crispy_field }} {{ order_form.billing_street_address_2|as_crispy_field }} {{ order_form.billing_town_or_city|as_crispy_field }} {{ order_form.billing_county|as_crispy_field }} {{
+                order_form.billing_postcode|as_crispy_field }} {{ order_form.billing_country }}
+            </fieldset>
+            <div class="form-check mb-2">
+                {% if user.is_authenticated %}
+                <input class="form-check-input" type="checkbox" id="id-save-info" name="save-info" checked />
+                <label class="form-check-label" for="id-save-info">Save this delivery information to my profile</label>
+                {% else %}
+                <a class="text-info" href="{% url 'account_signup' %}">Create an account</a> or <a class="text-info" href="{% url 'account_login' %}">login</a> to save this information {% endif %}
+            </div>
+            <fieldset>
+                <legend class="h6 text-dark w-auto">Payment*</legend>
+                <!-- A Stripe card element will go here -->
+                <div class="mb-3 form-control" id="card-element"></div>
+                <!-- Used to display form errors -->
+                <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                <!-- Pass the client secret to the view so we can get the payment intent id -->
+                <input type="hidden" value="{{ client_secret }}" name="client_secret" />
+            </fieldset>
+            <button type="submit" id="payment-submit" class="btn btn-primary">Submit</button>
+        </form>
 
-<hr class="d-md-none my-4">
-</div>
-<div class="col-12 col-md-6 order-1 order-md-2">
-
-    {% for item in cart_items %}
-            {% include 'checkout/includes/checkout_product_display.html' %}
-    {% endfor %}
-    <div class="row mx-0">
-        <div class="col text-right">
-            <p class="col">Delivery: </p>
+        <hr class="d-md-none my-4" />
+    </div>
+    <div class="col-12 col-md-6 order-1 order-md-2">
+        {% for item in cart_items %} {% include 'checkout/includes/checkout_product_display.html' %} {% endfor %}
+        <div class="row mx-0">
+            <div class="col text-right">
+                <p class="col">Delivery:</p>
+            </div>
+            <div class="col-3 col-md-2 pl-0 text-right">
+                {% if delivery != 0 %}
+                <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ delivery|floatformat:2 }}</strong></p>
+                {% else %}
+                <p class="text-dark p-0 pr-2 pr-md-4"><strong>Free!</strong></p>
+                {% endif %}
+            </div>
         </div>
-        <div class="col-3 col-md-2 pl-0 text-right">
-        {% if delivery != 0 %}
-            <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ delivery|floatformat:2 }}</strong></p>
-            {% else %}
-            <p class="text-dark p-0 pr-2 pr-md-4"><strong>Free!</strong></p>
-            {% endif %}
+        <div class="row mx-0">
+            <div class="col text-right">
+                <p class="col">Total:</p>
+            </div>
+            <div class="col-3 col-md-2 pl-0 text-right">
+                <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ grand_total }}</strong></p>
+            </div>
         </div>
     </div>
-    <div class="row mx-0">
-        <div class="col text-right">
-            <p class="col">Total: </p>
-        </div>
-        <div class="col-3 col-md-2 pl-0 text-right">
-            <p class="text-dark p-0 pr-2 pr-md-4"><strong>€{{ grand_total }}</strong></p>
-        </div>
-    </div>
-</div>
 </div>
 {% else %}
-    <div class="row mx-0">
+<div class="row mx-0">
     <div class="col text-center">
-    <h4 class="text-dark">Your cart is empty...</h4>
-        <h2 class="text-primary">Let's do some shopping</h2>
+        <h4 class="text-dark">Your cart is empty...</h4>
+        <h2 class="text-primary heading-font">Let's do some shopping</h2>
         <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:product-list' %}">Shop</a>
     </div>
-    </div>
-{% endif %}
-{% endblock %}
-
-{% block postloadjs %}
-    {{ block.super }}
-    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
-    {{ client_secret|json_script:"id_client_secret" }}
-    <script src="{% static 'checkout/js/stripeElements.js' %}"></script>
-    <script>
-    $(document).ready(function() {
-    
-    $('#hidden-form-details').hide();
-    $('.billing-field').prop('required', false);
-    $('#billing-same').change(function() {
-        if(this.checked) {
-            $('#hidden-form-details').slideUp('slow');
-            $('.billing-field').prop('required', false);
-        }
-        else {
-            $('#hidden-form-details').slideDown('slow');
-            $('.billing-field').prop('required', false);
-        }
+</div>
+{% endif %} {% endblock %} {% block postloadjs %} {{ block.super }} {{ stripe_public_key|json_script:"id_stripe_public_key" }} {{ client_secret|json_script:"id_client_secret" }}
+<script src="{% static 'checkout/js/stripeElements.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $("#hidden-form-details").hide();
+        $(".billing-field").prop("required", false);
+        $("#billing-same").change(function () {
+            if (this.checked) {
+                $("#hidden-form-details").slideUp("slow");
+                $(".billing-field").prop("required", false);
+            } else {
+                $("#hidden-form-details").slideDown("slow");
+                $(".billing-field").prop("required", false);
+            }
+        });
     });
-});
-    </script>
+</script>
 {% endblock %}
-

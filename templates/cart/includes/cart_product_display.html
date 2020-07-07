@@ -8,8 +8,8 @@
         </div>
         <div class="col-9 col-md-10">
             <div class="row pl-2">
-                <p class="col d-md-none text-primary mx-1 p-0"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name|truncatechars:"15" }}</a></p>
-                <p class="col d-none d-md-block text-primary mr-1 p-0 pl-1"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name }}</a></p>
+                <p class="col d-md-none text-primary heading-font mx-1 p-0"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name|truncatechars:"15" }}</a></p>
+                <p class="col d-none d-md-block text-primary heading-font mr-1 p-0 pl-1"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name }}</a></p>
                 <div class="col-4 col-md-2 px-0 text-right">
                     <div class="row mx-0">
                         <p class="col-12 text-dark p-0 pr-2 pr-md-1">€{{ item.product.price }}</p>
