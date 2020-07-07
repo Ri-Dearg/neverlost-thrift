@@ -1,1 +1,3 @@
-&lt;p class=&quot;text-center mb-1&quot;&gt;&lt;a href=&quot;{% url 'account_login' %}?next={{ request.path }}&quot;&gt;Sign In&lt;/a&gt; | &lt;a href=&quot;{% url 'account_signup' %}?next={{ request.path }}&quot;&gt;Join&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;text-center&quot;&gt;
+&lt;button class=&quot;btn btn-info&quot;&gt;&lt;a class=&quot;text-white&quot; href=&quot;{% url 'account_login' %}?next={{ request.path }}&quot;&gt;Sign In&lt;/a&gt;&lt;/button&gt; | &lt;button class=&quot;btn btn-secondary&quot;&gt;&lt;a class=&quot;text-white&quot; href=&quot;{% url 'account_signup' %}?next={{ request.path }}&quot;&gt;Join&lt;/a&gt;&lt;/button&gt;
+&lt;/div&gt;
