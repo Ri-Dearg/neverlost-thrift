@@ -1,18 +1,12 @@
-{% extends 'base/base.html' %}
-{% load crispy_forms_tags %}
-{% block content %}
-<h1 class="text-center text-primary pt-3">Reach Out</h1>
-<hr>
+{% extends 'base/base.html' %} {% load crispy_forms_tags %} {% block head_title %}Contact Us{% endblock%} {% block content %}
+<h1 class="text-center text-primary heading-font pt-3">Reach Out</h1>
+<hr />
 <div class="row mx-0">
-<div class="col-md-8 offset-md-2">
-<form action="{% url 'contact:email-form' %}" method="POST">
-{% csrf_token %}
-{{ form.email|as_crispy_field }}
-{{ form.name|as_crispy_field }}
-{{ form.subject|as_crispy_field }}
-{{ form.message|as_crispy_field }}
-<button type="submit" class="btn btn-primary">Send</button>
-</form>
-</div>
+    <div class="col-md-8 offset-md-2">
+        <form action="{% url 'contact:email-form' %}" method="POST">
+            {% csrf_token %} {{ form.email|as_crispy_field }} {{ form.name|as_crispy_field }} {{ form.subject|as_crispy_field }} {{ form.message|as_crispy_field }}
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

@@ -1,54 +1,44 @@
-{% extends 'base/base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'base/base.html' %} {% load static %} {% block head_title %}Your Likes{% endblock%} {% block content %}
 <div class="row mx-0 pt-3">
-	<div class="col">
-		<h1 class="heading-font text-primary text-center">Likes</h1>
-	</div>
+    <div class="col">
+        <h1 class="heading-font text-primary text-center">Likes</h1>
+    </div>
 </div>
-<hr>
+<hr />
 {% if likes %}
 <div class="row mx-0 infinite-container">
-    {% for product in page_obj %}
-                {% include 'products/includes/product_box.html' %}
-    {% endfor %}
-	</div>
+    {% for product in page_obj %} {% include 'products/includes/product_box.html' %} {% endfor %}
+</div>
 {% else %}
-    <div class="row mx-0">
+<div class="row mx-0">
     <div class="col text-center">
-    <h4 class="text-dark">No likes...</h4>
-        <h2 class="text-primary">Let's browse!</h2>
+        <h4 class="text-dark">No likes...</h4>
+        <h2 class="text-primary heading-font">Let's browse!</h2>
         <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:product-list' %}">Shop</a>
     </div>
+</div>
+{% endif %} {% if page_obj.has_next %}
+<a class="infinite-more-link d-none" href="{{request.path }}?page={{ page_obj.next_page_number }}"></a>
+<div class="d-flex justify-content-center text-secondary d-none mt-3">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
     </div>
-{% endif %}
-
-{% if page_obj.has_next %}
-    <a class="infinite-more-link d-none" href="{{request.path }}?page={{ page_obj.next_page_number }}"></a>
-    <div class="d-flex justify-content-center text-secondary d-none mt-3">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-{% endif %}
-{% endblock %}
-{% block postloadjs %}
-{{ block.super }}
+</div>
+{% endif %} {% endblock %} {% block postloadjs %} {{ block.super }}
 <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/infinite.min.js' %}"></script>
 
-
 <script>
-var infinite = new Waypoint.Infinite({
-  element: $('.infinite-container')[0],
-    onBeforePageLoad: function () {
-    $('.spinner-border').show();
-    },
-    onAfterPageLoad: function () {
-    $(`.toggle-form`).off("submit")
-    $('.spinner-border').hide();
-    buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate)
-    }
-})
+    var infinite = new Waypoint.Infinite({
+        element: $(".infinite-container")[0],
+        onBeforePageLoad: function () {
+            $(".spinner-border").show();
+        },
+        onAfterPageLoad: function () {
+            $(`.toggle-form`).off("submit");
+            $(".spinner-border").hide();
+            buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate);
+        },
+    });
 </script>
 {% endblock %}
