@@ -1,4 +1,4 @@
-Neverlost Thrift has received a message from {{ name }} at {{ sender }}
+Neverlost Thrift has received a message from {{ name }} at {{ email }}
 
 They have written the following:
 
