@@ -1,58 +1,42 @@
-{% extends 'base/base.html' %}
-{% load static %}
-{% block content %}
-{% if 'query' in request.GET %}
+{% extends 'base/base.html' %} {% block head_title %}Found{% endblock%} {% load static %} {% block content %} {% if 'query' in request.GET %}
 <h3 class="text-center pt-2">check out:</h3>
-<h1 class="text-center text-primary">{{ request.GET.query }}</h1>
-<hr>
-{% endif %}
-{% if not 'query' in request.GET %}
-    {% include 'products/includes/stockdrop_splash.html' %}
-{% endif %}
-	<div class="row mx-0 infinite-container">
-    {% if page_obj %}
-		{% for product in page_obj %}
-		{% include 'products/includes/product_box.html' %}
-		{% endfor %}
-        {% else %}
+<h1 class="text-center heading-font text-primary">{{ request.GET.query }}</h1>
+<hr />
+{% endif %} {% if not 'query' in request.GET %} {% include 'products/includes/stockdrop_splash.html' %} {% endif %}
+<div class="row mx-0 infinite-container">
+    {% if page_obj %} {% for product in page_obj %} {% include 'products/includes/product_box.html' %} {% endfor %} {% else %}
     <div class="col text-center">
-    <h4 class="text-dark">Nothing to see here...</h4>
-        <h2 class="text-primary">Let's do some shopping</h2>
+        <h4 class="text-dark">Nothing to see here...</h4>
+        <h2 class="text-primary heading-font">Let's do some shopping</h2>
         <a class="btn btn-lg btn-danger mt-4 w-25" href="{% url 'products:product-list' %}">Shop</a>
     </div>
     {% endif %}
-    </div>
-{% if page_obj.has_next %}
-{% if 'query' in request.get_full_path %}
-    <a class="infinite-more-link d-none" href="{{ request.path }}?query={{ keyword }}?page={{ page_obj.next_page_number }}"></a>
+</div>
+{% if page_obj.has_next %} {% if 'query' in request.get_full_path %}
+<a class="infinite-more-link d-none" href="{{ request.path }}?query={{ keyword }}?page={{ page_obj.next_page_number }}"></a>
 {% else %}
-    <a class="infinite-more-link d-none" href="{{ request.path }}?page={{ page_obj.next_page_number }}"></a>
+<a class="infinite-more-link d-none" href="{{ request.path }}?page={{ page_obj.next_page_number }}"></a>
 {% endif %}
-    <div class="d-flex justify-content-center text-secondary d-none mt-3">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
+<div class="d-flex justify-content-center text-secondary d-none mt-3">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
     </div>
-{% endif %}
-{% endblock %}
-
-{% block postloadjs %}
-{{ block.super }}
+</div>
+{% endif %} {% endblock %} {% block postloadjs %} {{ block.super }}
 <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/infinite.min.js' %}"></script>
 
-
 <script>
-var infinite = new Waypoint.Infinite({
-  element: $('.infinite-container')[0],
-    onBeforePageLoad: function () {
-    $('.spinner-border').show();
-    },
-    onAfterPageLoad: function () {
-    $(`.toggle-form`).off("submit")
-    $('.spinner-border').hide();
-    buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate)
-    }
-})
+    var infinite = new Waypoint.Infinite({
+        element: $(".infinite-container")[0],
+        onBeforePageLoad: function () {
+            $(".spinner-border").show();
+        },
+        onAfterPageLoad: function () {
+            $(`.toggle-form`).off("submit");
+            $(".spinner-border").hide();
+            buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate);
+        },
+    });
 </script>
 {% endblock %}

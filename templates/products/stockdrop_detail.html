@@ -1,45 +1,36 @@
-{% extends 'base/base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'base/base.html' %} {% block head_title %}{{ stockdrop.name }}{% endblock%} {% load static %} {% block content %}
 <div class="row mx-0 pt-3">
-	<div class="col">
-		<h1 class="heading-font text-primary text-center">{{ stockdrop.name }}</h1>
-	</div>
-</div>
-<hr>
-<div class="row mx-0 infinite-container">
-    {% for product in page_obj %}
-        {% include 'products/includes/product_box.html' %}
-    {% endfor %}
-	</div>
-
-    {% if page_obj.has_next %}
-    <a class="infinite-more-link d-none" href="?page={{ page_obj.next_page_number }}"></a>
-    <div class="d-flex justify-content-center text-secondary d-none mt-3">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
+    <div class="col">
+        <h1 class="heading-font text-primary text-center">{{ stockdrop.name }}</h1>
     </div>
-{% endif %}
-{% endblock %}
+</div>
+<hr />
+<div class="row mx-0 infinite-container">
+    {% for product in page_obj %} {% include 'products/includes/product_box.html' %} {% endfor %}
+</div>
 
-{% block postloadjs %}
-{{ block.super }}
+{% if page_obj.has_next %}
+<a class="infinite-more-link d-none" href="?page={{ page_obj.next_page_number }}"></a>
+<div class="d-flex justify-content-center text-secondary d-none mt-3">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+{% endif %} {% endblock %} {% block postloadjs %} {{ block.super }}
 <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/infinite.min.js' %}"></script>
 
-
 <script>
-var infinite = new Waypoint.Infinite({
-  element: $('.infinite-container')[0],
-    onBeforePageLoad: function () {
-    $('.spinner-border').show();
-    },
-    onAfterPageLoad: function () {
-    $(`.toggle-form`).off("submit")
-    $('.spinner-border').hide();
-    buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate)
-    }
-})
+    var infinite = new Waypoint.Infinite({
+        element: $(".infinite-container")[0],
+        onBeforePageLoad: function () {
+            $(".spinner-border").show();
+        },
+        onAfterPageLoad: function () {
+            $(`.toggle-form`).off("submit");
+            $(".spinner-border").hide();
+            buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate);
+        },
+    });
 </script>
 {% endblock %}

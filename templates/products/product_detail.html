@@ -1,56 +1,48 @@
-{% extends 'base/base.html' %}
-{% load static %}
-{% block content %}
+{% extends 'base/base.html' %} {% block head_title %}{{ product.name }}{% endblock%} {% load static %} {% block content %}
 <div class="p-md-5">
-<article class="card border-0">
-    <div class="row mx-0">
-        <div class="col-md-5 p-0">
-            <img src="{{ product.image.url }} " alt="{{ product.name }}" class="card-img-top img-fluid">
-            {% if product.is_unique and product.stock > 0 %}
-            <span class="product-alert badge badge-pill badge-secondary">Sole Item</span>
-            {% elif not product.is_unique and product.stock < 10 %}
-            <span class="product-alert badge badge-pill badge-warning">Low Stock</span>
-            {% elif product.stock == 0 %}
-            <span class="product-alert badge badge-pill badge-danger">Sold</span>
-            {% endif %}
-        </div>
-        <div class="col-md-7">
-            <div class="card-body card-body-detail pl-0 pt-0">
-                <div class="row">
-                <div class="col-12">
-                <h1 class="text-primary">{{ product.name }}</h1>
-                </div>
-                </div>
-                <div class="row">
-                    <p class="col-12">{{ product.description }}</p>
-                    {% if not product.is_unique and product.stock > 0 %}
-                    <div class="form-label-group col-4 mb-3">
-                        <input class="form-control mt-1 pt-4" type="number" id="detail-quantity" form="cf-{{ product.id }}" name="quantity" value="1" min="1" max="{{ product.stock }}">
-                        <label class="ml-2 pb-0" for="detail-quantity">Quantity</label>
-                    </div>
-                    <h4 class="col-4 px-0 text-center mb-3">€{{ product.price }}</h4>
-                    {% if product.size %}
-                    <h4 class="col-4 text-center px-0 mb-3">Size: {{ product.size }}</h4>
-                    {% endif %}
-                    {% elif product.size %}
-                    <h4 class="col-4  px-0 text-center mb-3">&nbsp;€{{ product.price }}</h4>
-                    <h4 class="col-8 px-0 text-center mb-3">Size: {{ product.size }}</h4>
-                    {% else %}
-                    <h4 class="col-12 mb-3">&nbsp;€{{ product.price }}</h4>
-                    {% endif %}
-                </div>
-                <div class="row w-100 ml-1">
-                {% if product.stock > 0 %}
-                    {% include 'cart/includes/detail_cart_toggle.html' %}
+    <article class="card border-0">
+        <div class="row mx-0">
+            <div class="col-md-5 p-0">
+                <img src="{{ product.image.url }} " alt="{{ product.name }}" class="card-img-top img-fluid" />
+                {% if product.is_unique and product.stock > 0 %}
+                <span class="product-alert badge badge-pill badge-secondary">Sole Item</span>
+                {% elif not product.is_unique and product.stock < 10 %}
+                <span class="product-alert badge badge-pill badge-warning">Low Stock</span>
+                {% elif product.stock == 0 %}
+                <span class="product-alert badge badge-pill badge-danger">Sold</span>
                 {% endif %}
-                    {% include 'likes/includes/detail_like_toggle.html' %}
-                    <p class="col-12 text-white mt-3 p-0">{% for tag in product.admin_tags %}
-                        <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}
-                    </p>
+            </div>
+            <div class="col-md-7">
+                <div class="card-body card-body-detail pl-0 pt-0">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="text-primary heading-font">{{ product.name }}</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-12">{{ product.description }}</p>
+                        {% if not product.is_unique and product.stock > 0 %}
+                        <div class="form-label-group col-4 mb-3">
+                            <input class="form-control mt-1 pt-4" type="number" id="detail-quantity" form="cf-{{ product.id }}" name="quantity" value="1" min="1" max="{{ product.stock }}" />
+                            <label class="ml-2 pb-0" for="detail-quantity">Quantity</label>
+                        </div>
+                        <h4 class="col-4 px-0 text-center mb-3">€{{ product.price }}</h4>
+                        {% if product.size %}
+                        <h4 class="col-4 text-center px-0 mb-3">Size: {{ product.size }}</h4>
+                        {% endif %} {% elif product.size %}
+                        <h4 class="col-4 px-0 text-center mb-3">&nbsp;€{{ product.price }}</h4>
+                        <h4 class="col-8 px-0 text-center mb-3">Size: {{ product.size }}</h4>
+                        {% else %}
+                        <h4 class="col-12 mb-3">&nbsp;€{{ product.price }}</h4>
+                        {% endif %}
+                    </div>
+                    <div class="row w-100 ml-1">
+                        {% if product.stock > 0 %} {% include 'cart/includes/detail_cart_toggle.html' %} {% endif %} {% include 'likes/includes/detail_like_toggle.html' %}
+                        <p class="col-12 text-white mt-3 p-0">{% for tag in product.admin_tags %} <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</article>
+    </article>
 </div>
 {% endblock %}
