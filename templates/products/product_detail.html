@@ -15,10 +15,19 @@
                 </div>
                 </div>
                 <div class="row">
+                    {% if product.is_unique %}
                     <p class="col-12">{{ product.description }}</p>
                     <h4 class="col-12 mb-3">&nbsp;€{{ product.price }}</h4>
+                    {% else %}
+                    <p class="col-12">{{ product.description }}</p>
+                    <h4 class="col-3 mb-3">&nbsp;€{{ product.price }}</h4>
+                    <div class="form-label-group col-3 mb-3">
+                        <input class="form-control mt-1 pt-4" type="number" id="detail-quantity" form="cf-{{ product.id }}" name="quantity" value="1" min="1" max="{{ product.stock }}">
+                        <label class="ml-2 pb-0" for="detail-quantity">Quantity</label>
+                    </div>
+                    {% endif %}
                 </div>
-                <div class="row w-100 card-detail-buttons ml-1">
+                <div class="row w-100 ml-1">
                     {% include 'cart/includes/detail_cart_toggle.html' %}
                     {% include 'likes/includes/detail_like_toggle.html' %}
                     <p class="col-12 text-white mt-3 p-0">{% for tag in product.admin_tags %}

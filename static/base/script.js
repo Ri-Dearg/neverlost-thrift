@@ -42,17 +42,17 @@ function buttonToggle(
 
   function popoverUpdate(btn, update) {
     $(`#${btn}-popover`).popover("dispose");
-    $(`#${btn}-popover-container`)
-      .fadeTo("fast", 0, function () {
-        $(`#${btn}-popover-container`).html("").load(update);
-        $(`#${btn}-popover-container`).delay(400).fadeTo('slow', 1, function () {
-        $(`#${btn}-popover`).popover();
-        $(".href-stop").off("click")
-        hrefStop();
-      });
-      })
+    $(`#${btn}-popover-container`).fadeTo("fast", 0, function () {
+      $(`#${btn}-popover-container`).html("").load(update);
+      $(`#${btn}-popover-container`)
+        .delay(400)
+        .fadeTo("slow", 1, function () {
+          $(`#${btn}-popover`).popover();
+          $(".href-stop").off("click");
+          hrefStop();
+        });
+    });
   }
-
 
   /**
    * Runs the form to like the post through an ajax function.
@@ -86,9 +86,11 @@ function buttonToggle(
           svgSwitch("cart", id, cartedSvg);
           toastMessage(data.content.tag, data.content.message);
           popoverUpdate("cart", cartUpdate);
-          if ($(`#btn-${id}`).length > 0) {
-            $(`#btn-${id}`).contents().last()[0].textContent =
-              "  Remove from Cart";
+          if (data.content.special != "stocked") {
+            if ($(`#btn-${id}`).length > 0) {
+              $(`#btn-${id}`).contents().last()[0].textContent =
+                "  Remove from Cart";
+            }
           }
         } else if (data.content.result === "uncarted") {
           // var likeAudio = new Audio('/static/audio/blop.wav');
@@ -100,15 +102,13 @@ function buttonToggle(
             $(`#btn-${id}`).contents().last()[0].textContent = "  Add to Cart";
           }
           if (window.location.pathname == "/cart/") {
-            if (data.content.updated != 'updated') {
-                $(`#cart-item-${id}`).fadeOut("slow");
+            if (data.content.special != "update") {
+              $(`#cart-item-${id}`).fadeOut("slow");
             }
-              $("#totals-box")
-            .fadeTo("slow", 0, function () {
-                $(`#totals-box`)
-                .html("").load(cartRefresh);
-                $(`#totals-box`).delay(400).fadeTo("slow", 1);
-            })
+            $("#totals-box").fadeTo("slow", 0, function () {
+              $(`#totals-box`).html("").load(cartRefresh);
+              $(`#totals-box`).delay(400).fadeTo("slow", 1);
+            });
           }
         } else {
           toastMessage(data.content.tag, data.content.message);

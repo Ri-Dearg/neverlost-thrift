@@ -2,9 +2,13 @@
 <form class="col-9 col-sm-8 col-md-9 col-lg-7 pl-0 toggle-form" id="cf-{{ product.id }}" action="{% url 'cart:cart-toggle'%}" method="POST">
     {% csrf_token %}
     <input type="hidden" name="item-id" value="{{ product.id }}">
+    {% if product.is_unique %}
     <input type="hidden" name="quantity" value="1">
+    {% else %}
+    <input type="hidden" name="special" value="stocked">
+    {% endif %}
     <button type="submit" id="btn-{{ product.id }}" class="btn-lg btn-dark w-100">
-    {% if product.id|stringformat:'s' in cart %}
+    {% if product.id|stringformat:'s' in cart and product.is_unique %}
         <object class="detail-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-check-white.svg' %}">
             <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-check-white.svg' %}" alt="Add to Cart">
         </object>

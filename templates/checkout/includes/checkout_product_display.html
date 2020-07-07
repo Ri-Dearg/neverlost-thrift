@@ -1,17 +1,22 @@
 {% load static %}
     <article class="row mx-0">
-        <div class="col-3 col-md-2 mr-1 py-0">
-            <a href="{% url 'products:product-detail' product.id %}">
-                <img src="{{ product.image.url }}" class="img-fluid cart-thumb" alt="{{ product.name }}">
+        <div class="col-3 col-lg-2 py-0 px-1">
+            <a href="{% url 'products:product-detail' item.product.id %}">
+                <img src="{{ item.product.image.url }}" class="img-fluid cart-thumb" alt="{{ item.product.name }}">
             </a>
         </div>
-        <p class="col d-md-none text-primary mx-1 p-0"><a href="{% url 'products:product-detail' product.id %}">{{ product.name|truncatechars:"20" }}</a></p>
-        <div class="col d-none d-md-block">
-        <p class="text-primary mr-1 p-0 pl-1"><a href="{% url 'products:product-detail' product.id %}">{{ product.name }}</a></p>
-        <p class="text-dark">{{ product.description|truncatechars:"60" }}</p>
+        <div class="col-9">
+            <div class="row pl-3">
+                <p class="col d-md-none text-primary mx-1 p-0"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name|truncatechars:"15" }}</a></p>
+                <p class="col d-none d-md-block text-primary mr-1 px-1"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name }}</a></p>
+                <div class="col-4 col-md-2 p-0 text-right">
+                        <p class="text-dark p-0 pr-2 pr-md-0">x {{ item.quantity }}</p>
+                </div>
+            </div>
+            <div class="row pl-3">
+                <p class="col d-none d-md-block text-dark mb-1 px-1">{{ item.product.description|truncatechars:"60"  }}</p>
+        <p class=" col-3 text-right text-dark p-0 ml-auto">€{{ item.product.price }}</p>
         </div>
-        <div class="col-3 col-md-2 pl-0 text-right">
-        <p class="text-dark p-0 pr-2 pr-md-4">€{{ product.price }}</p>
         </div>
 </article>
 <hr>

@@ -26,18 +26,18 @@ def cart_toggle(request):
             item_id = request.POST.get('item-id', '0')
             product = get_object_or_404(Product, pk=item_id)
             quantity = int(request.POST.get('quantity'))
+
             cart = request.session.get('cart', {})
 
             if request.POST.get('update'):
                 cart[item_id] = quantity
+                if cart[item_id] > product.stock:
+                    cart[item_id] = product.stock
                 request.session['cart'] = cart
-                updated = 'updated'
                 tag = 'success'
                 message = f'Updated {product.name} quantity to \
                     {cart[item_id]}.'
                 result = 'uncarted'
-                return {'message': message, 'result': result, 'tag': tag,
-                        'updated': updated}
 
             elif (item_id in list(cart.keys()) and product.is_unique) or (
                     request.POST.get('remove')):
@@ -49,6 +49,8 @@ def cart_toggle(request):
 
             elif item_id in list(cart.keys()) and not product.is_unique:
                 cart[item_id] += quantity
+                if cart[item_id] > product.stock:
+                    cart[item_id] = product.stock
                 request.session['cart'] = cart
                 tag = 'success'
                 message = f'Updated {product.name} quantity to \
@@ -56,6 +58,8 @@ def cart_toggle(request):
                 result = 'uncarted'
             else:
                 cart[item_id] = quantity
+                if cart[item_id] > product.stock:
+                    cart[item_id] = product.stock
                 request.session['cart'] = cart
                 tag = 'success'
                 message = f'Added {product.name} to your cart.'
@@ -66,7 +70,12 @@ def cart_toggle(request):
             tag = 'warning'
             message = f'Error adding item to cart: {e}'
 
-        return {'message': message, 'result': result, 'tag': tag}
+        if 'special' in request.POST:
+            special = request.POST.get('special')
+            return {'message': message, 'result': result, 'tag': tag,
+                    'special': special}
+        else:
+            return {'message': message, 'result': result, 'tag': tag}
 
 
 def update_cart(request):
