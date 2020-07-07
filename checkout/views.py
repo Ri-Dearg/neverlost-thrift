@@ -221,19 +221,10 @@ class OrderCreateView(CreateView):
             currency=settings.STRIPE_CURRENCY,
         )
 
-        # Gets the Product IDs from the cart, places them in a list and then
-        # filters the list for display.
-        cart_dict = self.request.session.get('cart', {})
-        cart_list = []
-        for key in cart_dict:
-            cart_list.append(key)
-        products = Product.objects.filter(id__in=cart_list)
-
         order_form = context['form']
 
         context['stripe_public_key'] = stripe_public_key
         context['client_secret'] = intent.client_secret
-        context['products'] = products
         context['order_form'] = order_form
         return context
 

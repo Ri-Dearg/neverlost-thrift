@@ -4,6 +4,7 @@
 
 {% block content %}
 
+{% if cart %}
 <div class="row mx-0 pt-3">
 	<div class="col">
 		<h1 class="heading-font text-primary text-center">Checkout</h1>
@@ -70,8 +71,7 @@
 </div>
 <div class="col-12 col-md-6 order-1 order-md-2">
 
-{% if products %}
-    {% for product in products %}
+    {% for item in cart_items %}
             {% include 'checkout/includes/checkout_product_display.html' %}
     {% endfor %}
     <div class="row mx-0">
