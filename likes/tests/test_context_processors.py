@@ -21,7 +21,8 @@ class TestContext(TestCase):
         response = self.client.get('/')
 
         test_list = []
-        for product in test_user.userprofile.liked_products.all():
+        for product in test_user.userprofile.liked_products.all().order_by(
+            '-liked__datetime_added'):
             test_list.append(product)
 
         self.assertEqual(response.context['likes'],

@@ -15,12 +15,6 @@ class ProductTests(TestCase):
         category = Category(name='clothing', friendly_name='Clothing')
         category.save()
 
-        valid_product = Product(name='A product',
-                                category=category,
-                                description='a string',
-                                admin_tags=['this', 'is', 'an', 'array'],
-                                price=10.99)
-        valid_product.save()
         valid_stockdrop = StockDrop(name='SD1',
                                     description='description',
                                     image=SimpleUploadedFile(

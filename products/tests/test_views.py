@@ -9,12 +9,7 @@ class TestProductViews(TestCase):
     def setUp(self):
         category = Category(name='clothing')
         category.save()
-        valid_product = Product(name='A product',
-                                category=category,
-                                description='second string',
-                                admin_tags=['this', 'is', 'an', 'array'],
-                                price=10.99)
-        valid_product.save()
+
         valid_stockdrop = StockDrop(name='SD1',
                                     description='description',
                                     image=SimpleUploadedFile(
@@ -35,7 +30,7 @@ class TestProductViews(TestCase):
         self.assertTemplateUsed(response, 'products/product_list.html')
         self.assertQuerysetEqual(response.context['products'],
                                  Product.objects.all().order_by(
-                                     '-date_added')[:9],
+                                     '-stock', '-popularity'),
                                  transform=lambda x: x)
 
     def test_render_index(self):
@@ -46,7 +41,7 @@ class TestProductViews(TestCase):
         self.assertTrue(response.context['categories'])
         self.assertQuerysetEqual(response.context['products'],
                                  Product.objects.all().order_by(
-                                     '-date_added')[:9],
+                                     '-stock', '-popularity'),
                                  transform=lambda x: x)
 
     def test_render_product_detail(self):
