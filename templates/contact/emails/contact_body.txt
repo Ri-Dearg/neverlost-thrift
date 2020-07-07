@@ -1,0 +1,8 @@
+Neverlost Thrift has received a message from {{ name }} at {{ sender }}
+
+They have written the following:
+
+{{ message }}
+
+Found
+Neverlost Thrift

@@ -85,7 +85,7 @@
                             </div>
                         </li>
                         <li class="nav-item {% if contact_active %}active{% endif %}">
-                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="#">Contact{% if contact_active %}<span class="sr-only">(current)</span>{% endif %}</a>
+                            <a class="nav-link nav-link text-right text-md-center pr-3 pr-md-0" href="{% url 'contact:email-form' %}">Contact{% if contact_active %}<span class="sr-only">(current)</span>{% endif %}</a>
                         </li>
                     </ul>
                 </div>

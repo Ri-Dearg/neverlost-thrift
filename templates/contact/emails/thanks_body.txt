@@ -1,0 +1,9 @@
+Hello, {{ name }},
+
+Thank you for getting in contact with Neverlost Thrift.
+
+We have received your message and will get in contact with you as soon as possible.
+
+
+Kind Regards,
+Neverlost Thrift

@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     # My apps
     'cart',
     'checkout',
+    'contact',
     'likes',
     'products',
     'users',
@@ -278,7 +279,7 @@ STRIPE_CURRENCY = 'eur'
 
 if 'DEVELOPMENT' in os.environ:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    DEFAULT_FROM_EMAIL = 'boutiqueado@example.com'
+    DEFAULT_FROM_EMAIL = 'example@example.com'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
