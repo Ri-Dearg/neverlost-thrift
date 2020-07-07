@@ -1,5 +1,5 @@
 {% load static %}
-<form class="col-9 col-sm-8 col-md-9 col-lg-7 pl-0 toggle-form" id="cf-{{ product.id }}" action="{% url 'cart:cart-toggle'%}" method="POST">
+<form class="col-10 col-sm-8 col-md-9 col-lg-7 pl-0 toggle-form" id="cf-{{ product.id }}" action="{% url 'cart:cart-toggle'%}" method="POST">
     {% csrf_token %}
     <input type="hidden" name="item-id" value="{{ product.id }}">
     {% if product.is_unique %}

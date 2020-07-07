@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block content %}
 <div class="row mx-0 pt-3">
 	<div class="col">
@@ -15,7 +16,11 @@
     </div>
 <div class="row mt-3 mx-0">
 	<div class="col">
-        <a class="btn btn-lg btn-secondary float-right" href="{% url 'checkout:order-create' %}">Secure Checkout</a>
+        <a class="btn btn-secondary float-right mx-3" href="{% url 'checkout:order-create' %}">                
+        <object class="search-object" type="image/svg+xml" data="{% static 'icons/lock.svg' %}">
+            <img src="{% static 'icons/lock.svg' %}" alt="Checkout">
+        </object> Checkout</a>
+        <a class="btn btn-primary float-right" href="{% url 'products:product-list' %}">To Shop</a>
     </div>
 	</div>
 {% else %}
@@ -34,10 +39,12 @@
     $(".update-button").on("click", function() {
         var id = this.id.slice(3);
         $(`#af-${id}`).append('<input type="hidden" name="special" value="update"/>')
+        $(`#bf-${id}`).append('<input type="hidden" name="special" value="update"/>')
     })
     $(".remove-button").on("click", function() {
         var id = this.id.slice(3);
         $(`#af-${id}`).append('<input type="hidden" name="remove" value="remove"/>')
+        $(`#bf-${id}`).append('<input type="hidden" name="remove" value="remove"/>')
     })
 </script>
 {{ block.super }}

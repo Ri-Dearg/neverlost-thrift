@@ -17,17 +17,17 @@
                 <div class="row">
                     <p class="col-12">{{ product.description }}</p>
                     {% if not product.is_unique and product.stock > 0 %}
-                    <div class="form-label-group col-3 mb-3">
+                    <div class="form-label-group col-4 mb-3">
                         <input class="form-control mt-1 pt-4" type="number" id="detail-quantity" form="cf-{{ product.id }}" name="quantity" value="1" min="1" max="{{ product.stock }}">
                         <label class="ml-2 pb-0" for="detail-quantity">Quantity</label>
                     </div>
-                    <h4 class="col-3 mb-3">&nbsp;€{{ product.price }}</h4>
+                    <h4 class="col-4 px-0 text-center mb-3">€{{ product.price }}</h4>
                     {% if product.size %}
-                    <h4 class="col-3 mb-3">Size: {{ product.size }}</h4>
+                    <h4 class="col-4 text-center px-0 mb-3">Size: {{ product.size }}</h4>
                     {% endif %}
                     {% elif product.size %}
-                    <h4 class="col-4 mb-3">&nbsp;€{{ product.price }}</h4>
-                    <h4 class="col-8 mb-3">Size: {{ product.size }}</h4>
+                    <h4 class="col-4  px-0 text-center mb-3">&nbsp;€{{ product.price }}</h4>
+                    <h4 class="col-8 px-0 text-center mb-3">Size: {{ product.size }}</h4>
                     {% else %}
                     <h4 class="col-12 mb-3">&nbsp;€{{ product.price }}</h4>
                     {% endif %}
@@ -38,7 +38,7 @@
                 {% endif %}
                     {% include 'likes/includes/detail_like_toggle.html' %}
                     <p class="col-12 text-white mt-3 p-0">{% for tag in product.admin_tags %}
-                        <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}
+                        <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}
                     </p>
                 </div>
             </div>
