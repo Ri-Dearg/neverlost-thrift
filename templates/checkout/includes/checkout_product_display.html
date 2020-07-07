@@ -15,7 +15,14 @@
             </div>
             <div class="row pl-3">
                 <p class="col d-none d-md-block text-dark mb-1 px-1">{{ item.product.description|truncatechars:"60"  }}</p>
-        <p class=" col-3 text-right text-dark p-0 ml-auto">€{{ item.product.price }}</p>
+        <div class="col-4 p-0 ml-auto">
+            <div class="row mx-0">
+                <p class="col-12 text-dark text-right p-0">€{{ item.product.price }}</p>
+                {% if item.product.size %}
+                <p class="col-12 text-dark text-right p-0">Size: {{ item.product.size }}</p>
+                {% endif %}
+                </div>
+        </div>
         </div>
         </div>
 </article>

@@ -101,6 +101,8 @@ class OrderLineItem(models.Model):
     def save(self, *args, **kwargs):
         """Saves the total cost"""
         self.lineitem_total = self.product.price * self.quantity
+        self.product.stock = self.product.stock - self.quantity
+        self.product.save()
         super().save(*args, **kwargs)
 
     def __str__(self):

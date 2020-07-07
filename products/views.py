@@ -14,7 +14,6 @@ class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
     paginate_by = 9
-    ordering = ['-date_added']
 
     def get_queryset(self):
         """Returns either all Products or a query appropriately."""
@@ -36,7 +35,7 @@ class ProductListView(ListView):
             return Product.objects.annotate(rank=self.rank).order_by('-rank')\
                 .filter(rank__gt=0)
 
-        return Product.objects.all()
+        return Product.objects.all().order_by('-stock', '-date_added')
 
     def get_context_data(self, **kwargs):
         """Adds all necessary information to the context"""

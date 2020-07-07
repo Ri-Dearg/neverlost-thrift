@@ -36,6 +36,7 @@ class Product(models.Model):
 
     name = models.CharField(max_length=254, default='')
     description = models.TextField()
+    size = models.CharField(max_length=2, default='', blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(default='default.png',
                               upload_to='product_images')

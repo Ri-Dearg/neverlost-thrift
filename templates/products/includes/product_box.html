@@ -6,8 +6,15 @@
         </a>
         <div class="row card-body mx-0 pt-1 pb-0">
             <p class="col-12 card-text text-primary mb-1 pl-1">{{ product.name|truncatechars:30 }}</p>
+            {% if product.size %}
+            <div class="col-3 text-dark pl-1">€{{ product.price }}</div>
+            <div class="col-5 text-dark">Size: {{ product.size }}</div>
+            {% else %}
             <div class="col-8 text-dark pl-1">€{{ product.price }}</div>
+            {% endif %}
+                {% if product.stock > 0 %}
                     {% include 'cart/includes/box_cart_toggle.html' %}
+                {% endif %}
                     {% include 'likes/includes/box_like_toggle.html' %}
             <p class="col-12 text-white mb-0 p-0">{% for tag in product.admin_tags %}
                 <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-primary rounded-sm mb-1 px-1 py-0">{{ tag }}</a> {% endfor %}

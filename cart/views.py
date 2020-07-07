@@ -65,6 +65,9 @@ def cart_toggle(request):
                 message = f'Added {product.name} to your cart.'
                 result = 'carted'
 
+            if cart[item_id] == 0:
+                cart.pop(str(item_id))
+
         except Exception as e:
             result = 'error'
             tag = 'warning'
