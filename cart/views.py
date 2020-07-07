@@ -29,7 +29,7 @@ def cart_toggle(request):
 
             cart = request.session.get('cart', {})
 
-            if request.POST.get('update'):
+            if request.POST.get('special') == 'update':
                 cart[item_id] = quantity
                 if cart[item_id] > product.stock:
                     cart[item_id] = product.stock
@@ -40,7 +40,7 @@ def cart_toggle(request):
                 result = 'uncarted'
 
             elif (item_id in list(cart.keys()) and product.is_unique) or (
-                    request.POST.get('remove')):
+                    request.POST.get('special') == 'remove'):
                 cart.pop(str(item_id))
                 request.session['cart'] = cart
                 tag = 'info'
