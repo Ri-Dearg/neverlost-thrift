@@ -1,13 +1,29 @@
-    {% load static %}
-    <a class="d-inline-block href-stop" id="cart-popover" href="#" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-html="true" {% if cart_quantity %}data-title="{% include 'cart/includes/cart_popover_title.html' %}" data-content="{% include 'cart/includes/cart_popover_content.html' %}"{% else %}data-title="Empty Cart" data-content="Hope you find something you like!"{% endif %} tabindex="0">
+{% load static %}
+<a
+    class="d-inline-block href-stop"
+    id="cart-popover"
+    href="#"
+    data-toggle="popover"
+    data-trigger="focus"
+    data-placement="bottom"
+    data-html="true"
     {% if cart_quantity %}
-        <object class="header-object" type="image/svg+xml" data="{% static 'icons/cart-fill.svg' %}">        
-            <img src="{% static 'icons/cart-fill.svg' %}" alt="Account">
-        </object>
-        <span class="badge badge-secondary rounded-circle mb-1">{{ cart_quantity }}</span>
+    data-title="{% include 'cart/includes/cart_popover_title.html' %}"
+    data-content="{% include 'cart/includes/cart_popover_content.html' %}"
     {% else %}
-        <object class="header-object" type="image/svg+xml" data="{% static 'icons/cart.svg' %}">        
-            <img src="{% static 'icons/cart.svg' %}" alt="Account">
-        </object>
+    data-title="Empty Cart"
+    data-content="Hope you find something you like!"
     {% endif %}
-    </a>
+    tabindex="0"
+>
+    {% if cart_quantity %}
+    <object class="header-object" type="image/svg+xml" data="{% static 'icons/cart-fill.svg' %}">
+        <img src="{% static 'icons/cart-fill.svg' %}" alt="Account" />
+    </object>
+    <span class="badge badge-secondary rounded-circle mb-1">{{ cart_quantity }}</span>
+    {% else %}
+    <object class="header-object" type="image/svg+xml" data="{% static 'icons/cart.svg' %}">
+        <img src="{% static 'icons/cart.svg' %}" alt="Account" />
+    </object>
+    {% endif %}
+</a>

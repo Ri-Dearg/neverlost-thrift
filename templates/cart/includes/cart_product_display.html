@@ -3,7 +3,7 @@
     <article class="row mx-0">
         <div class="col-3 col-md-2 py-0 px-1 px-sm-3 px-md-4">
             <a href="{% url 'products:product-detail' item.product.id %}">
-                <img src="{{ item.product.image.url }}" class="img-fluid cart-thumb" alt="{{ item.product.name }}">
+                <img src="{{ item.product.image.url }}" class="img-fluid cart-thumb" alt="{{ item.product.name }}" />
             </a>
         </div>
         <div class="col-9 col-md-10">
@@ -11,47 +11,46 @@
                 <p class="col d-md-none text-primary mx-1 p-0"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name|truncatechars:"15" }}</a></p>
                 <p class="col d-none d-md-block text-primary mr-1 p-0 pl-1"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name }}</a></p>
                 <div class="col-4 col-md-2 px-0 text-right">
-                <div class="row mx-0">
-                <p class="col-12 text-dark p-0 pr-2 pr-md-1">€{{ item.product.price }}</p>
-                {% if item.product.size %}
-                <p class="col-12 text-dark p-0 pr-2 pr-md-1">Size: {{ item.product.size }}</p>
-                {% endif %}
-                </div>
+                    <div class="row mx-0">
+                        <p class="col-12 text-dark p-0 pr-2 pr-md-1">€{{ item.product.price }}</p>
+                        {% if item.product.size %}
+                        <p class="col-12 text-dark p-0 pr-2 pr-md-1">Size: {{ item.product.size }}</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             <div class="row pl-2">
                 <p class="col d-none d-md-block text-dark mb-1 pl-1">{{ item.product.description }}</p>
                 <form class="col-5 d-none d-md-block mr-1 p-0 text-right toggle-form" id="af-{{ item.product.id }}" action="{% url 'cart:cart-toggle' %}" method="POST">
                     {% csrf_token %}
-                    <input type="hidden" name="item-id" value="{{ item.product.id }}">
+                    <input type="hidden" name="item-id" value="{{ item.product.id }}" />
                     {% if item.product.is_unique %}
-                        <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="quantity" value="1" />
                     {% else %}
-                        <div class="form-label-group d-inline-block align-bottom mb-0 mx-1">
-                            <input class="form-control mt-1 pt-4" type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}">
-                            <label class="py-0 pl-0 pr-3" for="cart-quantity-{{ item.product.id }}">Quantity</label>
-                        </div>
-                        <button id="up-{{ item.product.id }}" type="submit" class="update-button btn-sm btn-dark px-1 mx-1">Update</button>
+                    <div class="form-label-group d-inline-block align-bottom mb-0 mx-1">
+                        <input class="form-control mt-1 pt-4" type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" />
+                        <label class="py-0 pl-0 pr-3" for="cart-quantity-{{ item.product.id }}">Quantity</label>
+                    </div>
+                    <button id="up-{{ item.product.id }}" type="submit" class="update-button btn-sm btn-dark px-1 mx-1">Update</button>
                     {% endif %}
                     <button id="re-{{ item.product.id }}" type="submit" class="remove-button btn-sm btn-dark px-1 mx-1">Remove</button>
                 </form>
-                    <form class="col d-md-none mr-1 p-0 text-right toggle-form" id="bf-{{ item.product.id }}" action="{% url 'cart:cart-toggle' %}" method="POST">
+                <form class="col d-md-none mr-1 p-0 text-right toggle-form" id="bf-{{ item.product.id }}" action="{% url 'cart:cart-toggle' %}" method="POST">
                     {% csrf_token %}
-                            <input type="hidden" name="item-id" value="{{ item.product.id }}">
+                    <input type="hidden" name="item-id" value="{{ item.product.id }}" />
                     {% if item.product.is_unique %}
-                        <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="quantity" value="1" />
                     {% else %}
-                        <div class="form-label-group d-inline-block align-top">
-                            <input class="form-control pt-4" type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}">
-                            <label class="py-0 pl-0" for="cart-quantity-{{ item.product.id }}">Quantity</label>
-                        </div>
-                        <button id="us-{{ item.product.id }}" type="submit" class="update-button btn-sm btn-dark px-1">Update</button>
+                    <div class="form-label-group d-inline-block align-top">
+                        <input class="form-control pt-4" type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" />
+                        <label class="py-0 pl-0" for="cart-quantity-{{ item.product.id }}">Quantity</label>
+                    </div>
+                    <button id="us-{{ item.product.id }}" type="submit" class="update-button btn-sm btn-dark px-1">Update</button>
                     {% endif %}
                     <button id="rs-{{ item.product.id }}" type="submit" class="remove-button btn-sm btn-dark px-1">Remove</button>
                 </form>
             </div>
         </div>
-</article>
-        <hr class="my-3">
-        </div>
-
+    </article>
+    <hr class="my-3" />
+</div>

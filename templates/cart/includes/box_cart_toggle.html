@@ -1,17 +1,17 @@
 {% load static %}
 <form class="col-2 text-center px-0 ml-auto toggle-form" id="cf-{{ product.id }}" action="{% url 'cart:cart-toggle' %}" method="POST">
-	{% csrf_token %}
-    <input type="hidden" name="item-id" value="{{ product.id }}">
-	<input type="hidden" name="quantity" value="1">
-	<button type="submit" class="btn btn-link p-0 h-100 w-100">
-    {% if product.id|stringformat:'s' in cart %}
+    {% csrf_token %}
+    <input type="hidden" name="item-id" value="{{ product.id }}" />
+    <input type="hidden" name="quantity" value="1" />
+    <button type="submit" class="btn btn-link p-0 h-100 w-100">
+        {% if product.id|stringformat:'s' in cart %}
         <object class="box-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-check.svg' %}">
-            <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-check.svg' %}" alt="Add to Cart">
+            <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-check.svg' %}" alt="Add to Cart" />
         </object>
-    {% else %}
-            <object class="box-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-plus.svg' %}">
-            <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart">
+        {% else %}
+        <object class="box-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-plus.svg' %}">
+            <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-plus.svg' %}" alt="Add to Cart" />
         </object>
-    {% endif %}
+        {% endif %}
     </button>
 </form>

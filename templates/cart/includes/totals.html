@@ -1,20 +1,20 @@
-    <div class="row mx-0">
-        <div class="col text-right">
-            <p class="col">Delivery: </p>
-        </div>
-        <div class="col-3 col-md-2 px-0 text-right">
-            {% if delivery != 0 %}
-            <p class="text-dark p-0 pr-2 pr-md-1"><strong>€{{ delivery|floatformat:2 }}</strong></p>
-            {% else %}
-            <p class="text-dark p-0 pr-2 pr-md-1"><strong>Free!</strong></p>
-            {% endif %}
-        </div>
+<div class="row mx-0">
+    <div class="col text-right">
+        <p class="col">Delivery:</p>
     </div>
-    <div class="row mx-0">
-        <div class="col text-right">
-            <p class="col">Total: </p>
-        </div>
-        <div class="col-3 col-md-2 px-0 text-right">
-            <p class="text-dark p-0 pr-2 pr-md-1"><strong>€{{ grand_total }}</strong></p>
-        </div>
+    <div class="col-3 col-md-2 px-0 text-right">
+        {% if delivery != 0 %}
+        <p class="text-dark p-0 pr-2 pr-md-1"><strong>€{{ delivery|floatformat:2 }}</strong></p>
+        {% else %}
+        <p class="text-dark p-0 pr-2 pr-md-1"><strong>Free!</strong></p>
+        {% endif %}
     </div>
+</div>
+<div class="row mx-0">
+    <div class="col text-right">
+        <p class="col">Total:</p>
+    </div>
+    <div class="col-3 col-md-2 px-0 text-right">
+        <p class="text-dark p-0 pr-2 pr-md-1"><strong>€{{ grand_total }}</strong></p>
+    </div>
+</div>
