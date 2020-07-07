@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cd "$1" || exit 1
+python manage.py compilescss --traceback
+python manage.py collectstatic --noinput --traceback
