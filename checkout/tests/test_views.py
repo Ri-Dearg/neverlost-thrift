@@ -61,16 +61,14 @@ class TestCheckoutViews(TestCase):
         self.assertEqual(str(messages[0]), 'The cart is empty.')
         self.assertRedirects(response, '/')
 
-    def test_order_error_on_adding_invalid_item(self):
+    def test_order_removes_invalid_item(self):
         self.client.post('/cart/ajax/toggle/',
                          {'item-id': 1, 'quantity': '1'},
                          HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-
         session = self.client.session
-        session['cart'] = {'1': 1, '0': 0}
+        session['cart'] = {'1': 1, '2': 3, '0': 1}
         session.save()
-
         global valid_order_dict
         self.client.post('/checkout/', valid_order_dict)
-        with self.assertRaises(Order.DoesNotExist):
-            Order.objects.latest('date')
+        new_order = Order.objects.latest('date')
+        self.assertEqual(new_order.original_cart, '{"1": 1, "2": 3}')

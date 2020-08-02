@@ -153,11 +153,11 @@ class OrderCreateView(CreateView):
 
     def form_valid(self, form):
         order = form.save(commit=False)
-        cart = self.request.session.get('cart', {})
         pid = self.request.POST.get('client_secret').split('_secret')[0]
         order.stripe_pid = pid
-        order.original_cart = json.dumps(cart)
         cart_contents = get_cart(self.request)
+        cart = cart_contents['cart']
+        order.original_cart = json.dumps(cart)
         order.delivery_cost = cart_contents['delivery']
         if 'billing-same' in self.request.POST:
             order.billing_full_name = self.request.POST['shipping_full_name']
