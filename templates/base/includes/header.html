@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="row bg-dark mx-0 pb-2 pr-2">
-        <div class="d-none d-md-block col-md-9 col-lg-7 px-md-5">
+        <div class="d-none d-md-block col-md-9 ml-md-auto col-lg-7 px-md-5 px-lg-0">
             <form method="GET" action="{% url 'products:product-list' %}">
                 <div class="input-group w-100">
                     <input class="form-control" type="text" name="query" placeholder="Search" />
@@ -16,7 +16,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-4 col-md-1 col-lg-2 text-center">
+        <div class="col-4 col-md-auto ml-md-auto text-center">
             {% if user.is_authenticated %} {% csrf_token as csrf_token %}
             <a
                 href="#"
@@ -51,10 +51,10 @@
             </a>
             {% endif %}
         </div>
-        <div class="col-4 col-md-1 col-lg-1 text-center" id="like-popover-container">
+        <div class="col-4 col-md-auto text-center" id="like-popover-container">
             {% include 'likes/includes/likes_popover.html' %}
         </div>
-        <div class="col-4 col-md-1 col-lg-2 text-center px-0" id="cart-popover-container">
+        <div class="col-4 col-md-auto mr-md-auto text-center" id="cart-popover-container">
             {% include 'cart/includes/cart_popover.html' %}
         </div>
     </div>
