@@ -31,14 +31,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-
 DEVELOPMENT = os.environ.get('DEVELOPMENT')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
-if eval(DEBUG) is True:
+DEBUG = os.environ.get('DEBUG', False)
+if DEBUG == 'True':
     print('Debug mode is on.')
-elif eval(DEBUG) is False:
+elif DEBUG is False:
     print('Debug mode is off.')
 
 ALLOWED_HOSTS = ['neverlost-thrift.herokuapp.com', 'localhost']
