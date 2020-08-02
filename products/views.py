@@ -77,7 +77,15 @@ class ProductDetailView(DetailView):
         # Selects the active tab
         categories_active = True
 
+        selected_product = context['product']
+        selected_category = selected_product.category
+        products = Product.objects.exclude(
+            pk=selected_product.id).filter(
+                category=selected_category).order_by(
+                    '-stock', '-popularity')[:9]
+
         context['categories_active'] = categories_active
+        context['products'] = products
         return context
 
 
