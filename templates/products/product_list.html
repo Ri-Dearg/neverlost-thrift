@@ -3,15 +3,21 @@
 <h1 class="text-center heading-font text-primary">{{ request.GET.query }}</h1>
 <hr />
 {% endif %} {% if not 'query' in request.GET %} {% include 'products/includes/stockdrop_splash.html' %} {% endif %}
+{% if page_obj %}
 <div class="row mx-0 infinite-container">
-    {% if page_obj %} {% for product in page_obj %} {% include 'products/includes/product_box.html' %} {% endfor %} {% else %}
-    <div class="col text-center">
-        <h4 class="text-dark">Nothing to see here...</h4>
-        <h2 class="text-primary heading-font">Let's do some shopping</h2>
-        <a class="btn btn-lg btn-danger mt-4" href="{% url 'products:product-list' %}">Shop</a>
-    </div>
-    {% endif %}
+ {% for product in page_obj %} {% include 'products/includes/product_box.html' %} {% endfor %}
 </div>
+{% else %}
+<div class="row mx-0 infinite-container">
+    <div class="col text-center">
+        <h4 class="text-dark">Nothing found but good stuff is...</h4>
+        <h2 class="text-primary heading-font">Neverlost</h2>
+        <a class="btn btn-lg btn-danger mt-2" href="{% url 'products:product-list' %}">Shop</a>
+    </div>
+</div>
+<hr>
+    {% include 'products/includes/related_products.html' %}
+{% endif %}
 {% if page_obj.has_next %} {% if 'query' in request.get_full_path %}
 <a class="infinite-more-link d-none" href="{{ request.path }}?query={{ keyword }}?page={{ page_obj.next_page_number }}"></a>
 {% else %}

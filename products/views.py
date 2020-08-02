@@ -61,6 +61,10 @@ class ProductListView(ListView):
 
         page_obj = paginator.get_page(page_number)
 
+        if products.count() == 0:
+            context['products'] = Product.objects.all().order_by(
+                '-stock', '-popularity')[:9]
+
         context['page_obj'] = page_obj
 
         return context
