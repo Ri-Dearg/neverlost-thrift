@@ -1,0 +1,10 @@
+<div class="row mx-0 mt-3">
+<div class="col-12 text-center">
+<h5 class="text-dark mb-0">Or take a look at these:</h5>
+</div>
+</div>
+<div class="overflow-auto row flex-row flex-nowrap mx-0 px-5 pb-5 pt-0">
+{% for product in products %}
+    {% include 'products/includes/product_box.html' %}
+{% endfor %}
+</div>

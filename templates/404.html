@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<h3 class="text-center pt-2">404 Not Found</h3>
+<hr />
+<div class="row pt-3 mx-0">
+    <div class="col text-center">
+        <h4 class="text-dark">The page may not be found...</h4>
+        <h2 class="text-primary heading-font">But we are still NEVERLOST</h2>
+        <a class="btn btn-lg btn-danger mt-3 w-25" href="{% url 'products:product-list' %}">Shop</a>
+    </div>
+</div>
+<hr>
+{% include 'products/includes/related_products.html' %}
+{% endblock %}

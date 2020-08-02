@@ -19,6 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
+handler404 = 'config.views.custom_page_not_found'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
