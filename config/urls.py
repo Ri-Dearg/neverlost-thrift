@@ -18,8 +18,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 handler404 = 'config.views.custom_page_not_found'
+handler403 = 'config.views.custom_permission_denied'
+handler400 = 'config.views.custom_bad_request'
+handler500 = 'config.views.custom_server_error'
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

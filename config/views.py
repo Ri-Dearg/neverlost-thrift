@@ -77,3 +77,77 @@ def custom_page_not_found(request, exception, template_name=ERROR_404_TEMPLATE_N
         body = template.render(Context(context))
         content_type = 'text/html'
     return HttpResponseNotFound(body, content_type=content_type)
+
+
+# This can be called when CsrfViewMiddleware.process_view has not run,
+# therefore need @requires_csrf_token in case the template needs
+# {% csrf_token %}.
+@requires_csrf_token
+def custom_permission_denied(request, exception, template_name=ERROR_403_TEMPLATE_NAME):
+    """
+    Permission denied (403) handler.
+    Templates: :template:`403.html`
+    Context: None
+    If the template does not exist, an Http403 response containing the text
+    "403 Forbidden" (as per RFC 7231) will be returned.
+    """
+    try:
+        template = loader.get_template(template_name)
+    except TemplateDoesNotExist:
+        if template_name != ERROR_403_TEMPLATE_NAME:
+            # Reraise if it's a missing custom template.
+            raise
+        return HttpResponseForbidden(
+            ERROR_PAGE_TEMPLATE % {'title': '403 Forbidden', 'details': ''},
+            content_type='text/html',
+        )
+    products = Product.objects.all().order_by('-stock', '-popularity')[:9]
+    context = {'exception': str(exception), 'products': products}
+    return HttpResponseForbidden(
+        template.render(request=request, context=context)
+    )
+
+
+@requires_csrf_token
+def custom_bad_request(request, exception, template_name=ERROR_400_TEMPLATE_NAME):
+    """
+    400 error handler.
+    Templates: :template:`400.html`
+    Context: None
+    """
+    try:
+        template = loader.get_template(template_name)
+    except TemplateDoesNotExist:
+        if template_name != ERROR_400_TEMPLATE_NAME:
+            # Reraise if it's a missing custom template.
+            raise
+        return HttpResponseBadRequest(
+            ERROR_PAGE_TEMPLATE % {'title': 'Bad Request (400)', 'details': ''},
+            content_type='text/html',
+        )
+    products = Product.objects.all().order_by('-stock', '-popularity')[:9]
+    context = {'products': products}
+    # No exception content is passed to the template, to not disclose any sensitive information.
+    return HttpResponseBadRequest(template.render(context=context))
+
+
+@requires_csrf_token
+def custom_server_error(request, template_name=ERROR_500_TEMPLATE_NAME):
+    """
+    500 error handler.
+    Templates: :template:`500.html`
+    Context: None
+    """
+    try:
+        template = loader.get_template(template_name)
+    except TemplateDoesNotExist:
+        if template_name != ERROR_500_TEMPLATE_NAME:
+            # Reraise if it's a missing custom template.
+            raise
+        return HttpResponseServerError(
+            ERROR_PAGE_TEMPLATE % {'title': 'Server Error (500)', 'details': ''},
+            content_type='text/html',
+        )
+    products = Product.objects.all().order_by('-stock', '-popularity')[:9]
+    context = {'products': products}
+    return HttpResponseServerError(template.render(context=context))
