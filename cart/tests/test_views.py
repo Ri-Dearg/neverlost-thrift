@@ -1,5 +1,7 @@
 from django.test import TestCase
 
+from products.models import Product
+
 
 class TestViews(TestCase):
 
@@ -20,6 +22,17 @@ class TestViews(TestCase):
         self.client.post('/cart/ajax/toggle/',
                          {'item-id': 0, 'quantity': '0'},
                          HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertRaises(Exception, msg='Error adding item: 0')
+
+        no_stock_product = Product.objects.get(pk=1)
+        no_stock_product.stock = 0
+        no_stock_product.save()
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 1, 'quantity': '1'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        session = self.client.session
+        self.client.get('/')
+        self.assertEqual(session['cart'], {})
 
         self.assertRaises(Exception, msg='Error adding item: 0')
 

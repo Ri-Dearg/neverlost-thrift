@@ -25,7 +25,7 @@ def get_cart(request):
                 messages.warning(request,
                                  'A Product is unavailable.')
             if product is not False:
-                if product.stock > 0:
+                if product.stock >= 1:
                     cart_total += item_data * product.price
                     cart_items.append({
                         'item_id': item_id,
@@ -44,7 +44,7 @@ def get_cart(request):
         delivery = 0
 
     grand_total = cart_total + delivery
-
+    request.session.save()
     return {'cart': cart,
             'cart_quantity': cart_quantity,
             'cart_items': cart_items,
