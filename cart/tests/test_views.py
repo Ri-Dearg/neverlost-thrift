@@ -10,13 +10,30 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'cart/cart_list.html')
 
-    def test_confirm_add_to_cart(self):
-        self.client.post('/cart/ajax/toggle/',
-                         {'item-id': 1, 'quantity': '1'},
-                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        session = self.client.session
+    def test_confirm_add_to_cart_functions(self):
+        not_unique_product = Product.objects.get(pk=2)
+        not_unique_product.is_unique = False
+        not_unique_product.stock = 3
+        not_unique_product.save()
 
-        self.assertEqual(session['cart'], {'1': 1})
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 2, 'quantity': '1'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 2, 'quantity': '4'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        limit_stock_product = Product.objects.get(pk=1)
+        limit_stock_product.stock = 5
+        limit_stock_product.save()
+
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 1, 'quantity': '10', 'special': 'update'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        session = self.client.session
+        self.assertEqual(session['cart'], {'1': 5, '2': 3})
 
     def test_error_on_incorrect_item_added(self):
         self.client.post('/cart/ajax/toggle/',
@@ -66,6 +83,34 @@ class TestViews(TestCase):
                          {'item-id': 0, 'quantity': '0'},
                          HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        session = self.client.session
-
         self.assertRaises(Exception, msg='Error removing item: 0')
+
+    def test_update_cart_view(self):
+        self.client.get('/cart/update/')
+        self.assertTemplateUsed('cart/includes/cart_popover.html')
+
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 2, 'quantity': '1'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.client.get('/cart/update/')
+        self.assertTemplateUsed('cart/includes/cart_popover.html')
+
+        session = self.client.session
+        session['cart'] = {'2': 1, '0': 0}
+        session.save()
+        self.client.get('/cart/update/')
+        self.assertRaises(Exception, msg='Error adding item: 0')
+
+        no_stock_product = Product.objects.get(pk=1)
+        no_stock_product.stock = 0
+        no_stock_product.save()
+        self.client.post('/cart/ajax/toggle/',
+                         {'item-id': 1, 'quantity': '1'},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.client.get('/cart/update/')
+        session = self.client.session
+        self.assertEqual(session['cart'], {'2': 1})
+
+    def test_refresh_total_view_template(self):
+        self.client.get('/cart/totals/')
+        self.assertTemplateUsed('cart/includes/totals.html')
