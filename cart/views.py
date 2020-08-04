@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 from django.template import RequestContext
+from django.contrib import messages
 
 from django_ajax.decorators import ajax
 
@@ -85,22 +86,37 @@ def update_cart(request):
     cart_quantity = 0
 
     if cart:
-        for item_id, item_data in cart.items():
+        temp_cart = cart.copy()
+        for item_id, item_data in temp_cart.items():
             cart_quantity += item_data
-            product = get_object_or_404(Product, pk=item_id)
-            cart_total += item_data * product.price
-            cart_items.append({
-                'item_id': item_id,
-                'quantity': item_data,
-                'product': product,
-            })
+            try:
+                product = Product.objects.get(pk=item_id)
+            except Product.DoesNotExist:
+                product = False
+                cart.pop(item_id)
+                messages.warning(request,
+                                 'A Product is unavailable.')
+            if product is not False:
+                if product.stock >= 1:
+                    cart_total += item_data * product.price
+                    cart_items.append({
+                        'item_id': item_id,
+                        'quantity': item_data,
+                        'product': product})
+                else:
+                    cart.pop(item_id)
+                    messages.warning(request,
+                                     f'{product} has run out of stock!')
+            else:
+                pass
 
-    if cart_total < settings.FREE_DELIVERY_THRESHOLD:
+    if cart_total < settings.FREE_DELIVERY_THRESHOLD and cart_total > 0:
         delivery = Decimal(settings.STANDARD_DELIVERY)
     else:
         delivery = 0
 
     grand_total = cart_total + delivery
+    request.session.save()
 
     RequestContext(request).push({'cart': cart,
                                   'cart_quantity': cart_quantity,
