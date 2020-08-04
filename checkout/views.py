@@ -164,11 +164,14 @@ class OrderCreateView(CreateView):
             order.billing_phone_number = self.request.POST[
                 'shipping_phone_number_0'] + self.request.POST['shipping_phone_number_1'] # noqa E501
             order.billing_street_address_1 = self.request.POST['shipping_street_address_1']  # noqa E501
-            order.billing_street_address_2 = self.request.POST['shipping_street_address_2'] # noqa E501
+            if 'shipping_street_address_2' in self.request.POST:
+                order.billing_street_address_2 = self.request.POST['shipping_street_address_2'] # noqa E501
             order.billing_town_or_city  = self.request.POST['shipping_town_or_city'] # noqa E501
-            order.billing_county = self.request.POST['shipping_county']
+            if 'shipping_county' in self.request.POST:
+                order.billing_county = self.request.POST['shipping_county']
             order.billing_country = self.request.POST['shipping_country']
-            order.billing_postcode = self.request.POST['shipping_postcode']
+            if 'shipping_postcode' in self.request.POST:
+                order.billing_postcode = self.request.POST['shipping_postcode']
         order.save()
 
         for item_id, item_data in cart.items():
