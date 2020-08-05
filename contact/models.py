@@ -49,4 +49,4 @@ class Email(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.sender}, {self.subject}'
+        return f'{self.email}, {self.subject}'
