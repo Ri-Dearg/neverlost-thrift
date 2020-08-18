@@ -10,5 +10,4 @@ urlpatterns = [
          OrderListView.as_view(), name='order-list'),
     path('cache_data/', cache_data, name='cache-data'),
     path('webhook/', webhook, name='webhook'),
-
 ]
