@@ -13,10 +13,23 @@ class TestViews(TestCase):
                                    email=email,
                                    password=password)
 
-    def test_correct_template_used(self):
+    def test_correct_template_used_and_context(self):
+        self.client.post('/likes/ajax/toggle/', {'item-id': 1},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.client.post('/likes/ajax/toggle/', {'item-id': 2},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         response = self.client.get('/likes/')
+        session = self.client.session.get('likes')
+        self.assertEqual(session, ['1', '2'])
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'likes/likes_list.html')
+
+        test_user = User.objects.latest('date_joined')
+        self.client.force_login(test_user)
+        response = self.client.get('/likes/')
+        self.assertEqual(response.context['products'],
+                         list(test_user.userprofile.liked_products.order_by(
+                             '-liked__datetime_added')))
 
     def test_confirm_add_to_likes(self):
         self.client.post('/likes/ajax/toggle/', {'item-id': 1},
@@ -46,6 +59,7 @@ class TestViews(TestCase):
 
         self.client.post('/likes/ajax/toggle/', {'item-id': 1},
                          HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
         session = self.client.session
 
         self.assertEqual(session['likes'], [])
@@ -70,3 +84,20 @@ class TestViews(TestCase):
         session = self.client.session
 
         self.assertRaises(Exception, msg='Error removing item: 0')
+
+    def test_update_like_view(self):
+        self.client.get('/likes/update/')
+        self.assertTemplateUsed('likes/includes/likes_popover.html')
+
+        self.client.post('/likes/ajax/toggle/', {'item-id': 2},
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.client.get('/likes/update/')
+        self.assertTemplateUsed('likes/includes/likes_popover.html')
+
+        test_user = User.objects.latest('date_joined')
+        self.client.force_login(test_user)
+        self.client.get('/likes/update/')
+
+        session = self.client.session
+
+        self.assertEqual(session['likes'], ['2'])
