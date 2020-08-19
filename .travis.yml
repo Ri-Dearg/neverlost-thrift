@@ -1,12 +1,21 @@
 language: python
+
 python:
 - '3.8'
+
 services:
 - postgresql
+
 install:
 - pip install -r requirements.txt
+- pip install coveralls
+
 script:
-- python manage.py test --keepdb
+- coverage run --source=. --omit=custom_storages.py,checkout/webhook*,config/*,manage.py,users/adapter.py manage.py test --keepdb
+
+after_success:
+  - coveralls
+
 deploy:
   provider: heroku
   api_key:
