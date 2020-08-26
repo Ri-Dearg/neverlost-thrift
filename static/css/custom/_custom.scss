@@ -127,10 +127,16 @@ Product Box
 }
 
 .product-alert {
-    position: relative;
-    bottom: 50px;
+    position: absolute;
+    bottom: 150px;
+    left: 0;
 }
 
+.product-detail-alert {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+}
 
 /*--------------------------------------------------------------------------
 Splash Image

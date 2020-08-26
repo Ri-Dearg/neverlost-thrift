@@ -5,11 +5,11 @@
             <div class="col-md-5 p-0">
                 <img src="{{ product.image.url }} " alt="{{ product.name }}" class="card-img-top img-fluid" />
                 {% if product.is_unique and product.stock > 0 %}
-                <span class="product-alert badge badge-pill badge-secondary">Sole Item</span>
+                <span class="product-detail-alert badge badge-pill badge-secondary">Sole Item</span>
                 {% elif not product.is_unique and product.stock < 10 %}
-                <span class="product-alert badge badge-pill badge-warning">Low Stock</span>
+                <span class="product-detail-alert badge badge-pill badge-warning">Low Stock</span>
                 {% elif product.stock == 0 %}
-                <span class="product-alert badge badge-pill badge-danger">Sold</span>
+                <span class="product-detail-alert badge badge-pill badge-danger">Sold</span>
                 {% endif %}
             </div>
             <div class="col-md-7">
