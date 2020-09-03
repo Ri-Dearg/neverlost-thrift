@@ -1,10 +1,12 @@
 {% load static %}
+<!--Brnad Logo-->
 <header class="fixed-top container-fluid shadow p-0">
     <div class="row bg-dark">
         <div class="col-12">
             <h1 class="text-center my-2 brand-logo"><a href="{% url 'products:product-list' %}">NEVERLOST</a></h1>
         </div>
     </div>
+    <!--Search bar for medium screens and up, in line with the icons-->
     <div class="row bg-dark mx-0 pb-2 pr-2">
         <div class="d-none d-md-block col-md-9 ml-md-auto col-lg-7 px-md-5 px-lg-0">
             <form method="GET" action="{% url 'products:product-list' %}">
@@ -16,6 +18,7 @@
                 </div>
             </form>
         </div>
+        <!--User account icon that switches if the user is logged in-->
         <div class="col-4 col-md-auto ml-md-auto text-center">
             {% if user.is_authenticated %} {% csrf_token as csrf_token %}
             <a
@@ -50,10 +53,12 @@
                 </object>
             </a>
             {% endif %}
+        <!--Likes popover. Updates on like button press.-->
         </div>
         <div class="col-4 col-md-auto text-center" id="like-popover-container">
             {% include 'likes/includes/likes_popover.html' %}
         </div>
+        <!--Cart popover. Updates on like button press.-->
         <div class="col-4 col-md-auto mr-md-auto text-center" id="cart-popover-container">
             {% include 'cart/includes/cart_popover.html' %}
         </div>
@@ -61,6 +66,7 @@
     <div class="row bg-primary">
         <div class="col">
             <nav class="navbar navbar-expand-md navbar-dark p-0">
+                <!--Search bar on mobile views is in line with the collpasible menu button-->
                 <form class="col-9 d-md-none" method="GET" action="{% url 'products:product-list' %}">
                     <div class="input-group w-100">
                         <input class="form-control" type="text" name="query" placeholder="Search" />
@@ -73,12 +79,15 @@
                         </div>
                     </div>
                 </form>
+                <!--Collapsible mobile nav menu positioned to the right.-->
                 <div class="col-3 d-md-none">
                     <button class="navbar-toggler my-2 mr-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
-
+                <!--The menu section for all products, categories, stockdrops and contact.
+                The navbar will highlight the active section and the relevant collection in the dropdown
+                depending on the context passed to the page by the view.-->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav nav nav-justified w-100">
                         <li class="nav-item {% if all_products_active %}active{% endif %}">
@@ -94,7 +103,6 @@
                                 >
                                     {{ collection.name }}{% if collection.id|stringformat:'s' == collection_active|stringformat:'s' %}<span class="sr-only">(current)</span>{% endif %}
                                 </a>
-
                                 {% endfor %}
                             </div>
                         </li>

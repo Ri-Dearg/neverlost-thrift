@@ -1,15 +1,19 @@
 {% extends 'base/base.html' %}
 {% block content %}
+<!--The basic layout for an error page-->
 {% block error_name %}
 {% endblock %}
 <hr />
 <div class="row pt-3 mx-0">
     <div class="col text-center">
+        <!-- The error conent-->
         {% block error_content %}
         {% endblock %}
+        <!--A link back to the shop-->
         <a class="btn btn-lg btn-danger mt-3" href="{% url 'products:product-list' %}">Shop</a>
     </div>
 </div>
 <hr>
+<!--A bar of related products to display on the error page.-->
 {% include 'products/includes/related_products.html' %}
 {% endblock %}

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--Loads static files and prepares tags to compile SASS-->
 {% load static %} {% load sass_tags %}
 <html lang="en">
     <head>
@@ -8,47 +9,57 @@
         <meta name="msapplication-config" content="/browserconfig.xml">
         <meta name="msapplication-TileColor" content="#339237">
         <meta name="theme-color" content="#339237">
-
+        <!--Favicon and css file.-->
         <link rel="icon" href="{% static 'icons/favicon-32x32.png' %}" />
         <link rel="stylesheet" type="text/css" href="{% sass_src 'css/main.scss' %}" />
-
+        <!--JQuery, Bootsrap bundles and then Stripe-->
         <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
         <script src="https://js.stripe.com/v3/"></script>
-
+        <!--The Title with custom text block-->
         <title>Neverlost | {% block head_title %}{% endblock %}</title>
     </head>
-
+    <!--The body mods class keeps the content below the fixed navbar-->
     <body class="body-mods">
+    <!--Thepreloader is needed on every page. I've chosen to keep it in the center or the viewport.-->
         <div class="preloader justify-content-center align-items-center bg-dark">
             <div class="spinner-border text-secondary bg-dark" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
 
+        <!--The header is on every page. It is arge so I've written an include.-->
         {% include 'base/includes/header.html' %}
 
+        <!--The section is the container for all content-->
         <section class="container shadow bg-white px-0 py-4 min-vh-100">
             {% block content %} {% endblock %}
         </section>
-
+        <!-- This hold the toasts notifications in position on the page.
+        Can be changed with the toast-position class.-->
         <div class="toast-position" aria-live="polite" aria-atomic="true">
             <div class="toast-wrapper">
                 {% if messages %} {% for message in messages %} {% include 'base/includes/messages.html' %} {% endfor %} {% endif %}
             </div>
         </div>
-
+        <!-- A seperate block is maintained for JS files.-->
         {% block postloadjs %}
+        <!--Custom scripts are loaded after the rest of the content, before calling functions-->
         <script src="{% static 'js/script.js' %}"></script>
         <script>
             // Runs the fade for the preloader once content has loaded.
             window.onload = function(){
 				window.document.body.onload = fadePreload();
             };
+            // Stops the page from jumping when clicking on popover icons.
             hrefStop()
-				
+            
+            // Passes the necessary URL string to the ajax functions for both icons and update views.
+            // Heart icons for every page
             var liked = "{% static 'icons/heart-fill.svg' %}"
             var unliked = "{% static 'icons/heart.svg' %}"
+            // The cart icons
+            // If on the product detail page, the color is different for the cart.
             {% if '/product/' in request.path %}
             var carted = "{% static 'icons/cart-check-white.svg' %}"
             var uncarted = "{% static 'icons/cart-plus-white.svg' %}"
@@ -56,21 +67,27 @@
             var carted = "{% static 'icons/cart-check.svg' %}"
             var uncarted = "{% static 'icons/cart-plus.svg' %}"
             {% endif %}
+            // And the URLs to update popovers
             var likeUpdate = "{% url 'likes:likes-update' %}"
             var cartUpdate = "{% url 'cart:cart-update' %}"
             var cartRefresh = "{% url 'cart:cart-refresh' %}"
             
+            // Runs the function that listen for ajax button presses
             buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate, cartRefresh)
-				
+                
+            // Initialises the popovers
             $(function () {
 				$('[data-toggle="popover"]').popover({
+                    // Allows full HTML to be used to display the popovers 
 				    sanitize: false,
 				})
             })
+            // Dismisses popover when out of focus
             $('.popover-dismiss').popover({
                 trigger: 'focus'
             })
-				
+                
+             // Fires a toast for each message   
             {% if messages %}
 				{% for message in messages %}
 				    $('.toast').toast('show')
