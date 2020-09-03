@@ -10,12 +10,14 @@
 /*--------------------------------------------------------------------------
 Basic Layout
 --------------------------------------------------------------------------*/
+/*Pushes the Body down so it remains under the navbar.*/
 .body-mods {
     margin-top: 146px;
     padding-top: 1px;
     background-color: #fcfaf5;
 }
 
+/*Keeps the page length consistent even on pages with little content.*/
 .min-vh-75 {
     min-height: 75vh;
 }
@@ -25,10 +27,12 @@ Basic Layout
 Fonts
 --------------------------------------------------------------------------*/
 
+/*Utilses the second font on headings*/
 .heading-font {
     font-family: 'Lexend Deca', sans-serif;
 }
 
+/*Used for the main brand logo in the Navbar*/
 .brand-logo a {
     font-family: 'Lexend Deca', sans-serif;
     text-decoration: none;
@@ -42,10 +46,7 @@ Fonts
 Forms
 --------------------------------------------------------------------------*/
 
-.invalid-feedback {
-    display: block;
-}
-
+/*Used to maintain the height of the total box on the cart_list.html template*/
 #totals-box {
     min-height: 80px;
 }
@@ -54,7 +55,7 @@ Forms
 /*--------------------------------------------------------------------------
 Navbar
 --------------------------------------------------------------------------*/
-
+/*The following items maintain the navbar style, width, colors, etc.*/
 .nav-item {
     height: 100%;
     width: 100%;
@@ -73,6 +74,7 @@ Navbar
     color: #f8f8f8;
 }
 
+/*Allows the width of the navbar popover menus to be as small or large as necessary.*/
 .popover {
     max-width: none;
 }
@@ -82,6 +84,9 @@ Navbar
 Preloader
 --------------------------------------------------------------------------*/
 
+/*Holds the preloader in the middle of the viewport, which is slighlty off from the middle of the section.
+I preferred this stylistically.
+The z-index is utilied to have it under the navbar and toasts but above the main content.*/
 .preloader {
     height: 100%;
     width: 100%;
@@ -94,6 +99,7 @@ Preloader
     padding-bottom: 153px 
 }
 
+/*Adjusts the width of the spinner.*/
 .spinner-border{
     width: 5rem;
     height: 5rem;
@@ -103,6 +109,7 @@ Preloader
 Product Box
 --------------------------------------------------------------------------*/
 
+/*Styles the product box as they use the Bootstrap card class.*/
 .card-header {
     background-color: #fff
 }
@@ -111,21 +118,25 @@ Product Box
     height: 100%
 }
 
+/*Maintains a consistent size for the images on viewport resize.*/
 .card-img-top {
     -o-object-fit: cover;
        object-fit: cover;
 }
 
+/*Uses a thumbnail image for display pages with listed products, such as cart or order_list*/
 .cart-thumb {
     max-width: 80px;
     height: auto;
 }
 
+/*Used to size the thumbnails in the popovers.*/
 .like-thumb {
     max-width: 45px;
     height: auto;
 }
 
+/*These position the little info banner that appear on product images.*/
 .product-alert {
     position: absolute;
     bottom: 150px;
@@ -138,10 +149,11 @@ Product Box
     left: 0;
 }
 
+
 /*--------------------------------------------------------------------------
 Splash Image
 --------------------------------------------------------------------------*/
-
+/*Positions and styles the Stockdrop caption so it remains a clickable link*/
 .carousel-caption {
     position: absolute;
     right: 0;
@@ -157,11 +169,12 @@ Splash Image
 /*--------------------------------------------------------------------------
 SVG Icons
 --------------------------------------------------------------------------*/
-
+/*Necessary to have the object SVG be a cickable link. Otherwise the click does nothing*/
 object {
     pointer-events: none;
 }
 
+/*The following classes simply size objects in different areas.*/
 .header-object {
     width: 2rem;
     height: 2rem;
@@ -186,7 +199,7 @@ object {
 /*--------------------------------------------------------------------------
 Toasts
 --------------------------------------------------------------------------*/
-
+/*This allows for multiple toasts to stack.*/
 .toast-wrapper {
     position: absolute;
     top: 0;
@@ -194,6 +207,7 @@ Toasts
     min-width: 300px;
 }
 
+/*This positions the toast on the page.*/
 .toast-position {
 position: fixed;
 top: 160px;
@@ -202,6 +216,7 @@ min-height: 200px;
 z-index: 1021;
 }
 
+/*It is positioned above the preloader with the z-index.*/
 .toast {
     z-index: 1022;
 }
@@ -210,7 +225,7 @@ z-index: 1021;
 /*--------------------------------------------------------------------------
 Floating labels from: https://getbootstrap.com/docs/4.0/examples/floating-labels/
 --------------------------------------------------------------------------*/
-
+/*On forms the placeholder becomes a little floating label above the input.*/
 :root {
   --input-padding-x: .75rem;
   --input-padding-y: .75rem;

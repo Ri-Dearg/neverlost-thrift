@@ -5,17 +5,31 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+/*For more details on these option please see the bootstrap documentation here:
+https://getbootstrap.com/docs/4.5/getting-started/theming/#sass-options*/
+
+/*Applies sharp edges as default.*/
 $enable-rounded: false;
+
+/*Applies shadows as default.*/
 $enable-shadows: true;
+
+/*Applies responsive font sizes as default.*/
 $enable-responsive-font-sizes: true;
+
+/*Changes default class colors.*/
 $primary: #127426;
 $secondary: #ff4081;
 $info: #2d9ce6;
 $warning: #e64e20;
 $success: #38a84e;
 $dark: #261e2e;
+
+/*Sets default fonts utilised*/
 $font-family-sans-serif: 'Montserrat', sans-serif;
 $font-family-monospace: 'Lexend Deca', sans-serif;
+
+/*Sets default dropdown link colors*/
 $dropdown-link-hover-bg: #075a20;
 $dropdown-link-active-bg: #075a20;
 
