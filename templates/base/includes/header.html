@@ -19,7 +19,7 @@
             </form>
         </div>
         <!--User account icon that switches if the user is logged in-->
-        <div class="col-4 col-md-auto ml-md-auto text-center">
+        <div class="col-4 col-md-1 ml-md-auto text-center">
             {% if user.is_authenticated %} {% csrf_token as csrf_token %}
             <a
                 href="#"
@@ -53,13 +53,13 @@
                 </object>
             </a>
             {% endif %}
-        <!--Likes popover. Updates on like button press.-->
         </div>
-        <div class="col-4 col-md-auto text-center" id="like-popover-container">
+        <!--Likes popover. Updates on like button press.-->
+        <div class="col-4 col-md-1 text-center" id="like-popover-container">
             {% include 'likes/includes/likes_popover.html' %}
         </div>
         <!--Cart popover. Updates on like button press.-->
-        <div class="col-4 col-md-auto mr-md-auto text-center" id="cart-popover-container">
+        <div class="col-4 col-md-1 mr-md-auto text-center px-0" id="cart-popover-container">
             {% include 'cart/includes/cart_popover.html' %}
         </div>
     </div>
