@@ -1,3 +1,11 @@
+"""
+This view is taken directly from django's documentation at
+https://github.com/django/django/commit/c498f088c584ec3aff97409fdc11b39b28240de9
+
+I have altered the views only to add context to display products in the
+"related product box". This way my custom pages can display products.
+"""
+
 from urllib.parse import quote
 
 from django.http import (
@@ -52,6 +60,8 @@ def custom_page_not_found(request, exception, template_name=ERROR_404_TEMPLATE_N
     else:
         if isinstance(message, str):
             exception_repr = message
+    
+    # Adds products to the context for the related item box
     products = Product.objects.all().order_by('-stock', '-popularity')[:9]
     context = {
         'request_path': quote(request.path),
@@ -101,6 +111,7 @@ def custom_permission_denied(request, exception, template_name=ERROR_403_TEMPLAT
             ERROR_PAGE_TEMPLATE % {'title': '403 Forbidden', 'details': ''},
             content_type='text/html',
         )
+    # Adds products to the context for the related item box
     products = Product.objects.all().order_by('-stock', '-popularity')[:9]
     context = {'exception': str(exception), 'products': products}
     return HttpResponseForbidden(
@@ -122,9 +133,11 @@ def custom_bad_request(request, exception, template_name=ERROR_400_TEMPLATE_NAME
             # Reraise if it's a missing custom template.
             raise
         return HttpResponseBadRequest(
-            ERROR_PAGE_TEMPLATE % {'title': 'Bad Request (400)', 'details': ''},
+            ERROR_PAGE_TEMPLATE % {
+                'title': 'Bad Request (400)', 'details': ''},
             content_type='text/html',
         )
+    # Adds products to the context for the related item box
     products = Product.objects.all().order_by('-stock', '-popularity')[:9]
     context = {'products': products}
     # No exception content is passed to the template, to not disclose any sensitive information.
@@ -145,9 +158,11 @@ def custom_server_error(request, template_name=ERROR_500_TEMPLATE_NAME):
             # Reraise if it's a missing custom template.
             raise
         return HttpResponseServerError(
-            ERROR_PAGE_TEMPLATE % {'title': 'Server Error (500)', 'details': ''},
+            ERROR_PAGE_TEMPLATE % {
+                'title': 'Server Error (500)', 'details': ''},
             content_type='text/html',
         )
+    # Adds products to the context for the related item box
     products = Product.objects.all().order_by('-stock', '-popularity')[:9]
     context = {'products': products}
     return HttpResponseServerError(template.render(context=context))

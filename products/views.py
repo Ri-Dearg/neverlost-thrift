@@ -24,7 +24,7 @@ class ProductListView(ListView):
                 return Product.objects.all().order_by('-stock', '-popularity')
             else:
                 # Performs a full text search using Postgres database
-                # functionality, weighting tags above other text
+                # functionality, weighting tags above other text.
                 self.user_query = self.request.GET['query']
                 self.vector = SearchVector(
                     'name',
@@ -35,6 +35,8 @@ class ProductListView(ListView):
                 self.query = SearchQuery(self.user_query)
                 self.rank = SearchRank(self.vector, self.query)
 
+                # Returns search results in order of rank,
+                # removing items with no rank.
                 return Product.objects.annotate(
                     rank=self.rank).order_by(
                     '-rank').filter(rank__gt=0)
@@ -49,10 +51,14 @@ class ProductListView(ListView):
             all_products_active = True
             context['all_products_active'] = all_products_active
 
+        # Paginates products for the infinite scroll feature.
         products = context['products']
         paginator = Paginator(products, 9)
         page_number = self.request.GET.get('page')
 
+        # Pagination is more complicated with a query
+        # so this is necessary for the products to display properly and
+        # not repeat the first page infinitely.
         if 'query' in self.request.GET:
             if 'page' in self.request.GET['query']:
                 page_number = self.request.GET['query'].rpartition('=')[-1]
@@ -61,6 +67,7 @@ class ProductListView(ListView):
 
         page_obj = paginator.get_page(page_number)
 
+        # If there are no products, return all products
         if products.count() == 0:
             context['products'] = Product.objects.all().order_by(
                 '-stock', '-popularity')[:9]
@@ -71,7 +78,7 @@ class ProductListView(ListView):
 
 
 class ProductDetailView(DetailView):
-    """Renders the product detail page"""
+    """Renders the product detail page."""
     model = Product
     context_object_name = 'product'
 
@@ -83,6 +90,9 @@ class ProductDetailView(DetailView):
 
         selected_product = context['product']
         selected_category = selected_product.category
+
+        # Renders related products from the same category
+        # while removing the current product.
         products = Product.objects.exclude(
             pk=selected_product.id).filter(
                 category=selected_category).order_by(
@@ -101,6 +111,7 @@ class StockDropDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        # Paginates products for the infinite scroll
         products = context['stockdrop'].products.all().order_by(
             '-stock', '-popularity')
         paginator = Paginator(products, 9)
@@ -108,6 +119,7 @@ class StockDropDetailView(DetailView):
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
+        # Used to hgihlight the correct collection in the navbar.
         key = self.request.path.split('/')[2]
 
         # Selects the active tab
@@ -127,6 +139,7 @@ class CategoryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        # Paginates products for the infinite scroll
         products = context['category'].products.all().order_by(
             '-stock', '-popularity')
         paginator = Paginator(products, 9)
@@ -134,6 +147,7 @@ class CategoryDetailView(DetailView):
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
+        # Used to hgihlight the correct collection in the navbar.
         key = self.request.path.split('/')[2]
 
         # Selects the active tab

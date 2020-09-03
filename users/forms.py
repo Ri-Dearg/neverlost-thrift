@@ -10,7 +10,7 @@ from .models import UserProfile
 
 
 class StyledSignupForm(SignupForm):
-    """Custom styled signup form using crispy forms for alluth Signup"""
+    """Custom styled signup form using crispy forms for alluth Signup."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -25,6 +25,7 @@ class StyledSignupForm(SignupForm):
             )
         )
 
+        # Changes form layout to be more compact
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
@@ -43,6 +44,7 @@ class StyledSignupForm(SignupForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    """Allows for the updating of the user's billing/shipping info."""
     class Meta:
         model = UserProfile
         fields = ['billing_full_name', 'billing_phone_number',
@@ -54,6 +56,7 @@ class UserProfileForm(forms.ModelForm):
                   'shipping_county', 'shipping_country', 'shipping_postcode']
 
     def __init__(self, *args, **kwargs):
+        """Selects custom layout and placehgolders for the form."""
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields['shipping_full_name'].widget.attrs = {'placeholder': 'Full Name'}  # noqa E501
         self.fields['shipping_full_name'].label = 'Full Name'
@@ -64,7 +67,8 @@ class UserProfileForm(forms.ModelForm):
                     'placeholder': 'Phone Number',
                     'class': 'form-control',
                     'pattern': '[0-9]+',
-                }))
+                }),
+            required=False)
         self.fields['shipping_street_address_1'].widget.attrs = {
             'placeholder': '123 Main St.'}
         self.fields['shipping_street_address_1'].label = 'Street Address 1'
@@ -94,7 +98,8 @@ class UserProfileForm(forms.ModelForm):
                     'placeholder': 'Phone Number',
                     'class': 'form-control billing-field',
                     'pattern': '[0-9]+',
-                }))
+                }),
+            required=False)
         self.fields['billing_street_address_1'].widget.attrs = {
             'Placeholder': 'Street Address 1', 'class': 'billing-field'}
         self.fields['billing_street_address_1'].label = 'Street Address 1'
@@ -109,7 +114,7 @@ class UserProfileForm(forms.ModelForm):
         self.fields['billing_county'].label = 'County, State or Locality'
         self.fields['billing_country'].widget.attrs = {'placeholder': 'Country',  # noqa E501
                                                        'class': 'form-control billing-field'}  # noqa E501
-        self.fields['billing_county'].label = 'Country'
+        self.fields['billing_country'].label = 'Country'
         self.fields['billing_postcode'].widget.attrs = {
             'placeholder': 'Postcode'}
         self.fields['billing_postcode'].label = 'Postcode'

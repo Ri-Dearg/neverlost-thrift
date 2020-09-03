@@ -12,11 +12,17 @@ from products.models import Product
 
 
 class CustomPhoneNumberField(PhoneNumberField):
+    """Subclasses the PhoneNumberField in order to remove an overly-strict
+    validator."""
+
     default_validators = []
 
 
 class Order(models.Model):
-    """Model that sets the fields for orders"""
+    """Model that sets the fields for orders.
+    The majority of fields are required.
+    The user-profile field is optional but will be set for logged in users."""
+
     order_number = models.CharField(max_length=32, null=False, editable=False)
     user_profile = models.ForeignKey(
         UserProfile,
@@ -61,6 +67,7 @@ class Order(models.Model):
                                   null=False, blank=False)
 
     def get_absolute_url(self):
+        """Redirects users to their order once it has been created."""
         return reverse('checkout:order-detail', args=[str(self.id)])
 
     def _update_total(self):
@@ -70,11 +77,11 @@ class Order(models.Model):
         self.grand_total = self.order_total + self.delivery_cost
 
     def _generate_order_number(self):
-        """Generates a random order number"""
+        """Generates a random order number."""
         return uuid.uuid4().hex.upper()
 
     def save(self, *args, **kwargs):
-        """Saves the order number"""
+        """Saves the order number and updates the total."""
         self._update_total()
         if not self.order_number:
             self.order_number = self._generate_order_number()
@@ -85,7 +92,9 @@ class Order(models.Model):
 
 
 class OrderLineItem(models.Model):
-    """Associates the product to the order with quantity and total cost"""
+    """Associates the product to the order with quantity and total cost.
+    All fields are required."""
+
     order = models.ForeignKey(Order,
                               on_delete=models.CASCADE,
                               null=False, blank=False,
@@ -99,7 +108,8 @@ class OrderLineItem(models.Model):
                                          null=False, blank=False)
 
     def save(self, *args, **kwargs):
-        """Saves the total cost"""
+        """Calculates the total cost and saves the details.
+        Also removes stock."""
         self.lineitem_total = self.product.price * self.quantity
         self.product.stock = self.product.stock - self.quantity
         self.product.times_purchased += self.quantity

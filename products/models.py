@@ -10,7 +10,8 @@ from io import BytesIO
 
 
 class Category(models.Model):
-    """Defines categories to be used with products."""
+    """Defines categories to apply to products.
+    A simple model to group products."""
     class Meta:
         verbose_name_plural = 'Categories'
 
@@ -22,7 +23,14 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    """Defines the Product Class."""
+    """Defines the Product Class. Many fields are optional.
+    A default image is uploaded if no image is selected.
+    Images will be resized on upload to 500x500px square shape.
+    I would recommend cropping your images to a 1:1 ratio first.
+    It automatically sets stock values based on is_uniqe value.
+    Generates the 'popuarity' value on save.This value is a combination of the
+    total quantity an item was sold and how many unique users have liked it."""
+
     category = models.ForeignKey('Category',
                                  null=True,
                                  blank=True,
@@ -52,20 +60,27 @@ class Product(models.Model):
         default=0, blank=False, null=False, editable=False)
 
     def save(self, *args, **kwargs):
-        """Image resizing, snippet repurposed from:
+        """ Generates default stock values.
+        Will restock items that are not unique.
+        Updates the 'popularity' value.
+        Image resizing, snippet repurposed from:
         https://djangosnippets.org/snippets/10597/ """
-        # Opening the image
+
+        # Declares a check to see if the product exists.
         this_object = None
         try:
             this_object = Product.objects.get(pk=self.id)
         except Product.DoesNotExist:
             pass
         finally:
+            # Updates popularity (See below)
             self._update_popularity()
 
+            # Sets default stock to 50 and/or restocks non-unique items
             if not self.is_unique and self.stock == 1:
                 self.stock = 50
 
+            # opens the image before it is saved.
             img = Image.open(self.image)
             img_format = img.format.lower()
 
@@ -95,6 +110,8 @@ class Product(models.Model):
                 super().save(*args, **kwargs)
 
     def _update_popularity(self):
+        """Used for item ordering so more popular items are displayed first.
+        A combination of total unique likes and number sold."""
         self.popularity = self.users.count() + self.times_purchased
 
     class Meta:
@@ -105,8 +122,10 @@ class Product(models.Model):
 
 
 class StockDrop(models.Model):
-    """Allows creation of a set splash image and a collection of
-    Products for it"""
+    """Allows for the creation of a collection of Products.
+    You can add a splash image which will be resized and a blurb.
+    Images will be resized on upload to 1289x480px square shape.
+    I would recommend cropping your images to a 8:3 ratio first."""
     name = models.CharField(max_length=30, null=False)
     description = models.CharField(max_length=200, null=False)
     image = models.ImageField(upload_to='stock_drop')
@@ -152,6 +171,7 @@ class StockDrop(models.Model):
                 super().save(*args, **kwargs)
 
     class Meta:
+        """Orders by the most recent created by default."""
         ordering = ['-date_added']
 
     def __str__(self):

@@ -8,12 +8,16 @@ from products.models import Product
 
 
 class CustomPhoneNumberField(PhoneNumberField):
+    """Subclasses the PhoneNumberField in order to remove an overly-strict
+    validator."""
+
     default_validators = []
 
 
 class UserProfile(models.Model):
     """User Profile used to store default delivery information and
     liked/bookmarked items"""
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     shipping_full_name = models.CharField(max_length=50,
                                           default='', blank=True)
@@ -57,6 +61,9 @@ class UserProfile(models.Model):
 
 
 class Liked(models.Model):
+    """A through table to keep track of the exact time an item was liked.
+    It is used to order liked items on a user's profile."""
+
     userprofile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     datetime_added = models.DateTimeField(auto_now_add=True)

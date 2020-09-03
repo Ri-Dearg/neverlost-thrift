@@ -5,6 +5,7 @@ from .models import Email
 
 
 class CreateEmailView(SuccessMessageMixin, CreateView):
+    """The page used for contatc to send an email."""
     model = Email
     context_object_name = 'email'
     fields = ['email', 'name', 'subject', 'message']
@@ -22,7 +23,8 @@ class CreateEmailView(SuccessMessageMixin, CreateView):
         return form
 
     def get_context_data(self, **kwargs):
-        """Adds all necessary information to the context"""
+        """Adds all necessary information to the context.
+        Mainly just highlights the "Contact" in the navbar."""
         context = super().get_context_data(**kwargs)
         # Details necessary for Stripe payment processing
         contact_active = True

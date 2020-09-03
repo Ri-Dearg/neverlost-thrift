@@ -82,6 +82,7 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
+# Settings for django-allauth
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
@@ -92,7 +93,10 @@ ACCOUNT_ADAPTER = 'users.adapter.CustomAdapter'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
+# Settings for django-countries
 COUNTRIES_FIRST = ['IE', 'GB']
+
+# Settings for phonenumber-field
 PHONENUMBER_DB_FORMAT = 'E164'
 
 # Crispy forms CSS template selection
@@ -147,6 +151,7 @@ TEMPLATES = [
     },
 ]
 
+# Necessary to show messages in GitPod
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 AUTHENTICATION_BACKENDS = [
@@ -175,7 +180,7 @@ DATABASES = {
     }
 }
 
-# Database config
+# Database config override.
 env_db = dj_database_url.config(conn_max_age=500)
 
 # Declare variable  to check if django is in testing mode
@@ -242,6 +247,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Checks for the Development variable. If not found it uses AWS.
 if not DEVELOPMENT:
     # Settings for AWS bucket
     AWS_S3_OBJECT_PARAMETERS = {
@@ -267,18 +273,22 @@ if not DEVELOPMENT:
     DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
 
+# Sets the cost limit for free delivery.
 FREE_DELIVERY_THRESHOLD = 60
 STANDARD_DELIVERY = 9
 
+# Necessary variables and setting to take Stripe Payments.
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 STRIPE_CURRENCY = 'eur'
 
-
+# If in development, emails are displayed in the terminal
 if 'DEVELOPMENT' in os.environ:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'example@example.com'
+
+# Else emails are sent using real account settings
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
