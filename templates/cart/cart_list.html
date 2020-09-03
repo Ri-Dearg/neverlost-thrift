@@ -5,6 +5,7 @@
     </div>
 </div>
 <hr />
+<!--For every item in the cart, it creaes a row with option for that product.-->
 {% if cart %} {% for item in cart_items %} {% include 'cart/includes/cart_product_display.html' %} {% endfor %}
 <div id="totals-box">
     {% include 'cart/includes/totals.html' %}
@@ -21,6 +22,7 @@
     </div>
 </div>
 {% else %}
+<!--If there is no item in the cart, it displays a link back to he shop-->
 <article class="row mx-0">
     <div class="col text-center">
         <h4 class="text-dark">Your cart is empty...</h4>
@@ -30,11 +32,13 @@
 </article>
 {% endif %} {% endblock %} {% block postloadjs %}
 <script>
+    // Inputs special values that are used for ajax logic processing to declare quantity update.
     $(".update-button").on("click", function () {
         var id = this.id.slice(3);
         $(`#af-${id}`).append('<input type="hidden" name="special" value="update"/>');
         $(`#bf-${id}`).append('<input type="hidden" name="special" value="update"/>');
     });
+    // Inputs special values that are used for ajax logic processing to remove the product.
     $(".remove-button").on("click", function () {
         var id = this.id.slice(3);
         $(`#af-${id}`).append('<input type="hidden" name="special" value="remove"/>');

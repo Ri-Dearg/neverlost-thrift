@@ -1,8 +1,13 @@
 {% load static %}
+<!--This is the button that appears on the product_box.html template.
+The toggle-form class makes it a target for the ajax functions..-->
 <form class="col-2 text-center px-0 ml-auto toggle-form" id="cf-{{ product.id }}" action="{% url 'cart:cart-toggle' %}" method="POST">
     {% csrf_token %}
+    <!--It only sends the product ID and always a quantity of 1.-->
     <input type="hidden" name="item-id" value="{{ product.id }}" />
     <input type="hidden" name="quantity" value="1" />
+    <!--Selects the default icon based on whether the item is in the cart or not.
+    object tags are used to display the SVG for caching.-->
     <button type="submit" class="btn btn-link p-0 h-100 w-100">
         {% if product.id|stringformat:'s' in cart %}
         <object class="box-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-check.svg' %}">

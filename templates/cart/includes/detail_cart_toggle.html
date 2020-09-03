@@ -1,6 +1,13 @@
 {% load static %}
+<!--This is the button that appears on the product_box.html template.
+The toggle-form class makes it a target for the ajax functions.
+If the item has numerous stock option the product_detail.html template displays a quantity selection box.
+This box is linked to this form and does not appear in this template.-->
 <form class="col-10 col-sm-8 col-md-9 col-lg-7 pl-0 toggle-form" id="cf-{{ product.id }}" action="{% url 'cart:cart-toggle'%}" method="POST">
     {% csrf_token %}
+    <!--Always sends the product id.
+    If the product is unique it automatically sends 1 as the quantity.
+    It send the 'special=stocked' value for other items for logic in the ajax JS and views.-->
     <input type="hidden" name="item-id" value="{{ product.id }}" />
     {% if product.is_unique %}
     <input type="hidden" name="quantity" value="1" />
@@ -8,6 +15,8 @@
     <input type="hidden" name="special" value="stocked" />
     {% endif %}
     <button type="submit" id="btn-{{ product.id }}" class="btn-lg btn-dark w-100">
+        <!--Selects the default icon based on whether the item is in the like context or not.
+        object tags are used to display the SVG for caching.-->
         {% if product.id|stringformat:'s' in cart and product.is_unique %}
         <object class="detail-object" id="cart-svg-{{ product.id }}" type="image/svg+xml" data="{% static 'icons/cart-check-white.svg' %}">
             <img id="cart-img-{{ product.id }}" src="{% static 'icons/cart-check-white.svg' %}" alt="Add to Cart" />

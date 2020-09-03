@@ -1,12 +1,18 @@
+<!--A template which displays the cart total and delivery cost on the cart_list page.-->
 <div class="row mx-0">
     <div class="col text-right">
         <p class="col">Delivery:</p>
     </div>
     <div class="col-3 col-md-2 px-0 text-right">
-        {% if delivery != 0 %}
-        <p class="text-dark p-0 pr-2 pr-md-1"><strong>€{{ delivery|floatformat:2 }}</strong></p>
+    <!--Adjusts cart delivery cost based on total.-->
+        {% if cart %}
+            {% if delivery != 0 %}
+            <p class="text-dark p-0 pr-2 pr-md-1"><strong>€{{ delivery|floatformat:2 }}</strong></p>
+            {% else %}
+            <p class="text-dark p-0 pr-2 pr-md-1"><strong>Free!</strong></p>
+            {% endif %}
         {% else %}
-        <p class="text-dark p-0 pr-2 pr-md-1"><strong>Free!</strong></p>
+            <p class="text-dark p-0 pr-2 pr-md-1"><strong>Cart is empty.</strong></p>
         {% endif %}
     </div>
 </div>
@@ -14,6 +20,7 @@
     <div class="col text-right">
         <p class="col">Total:</p>
     </div>
+    <!--Displays the current delivery total.-->
     <div class="col-3 col-md-2 px-0 text-right">
         <p class="text-dark p-0 pr-2 pr-md-1"><strong>€{{ grand_total }}</strong></p>
     </div>

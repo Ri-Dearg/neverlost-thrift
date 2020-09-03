@@ -1,4 +1,5 @@
 {% load static %}
+&lt;!--All content must be escaped. Displays items in the cart with a total. Else it displays an empty cart message.--&gt;
 &lt;div class=&quot;list-group border-0&quot;&gt;
     {% for item in cart_items %}
     &lt;a class=&quot;list-group-item border-0 mx-0 my-1 p-1 w-100&quot; href=&quot;{% url 'products:product-detail' item.product.id %}&quot;&gt;
