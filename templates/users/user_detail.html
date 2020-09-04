@@ -1,4 +1,7 @@
 {% extends 'base/base.html' %} {% load static %} {% block head_title %}{{ user.username }}{% endblock%} {% block content %} {% load crispy_forms_tags %}
+<!-- This page displays option such as changing password, email address and shipping/billing info.
+The email and password functions use django-allauth logic with custom forms.
+Much of the content is taken directly fomr their templates. -->
 <div class="row mx-0 pt-3">
     <div class="col">
         <h1 class="heading-font text-primary text-center">{{ user.username }}</h1>
@@ -19,6 +22,7 @@
     <div class="row mx-0">
         <div class="col-12 col-md-6">
             {% csrf_token %}
+            <!-- Allows the user to set shipping and billing details, no fields are required. -->
             <fieldset class="mb-3">
                 <legend class="heading-font">Shipping Details</legend>
                 {{ user_profile_detail.shipping_full_name|as_crispy_field }} {{ user_profile_detail.shipping_phone_number }}
@@ -45,8 +49,9 @@
 <hr class="my-4" />
 {% endblock %} {% block postloadjs %} {{ block.super }}
 <script type="text/javascript">
+// Script taken from django-allauth
     (function () {
-        var message = "Do you really want to remove the selected e-mail address?8";
+        var message = "Do you really want to remove the selected e-mail address?";
         var actions = document.getElementsByName("action_remove");
         if (actions.length) {
             actions[0].addEventListener("click", function (e) {
