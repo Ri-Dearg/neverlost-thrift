@@ -1,11 +1,15 @@
 {% load static %} {% get_media_prefix as MEDIA_URL %}
+<!-- Displays stockdrops in the carousel. Stockdrops are only shown if they have the "display" boolean as true.
+This is done in the view before being passed here. They are ordered by most recent first. -->
 <div id="carouselStockDrop" class="carousel slide" data-ride="carousel">
+    <!-- This loops through the stockdrops, setting the first as the active one. -->
     <ol class="carousel-indicators">
         {% for number in stockdrops %}
         <li data-target="#carouselStockDrop" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %}></li>
         {% endfor %}
     </ol>
     <div class="carousel-inner">
+        <!-- This loops through each collection of items and gives them appropriate images and links. -->
         {% for collection in stockdrops %}
         <a class="carousel-item {% if forloop.first %}active{% endif %}" href="{% url 'products:stockdrop-detail' collection.id %}">
             <img src="{{ collection.image.url }}" class="d-block w-100" alt="{{ collection.date_added|date:'M' }} StockDrop" />
@@ -16,6 +20,7 @@
         </a>
         {% endfor %}
     </div>
+    <!-- This displays the buttons for slide selection. -->
     <a class="carousel-control-prev" href="#carouselStockDrop" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>

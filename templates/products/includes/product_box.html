@@ -1,8 +1,14 @@
 {% load static %}
+<!-- This is the standard template to display products in a feed.
+It is used in many templates, stockdrop and category detail, the product_list homepage,
+related items box, and likes_list.
+It displays two ajax buttons for liking and adding to cart among other details that vary depending on
+the product's characteristics, e.g. size, unique item, etc.. -->
 <div class="col-12 col-md-4 p-0 infinite-item">
     <article class="card mx-0 mx-md-2 mt-3 border-0">
         <a href="{% url 'products:product-detail' product.id %}">
             <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}" />
+            <!-- These display little banners that give extra info about the item. -->
             {% if product.is_unique and product.stock > 0 %}
             <span class="product-alert badge badge-pill badge-secondary">Sole Item</span>
             {% elif not product.is_unique and product.stock < 10 %}
@@ -12,12 +18,15 @@
             {% endif %}
         </a>
         <div class="row card-body mx-0 px-0 pt-1 pb-0">
+            <!-- Displays product info, omitting description.
+            DIsplays sizes if necessary. -->
             <a class="col-12 px-0" href="{% url 'products:product-detail' product.id %}"><h6 class="card-text text-primary heading-font mb-1 pl-1">{{ product.name|truncatechars:30 }}</h6></a>
             {% if product.size %}
             <div class="col-4 text-dark p-0 pl-0">€{{ product.price }}</div>
             <div class="col-4 text-center p-0 text-dark">Size: {{ product.size }}</div>
             {% else %}
             <div class="col-8 text-dark pl-1">€{{ product.price }}</div>
+            <!-- Includes templates from the cart and likes app for the ajax buttons. -->
             {% endif %} {% if product.stock > 0 %} {% include 'cart/includes/box_cart_toggle.html' %} {% endif %} {% include 'likes/includes/box_like_toggle.html' %}
             <p class="col-12 text-white mb-0 p-0">{% for tag in product.admin_tags %} <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{ tag }}</a> {% endfor %}</p>
         </div>

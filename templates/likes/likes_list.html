@@ -21,8 +21,9 @@ If There is nothing it provides a link back to the page. -->
     </div>
 </div>
 {% endif %} {% if page_obj.has_next %}
-<!-- Details used to create pagination for use with the infinie scroll feature. -->
+<!-- Details used to create pagination for use with the infinite scroll feature. -->
 <a class="infinite-more-link d-none" href="{{request.path }}?page={{ page_obj.next_page_number }}"></a>
+<!-- The loading spinner for the scroll. -->
 <div class="d-flex justify-content-center text-secondary d-none mt-3">
     <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>

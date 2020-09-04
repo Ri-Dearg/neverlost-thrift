@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %} {% block head_title %}{{ category.friendly_name }}{% endblock%} {% load static %} {% block content %}
+<!-- Displays category. The name is up top, follwed by the product feed.
+Uses the product_box.html template -->
 <div class="row mx-0 pt-3">
     <div class="col">
         <h1 class="heading-font text-primary text-center">{{ category.friendly_name }}</h1>
@@ -10,13 +12,16 @@
 </div>
 
 {% if page_obj.has_next %}
+<!-- Pagination for the infinite scroll. -->
 <a class="infinite-more-link d-none" href="?page={{ page_obj.next_page_number }}"></a>
+<!-- Scripts for the infinite scroll feature. -->
 <div class="d-flex justify-content-center text-secondary d-none mt-3">
     <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
     </div>
 </div>
 {% endif %} {% endblock %} {% block postloadjs %} {{ block.super }}
+<!-- Scripts for the infinite scroll feature. -->
 <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/infinite.min.js' %}"></script>
 <script src="{% static 'js/infinite_settings.js' %}"></script>

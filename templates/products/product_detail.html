@@ -1,9 +1,13 @@
 {% extends 'base/base.html' %} {% block head_title %}{{ product.name }}{% endblock%} {% load static %} {% block content %}
+<!-- Displays product details. Information changes depending on product characteristics, 
+such as size or quantity, mainly following the same scheme as the product_box.html template.
+If there is quantity, it includes quantity selection linked to the form in the detail_cart_toggle.html template. -->
 <div class="p-md-5">
     <article class="card border-0">
         <div class="row mx-0">
             <div class="col-md-5 p-0">
                 <img src="{{ product.image.url }} " alt="{{ product.name }}" class="card-img-top img-fluid" />
+                <!-- These display little banners that give extra info about the item. -->
                 {% if product.is_unique and product.stock > 0 %}
                 <span class="product-detail-alert badge badge-pill badge-secondary">Sole Item</span>
                 {% elif not product.is_unique and product.stock < 10 %}
@@ -21,7 +25,9 @@
                     </div>
                     <div class="row">
                         <p class="col-12">{{ product.description }}</p>
+                        <!-- Section selects columns and characteristics of the product to display. -->
                         {% if not product.is_unique and product.stock > 0 %}
+                        <!-- Displays a quantity selection box linked to the form in the detail_cart_toggle template. -->
                         <div class="form-label-group col-4 mb-3">
                             <input class="form-control mt-1 pt-4" type="number" id="detail-quantity" form="cf-{{ product.id }}" name="quantity" value="1" min="1" max="{{ product.stock }}" />
                             <label class="ml-2 pb-0" for="detail-quantity">Quantity</label>
@@ -37,6 +43,8 @@
                         {% endif %}
                     </div>
                     <div class="row w-100 ml-1">
+                        <!-- This will only show the add to cart button if the item is in stock.
+                        Even if added to cart in another way, the views should remove it alerting the user to 0 stock. -->
                         {% if product.stock > 0 %} {% include 'cart/includes/detail_cart_toggle.html' %} {% endif %} {% include 'likes/includes/detail_like_toggle.html' %}
                         <p class="col-12 text-white mt-3 p-0">{% for tag in product.admin_tags %} <a href="{% url 'products:product-list' %}?query={{ tag }}" class="btn btn-info rounded-sm mb-1 px-1 py-0">{{tag}}</a> {% endfor %}</p>
                     </div>
@@ -46,5 +54,6 @@
     </article>
 </div>
 <hr>
+<!-- Displays related items based on category. -->
 {% include 'products/includes/related_products.html' %}
 {% endblock %}

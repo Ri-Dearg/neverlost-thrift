@@ -1,13 +1,23 @@
-{% extends 'base/base.html' %} {% block head_title %}Found{% endblock%} {% load static %} {% block content %} {% if 'query' in request.GET %}
+{% extends 'base/base.html' %} {% block head_title %}Found{% endblock%} {% load static %} {% block content %}
+<!-- Page is utilised as the homepage as well as the search results page.
+After the search section, it is the basis for all feed-based templates,
+such as likes_list, category_detail and stockdrop_detail.-->
+{% if 'query' in request.GET %}
+<!-- Detects if a search query was made and displays the keyword.
+Else it displays the stockdrop_splash template. -->
 <h3 class="text-center pt-2">check out:</h3>
 <h1 class="text-center heading-font text-primary">{{ request.GET.query }}</h1>
 <hr />
 {% endif %} {% if not 'query' in request.GET %} {% include 'products/includes/stockdrop_splash.html' %} {% endif %}
 {% if page_obj %}
 <div class="row mx-0 infinite-container">
+<!-- This displays all products, organised by 'popularity' and stock quantity.
+Retrieves all products if no search query is performed.
+It utilises the paginator so it can use the infinite scroll feature. -->
  {% for product in page_obj %} {% include 'products/includes/product_box.html' %} {% endfor %}
 </div>
 {% else %}
+<!-- Otherwise it shows a link to the home page, and a related products box. -->
 <div class="row mx-0 infinite-container">
     <div class="col text-center">
         <h4 class="text-dark">Nothing found but good stuff is...</h4>
@@ -18,17 +28,20 @@
 <hr>
     {% include 'products/includes/related_products.html' %}
 {% endif %}
+<!-- If a search query is in the URL, a more complicated path is necessary for the scroll.-->
 {% if page_obj.has_next %} {% if 'query' in request.get_full_path %}
 <a class="infinite-more-link d-none" href="{{ request.path }}?query={{ keyword }}?page={{ page_obj.next_page_number }}"></a>
 {% else %}
 <a class="infinite-more-link d-none" href="{{ request.path }}?page={{ page_obj.next_page_number }}"></a>
 {% endif %}
+<!-- The loading spinner for the scroll. -->
 <div class="d-flex justify-content-center text-secondary d-none mt-3">
     <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
     </div>
 </div>
 {% endif %} {% endblock %} {% block postloadjs %} {{ block.super }}
+<!-- Scripts for the infinite scroll feature. -->
 <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/infinite.min.js' %}"></script>
 <script src="{% static 'js/infinite_settings.js' %}"></script>
