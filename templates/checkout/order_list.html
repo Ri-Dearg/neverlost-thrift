@@ -1,10 +1,12 @@
 {% extends 'base/base.html' %} {% block head_title %}All Orders{% endblock%} {% block content %}
+<!--Displays all orders that have been made in a list. -->
 <div class="row mx-0 pt-3">
     <div class="col">
         <h1 class="heading-font text-primary text-center">Your Orders</h1>
     </div>
 </div>
 <hr />
+<!-- Displays an order row for eahc item -->
 {% if orders %} {% for order in orders %} {% include 'checkout/includes/order_display.html' %} {% endfor %} {% else %}
 <article class="row mx-0">
     <div class="col text-center">

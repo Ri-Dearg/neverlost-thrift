@@ -1,4 +1,6 @@
 {% load static %}
+<!-- A simple product display for the order_form.html template.
+It is also used in the order_detail.html template. -->
 <article class="row mx-0">
     <div class="col-3 col-lg-2 py-0 px-1">
         <a href="{% url 'products:product-detail' item.product.id %}">
@@ -7,6 +9,7 @@
     </div>
     <div class="col-9">
         <div class="row pl-3">
+            <!-- Truncates characters on smaller screens, keeps it the same for larger screens -->
             <h6 class="col d-md-none text-primary heading-font mx-1 p-0"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name|truncatechars:"15" }}</a></h6>
             <h6 class="col d-none d-md-block text-primary heading-font mr-1 px-1"><a href="{% url 'products:product-detail' item.product.id %}">{{ item.product.name }}</a></h6>
             <div class="col-4 col-md-2 p-0 text-right">
@@ -14,6 +17,7 @@
             </div>
         </div>
         <div class="row pl-3">
+            <!-- Truncates characters for smaller screens. Full decription shows on larger screens. -->
             <p class="col d-none d-md-block text-dark mb-1 px-1">{{ item.product.description|truncatechars:"60" }}</p>
             <div class="col-4 p-0 ml-auto">
                 <div class="row mx-0">

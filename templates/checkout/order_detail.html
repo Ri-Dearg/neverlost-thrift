@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %} {% load static %} {% load crispy_forms_tags %} {% block head_title %}Your Order{% endblock%} {% block content %}
-
+<!-- Dissplays an order's specific details.
+Utilises template logic to dispy or omit optional fields such as street_address_2 -->
 <div class="row mx-0 pt-3">
     <div class="col">
         <h1 class="heading-font text-primary text-center">Order Complete</h1>
@@ -154,6 +155,7 @@
         <hr class="d-md-none my-3" />
     </div>
     <div class="col-12 col-md-6">
+        <!-- Uses the same template as is used in the order_form.html template for product display -->
         {% for item in order.lineitems.all %} {% with item.product as product %} {% include 'checkout/includes/checkout_product_display.html' %} {% endwith %} {% endfor %}
         <div class="row mx-0">
             <div class="col text-right">
