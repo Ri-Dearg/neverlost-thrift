@@ -1,4 +1,5 @@
 {% load static %}
+<!--All content with the data-title and data-content must be escaped.-->
 <a
     class="d-inline-block href-stop"
     id="like-popover"
@@ -16,6 +17,8 @@
     {% endif %}
     tabindex="0"
 >
+    <!--Selects the default icon based on whether there are likes or not.
+    object tags are used to display the SVG for caching.-->
     {% if likes %}
     <object class="header-object" type="image/svg+xml" data="{% static 'icons/heart-fill.svg' %}">
         <img src="{% static 'icons/heart-fill.svg' %}" alt="Account" />

@@ -1,4 +1,5 @@
 {% load static %}
+&lt;!--All content must be escaped. Displays the most recent liked items. Else it displays a no likes message.--&gt;
 &lt;div class=&quot;list-group border-0&quot;&gt;
     {% for product in likes|slice:':3' %}
     &lt;a class=&quot;list-group-item border-0 mx-0 my-1 p-1&quot; href=&quot;{% url 'products:product-detail' product.id %}&quot;&gt;

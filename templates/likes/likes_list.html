@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %} {% load static %} {% block head_title %}Your Likes{% endblock%} {% block content %}
+<!-- DIsplays a liked items feed in reverse chronological order.
+If There is nothing it provides a link back to the page. -->
 <div class="row mx-0 pt-3">
     <div class="col">
         <h1 class="heading-font text-primary text-center">Likes</h1>
@@ -7,6 +9,7 @@
 <hr />
 {% if likes %}
 <div class="row mx-0 infinite-container">
+<!-- Includes the standard product_box.hml template -->
     {% for product in page_obj %} {% include 'products/includes/product_box.html' %} {% endfor %}
 </div>
 {% else %}
@@ -18,6 +21,7 @@
     </div>
 </div>
 {% endif %} {% if page_obj.has_next %}
+<!-- Details used to create pagination for use with the infinie scroll feature. -->
 <a class="infinite-more-link d-none" href="{{request.path }}?page={{ page_obj.next_page_number }}"></a>
 <div class="d-flex justify-content-center text-secondary d-none mt-3">
     <div class="spinner-border" role="status">
@@ -25,20 +29,21 @@
     </div>
 </div>
 {% endif %} {% endblock %} {% block postloadjs %} {{ block.super }}
+<!-- Scripts for the infinite scroll feature. -->
 <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
 <script src="{% static 'js/infinite.min.js' %}"></script>
 
 <script>
-    var infinite = new Waypoint.Infinite({
-        element: $(".infinite-container")[0],
-        onBeforePageLoad: function () {
-            $(".spinner-border").show();
-        },
-        onAfterPageLoad: function () {
-            $(`.toggle-form`).off("submit");
-            $(".spinner-border").hide();
-            buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate);
-        },
-    });
+var infinite = new Waypoint.Infinite({
+    element: $(".infinite-container")[0],
+    onBeforePageLoad: function () {
+        $(".spinner-border").show();
+    },
+    onAfterPageLoad: function () {
+        $(`.toggle-form`).off("submit");
+        $(".spinner-border").hide();
+        buttonToggle(liked, unliked, carted, uncarted, likeUpdate, cartUpdate);
+    },
+});
 </script>
 {% endblock %}
