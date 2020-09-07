@@ -225,15 +225,15 @@ The Business Goals of Neverlost Thrift are:
 
 ## Visual Design
 ### Wireframes
-Wireframe: https://drive.google.com/open?id=1qIyntbCbm1Q0vOoC849uHAyfC5QICYAL
+Wireframe: https://drive.google.com/drive/folders/1WHexlk5WcbX0tRLvL6d_u-NFCN9x0JS2?usp=sharing
 
 ### Fonts
 <div align="center">
   <img src="https://user-images.githubusercontent.com/44118951/90979996-e6c87100-e558-11ea-8314-6b3acb4fd297.png" alt="Fonts">
 </div>
 
-- The primary font was chosen because it was similar to the secondary font used for the brand. It is sans-serif, so it is clear, clean and simple. It was chosen to not contrast or draw the eye, but instead to remain rather mute, keeping the eyes more focused on the products and images.
-- The secondary font, Lexand Deca was chosen because it is Monospace, is a very clean font, which looks great bold and in uppercase. The spacing equal spacing allowed for easy use in based on character length. It was perfect for a strong brand logo as well as use for headings.
+- The primary font, [Montserrat](https://fonts.google.com/specimen/Montserrat) was chosen because it was similar to the secondary font used for the brand. It is sans-serif, so it is clear, clean and simple. It was chosen to not contrast or draw the eye, but instead to remain rather mute, keeping the eyes more focused on the products and images.
+- The secondary font, [Lexand Deca](https://fonts.google.com/specimen/Lexend+Deca) was chosen because it is Monospace, is a very clean font, which looks great bold and in uppercase. The spacing equal spacing allowed for easy use in based on character length. It was perfect for a strong brand logo as well as use for headings.
 
 ### Icons
 <div align="center">
@@ -900,7 +900,7 @@ However, the project seems to always run `collectstatic` no matter what the sett
 - An IDE of your choice, such as [Visual Studio Code](https://code.visualstudio.com/)
 - [Python 3](https://www.python.org/downloads/release/python-385/)
 - [pip](https://github.com/pypa/pip)
-- [Git](https://git-scm.com/
+- [Git](https://git-scm.com/)
 - A Postgres database set up.
 - A free account with [Stripe](https://stripe.com/).
 - You may use a free account at [Amazon Web Services](https://aws.amazon.com/) for static file hosting.
@@ -978,7 +978,6 @@ python manage.py compilescss --traceback
 python manage.py collectstatic --noinput --traceback
 ```
 - A free account with [Stripe](https://stripe.com/).
-- A free 
 - You may use a free account at [Amazon Web Services](https://aws.amazon.com/) for static file hosting.
 - Alternatively, the project comes with [whitenoise](http://whitenoise.evans.io/en/stable/) installed for static file hosting in production directly from Django.
 
