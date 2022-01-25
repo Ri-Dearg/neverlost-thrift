@@ -4,7 +4,7 @@ boto3==1.13.16
 botocore==1.16.16
 coverage==5.1
 dj-database-url==0.5.0
-Django==3.1.12
+Django==3.1.14
 django-allauth==0.42.0
 django-appconf==1.0.4
 django-compressor==2.4
