@@ -11,7 +11,7 @@ django-compressor==2.4
 django-countries==7.5.1
 django-crispy-forms==1.9.1
 django-phonenumber-field==4.0.0
-django-sass-processor==0.8
+django-sass-processor==1.4
 django-storages==1.9.1
 djangoajax==3.2
 docutils==0.15.2
