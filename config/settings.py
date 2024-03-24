@@ -245,6 +245,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+# supabase storage settings
+DEFAULT_FILE_STORAGE = "django_storage_supabase.supabase"
+SUPABASE_API_KEY = os.getenv("SUPABASE_API_KEY")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_ROOT_PATH = "/dir/"
+
 # Checks for the Development variable. If not found it uses AWS.
 if not DEVELOPMENT:
     # Settings for AWS bucket
