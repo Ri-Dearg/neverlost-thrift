@@ -179,18 +179,16 @@ DATABASES = {
         "USER": os.getenv("PGUSER"),
         "PASSWORD": os.getenv("PGPASSWORD"),
         "HOST": os.getenv("PGHOST"),
-        "PORT": os.getenv("PGPORT", 5432),
+        "PORT": os.getenv("PGPORT", "5432"),
         "OPTIONS": {
             "sslmode": "require",
         },
         "DISABLE_SERVER_SIDE_CURSORS": True,
+        "TEST": {
+            "NAME": "testdb",
+        },
     }
 }
-
-# Declare variable  to check if django is in testing mode
-TESTING = len(sys.argv) > 1 and sys.argv[1] == "test"
-if TESTING:
-    DATABASES["default"]["NAME"] = "PGDATABASE_TEST"
 
 
 # Password validation
@@ -297,3 +295,5 @@ else:
     EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASS")
     DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
