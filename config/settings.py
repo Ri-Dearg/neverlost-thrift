@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import sys
 
-import dj_database_url  # noqa: F401
-
 # Uses env.py for environment variales when local
 try:
     import env  # noqa: F401
@@ -125,6 +123,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Deploys static files in production
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    # Add the account middleware:
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -187,16 +187,10 @@ DATABASES = {
     }
 }
 
-# Database config override.
-env_db = dj_database_url.config(conn_max_age=500)
-
 # Declare variable  to check if django is in testing mode
 TESTING = len(sys.argv) > 1 and sys.argv[1] == "test"
 if TESTING:
-    env_db = dj_database_url.parse(os.getenv("PGDATABASE_TEST"))
-
-# Production Database
-DATABASES["default"].update(env_db)
+    DATABASES["default"]["NAME"] = "PGDATABASE_TEST"
 
 
 # Password validation
