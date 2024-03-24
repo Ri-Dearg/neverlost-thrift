@@ -39,7 +39,7 @@ if DEBUG == "True":
 elif DEBUG is False:
     print("Debug mode is off.")
 
-ALLOWED_HOSTS = ["neverlost-thrift.herokuapp.com", "localhost"]
+ALLOWED_HOSTS = ["localhost"]
 
 # Add Render.com URL to allowed hosts
 RENDER_EXTERNAL_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
@@ -246,9 +246,10 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # supabase storage settings
-DEFAULT_FILE_STORAGE = "django_storage_supabase.supabase"
-SUPABASE_API_KEY = os.getenv("SUPABASE_API_KEY")
+DEFAULT_FILE_STORAGE = "custom_storages.SupabaseStorage"
+SUPABASE_KEY = os.getenv("SUPABASE_API_KEY")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
+BUCKET_NAME = os.getenv("BUCKET_NAME")
 SUPABASE_ROOT_PATH = "/dir/"
 
 # Checks for the Development variable. If not found it uses AWS.
