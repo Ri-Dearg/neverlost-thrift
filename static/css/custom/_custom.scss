@@ -175,22 +175,22 @@ object {
 }
 
 /*The following classes simply size objects in different areas.*/
-.header-object {
+.header-object, object.header-object>img {
     width: 2rem;
     height: 2rem;
 }
 
-.detail-object {
+.detail-object, object.detail-object>img {
     width: 2.2rem;
     height: 2.2rem;    
 }
 
-.box-object {
+.box-object, object.box-object>img {
     width: 1.5rem;
     height: 1.5rem;
 }
 
-.search-object {
+.search-object, object.search-object>img {
     height: 1rem;
     width: 1rem;
 }
