@@ -125,7 +125,7 @@ class Product(models.Model):
     def _update_popularity(self, *args, **kwargs):
         """Used for item ordering so more popular items are displayed first.
         A combination of total unique likes and number sold."""
-        with contextlib.suppress(ValueError()):
+        with contextlib.suppress(ValueError):
             self.popularity = self.users.count() + self.times_purchased
 
 
