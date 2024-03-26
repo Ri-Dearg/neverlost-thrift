@@ -8,6 +8,8 @@ from django.db import models
 from django.utils import timezone
 from PIL import Image
 
+from config import settings
+
 
 class Category(models.Model):
     """Defines categories to apply to products.
@@ -15,6 +17,7 @@ class Category(models.Model):
 
     name = models.CharField(max_length=254)
     friendly_name = models.CharField(max_length=254, default='')
+
     class Meta:
         verbose_name_plural = 'Categories'
 
@@ -51,7 +54,8 @@ class Product(models.Model):
     size = models.CharField(max_length=2, default='', blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(
-        default='default.png', upload_to='product_images'
+        default=f'{settings.BUCKET_NAME}/default.png',
+        upload_to='product_images',
     )
     date_added = models.DateTimeField(default=timezone.now)
     admin_tags = fields.ArrayField(models.CharField(max_length=40), size=8)
@@ -93,8 +97,10 @@ class Product(models.Model):
 
             # Prevents images from being copied on every save
             # will save a new copy on an upload
-            if (this_object and self.image.name != this_object.image.name) or (
-                not this_object
+            if (
+                (this_object and self.image.name != this_object.image.name)
+                or (not this_object)
+                and (self.image.name != f'{settings.BUCKET_NAME}/default.png')
             ):
                 # opens the image before it is saved.
                 img = Image.open(self.image)
@@ -156,7 +162,6 @@ class StockDrop(models.Model):
             if (this_object and self.image.name != this_object.image.name) or (
                 not this_object
             ):
-                
                 img = Image.open(self.image)
                 img_format = img.format.lower()
                 # Image is resized
