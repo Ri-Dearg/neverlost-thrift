@@ -28,7 +28,7 @@ libsass==0.23.0
 oauthlib==3.2.2
 packaging==24.0
 phonenumberslite==8.12.5
-pillow==10.2.0
+pillow==10.3.0
 postgrest==0.16.2
 psycopg2==2.9.9
 pycparser==2.21
