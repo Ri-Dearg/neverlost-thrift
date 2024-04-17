@@ -19,7 +19,7 @@ django-phonenumber-field==4.0.0
 django-sass-processor==1.4
 djangoajax==3.2
 gotrue==2.4.1
-gunicorn==20.0.4
+gunicorn==22.0.0
 h11==0.14.0
 httpcore==1.0.4
 httpx==0.25.2
