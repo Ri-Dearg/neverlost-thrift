@@ -55,6 +55,6 @@ supabase==2.4.0
 supafunc==0.3.3
 typing_extensions==4.10.0
 tzdata==2024.1
-urllib3==2.2.1
+urllib3==2.2.2
 websockets==11.0.3
 whitenoise==5.1.0
